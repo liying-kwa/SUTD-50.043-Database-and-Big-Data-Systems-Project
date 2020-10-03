@@ -1,0 +1,60 @@
+
+https://linuxbeast.com/tutorials/aws/how-to-install-mysql-on-amazon-ec2-ubuntu-18-04/
+
+sudo apt-get update
+
+sudo apt update
+
+sudo apt install unzip
+
+sudo apt-get install mysql-server -y
+
+sudo mysql
+
+CREATE DATABASE mydb;
+
+SHOW DATABASES;
+
+USE mydb;
+
+CREATE TABLE newtable (id INT NOT NULL AUTO_INCREMENT,asin VARCHAR(255) NOT NULL,helpful VARCHAR(255) NOT NULL,overall INT NOT NULL,reviewText VARCHAR(5000) NOT NULL,reviewTime VARCHAR(255) NOT NULL,reviewerID VARCHAR(255) NOT NULL,reviewerName VARCHAR(255) NOT NULL,summary VARCHAR(255) NOT NULL,unixReviewTime INT NOT NULL,PRIMARY KEY (id));
+
+exit;
+
+# Get Kindle reviews
+wget -c https://istd50043.s3-ap-southeast-1.amazonaws.com/kindle-reviews.zip -O kindle-reviews.zip
+unzip kindle-reviews.zip
+rm -rf kindle_reviews.json
+rm -rf *.zip
+
+
+
+sudo mysql
+
+SET GLOBAL local_infile=1;
+
+SHOW GLOBAL VARIABLES LIKE 'local_infile';
+
+exit;
+
+sudo mysql --local-infile=1 -u root -p1
+
+USE mydb;
+
+LOAD DATA LOCAL INFILE '/home/ubuntu/kindle_reviews.csv' into table newtable FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 ROWS;
+
+SELECT * FROM newtable LIMIT 5;
+
+CREATE USER 'jh'@'localhost' IDENTIFIED BY 'password';
+
+CREATE USER 'jh'@'%' IDENTIFIED BY 'password';
+
+GRANT ALL PRIVILEGES ON mydb.* to jh@localhost with GRANT OPTION;
+
+GRANT ALL PRIVILEGES ON mydb.* to jh@'%' with GRANT OPTION;
+
+FLUSH PRIVILEGES;
+
+EXIT;
+
+https://vannstudios.com/connecting-mysql-database-engine-on-amazon-ec2-from-mysql-workbench
