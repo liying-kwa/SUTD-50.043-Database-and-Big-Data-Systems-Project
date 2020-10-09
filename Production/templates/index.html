@@ -25,7 +25,7 @@
 			
 			<div class="row">
 				<div class="col-lg-4 col-lg-offset-4" id="content">
-					<h2>YANGZHI'S BOOKSTORE</h2>
+					<h2>SUTD'S BOOKSTORE</h2>
 					
 					<form action="{{ url_for('add_book') }}" method="POST" role="form">
 					
@@ -57,13 +57,17 @@
 					</div>
 
 					<ul class="list-group t20">
-						{% for book in books %}
-						<a href="{{ url_for('complete', oid=book._id )}}">
-                            <img src="{{book.imUrl}}">
-							<li class="list-group-item {% if book.complete %}book-completed{% endif %}">
-								{{ book.asin }}
-							</li>
-						</a>
+						{% for groupofbooks in books | batch(4) %}
+							<tr>
+								{% for book in groupofbooks %}
+									<a href="{{ url_for('complete', oid=book._id )}}">
+										<img src="{{book.imUrl}}">
+										<td class="list-group-item {% if book.complete %}book-completed{% endif %}">
+											{{ book.asin }}
+										</td>
+									</a>
+								{% endfor %}
+							</tr>
 						{% endfor %}
 					</ul>
 				</div>
