@@ -42,3 +42,13 @@ def delete_completed():
 def delete_all():
     # database.delete_many({})
     return redirect(url_for('index'))
+
+@app.route('/not_found', methods=['GET', 'POST'])
+def not_found():
+    if request.method == 'POST':
+        return redirect(url_for('index'))
+    else:
+        return render_template('not_found.html')
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')
