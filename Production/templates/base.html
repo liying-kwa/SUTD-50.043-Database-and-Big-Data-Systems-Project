@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="cache-control" content="no-cache">
+        <title>{% block title %}{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Site Description Here">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="{{ url_for('static', filename='stack-interface.css') }}" rel="stylesheet" type="text/css" media="all" />
+        <link href="{{ url_for('static', filename='socicon.css') }}" rel="stylesheet" type="text/css" media="all" />
+        <link href="{{ url_for('static', filename='theme.css') }}" rel="stylesheet" type="text/css" media="all" />
+        <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet" type="text/css" media="all" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:200,300,400,400i,500,600,700%7CMerriweather:300,300i" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+    <body class=" ">
+        <a id="top"></a>
+        {% include 'header.html' %}
+        {% include 'navbar.html' %}
+        <div class="main-container">
+            {% block main %}{% endblock %}
+
+            {% include 'footer.html' %}
+        </div>
+        <!--<div class="loader"></div>-->
+        <a class="back-to-top inner-link" href="#top" data-scroll-class="100vh:active">
+            <i class="stack-interface stack-up-open-big"></i>
+        </a>
+        <script src="{{ url_for('static',filename='js/jquery-3.1.1.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='js/flickity.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='js/easypiechart.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='js/parallax.js') }}"></script>
+        <script src="{{ url_for('static',filename='js/typed.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='js/datepicker.js') }}"></script>
+        <script src="{{ url_for('static',filename='js/isotope.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='js/ytplayer.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='js/lightbox.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='js/granim.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='js/jquery.steps.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='js/countdown.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='js/twitterfetcher.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='js/spectragram.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='js/smooth-scroll.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='js/scripts.js') }}"></script>
+    </body>
+</html>

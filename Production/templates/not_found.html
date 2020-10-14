@@ -1,41 +1,19 @@
-<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="cache-control" content="no-cache">
-        <title>CoolyBooks</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Site Description Here">
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
-        <link href="{{ url_for('static', filename='stack-interface.css') }}" rel="stylesheet" type="text/css" media="all" />
-        <link href="{{ url_for('static', filename='socicon.css') }}" rel="stylesheet" type="text/css" media="all" />
-        <link href="{{ url_for('static', filename='theme.css') }}" rel="stylesheet" type="text/css" media="all" />
-        <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet" type="text/css" media="all" />
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:200,300,400,400i,500,600,700%7CMerriweather:300,300i" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    </head>
-    <body class=" ">
-        <a id="start"></a>
-        <div class="main-container">
-            <section class="height-100 bg--dark text-center">
-                <div class="container pos-vertical-center">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h1 class="h1--large">404</h1>
-                            <p class="lead">
-                                Error 404: The link you requested cannot be found :'(
-                            </p>
-                            <a href="/">Go back to home page</a>
-                        </div>
-                    </div>
-                    <!--end of row-->
+{% extends 'base.html' %}
+{% block title %}Page Not Found{% endblock %}
+{% block main %}
+<div class="main-container">
+    <section class="height-100 bg--dark text-center">
+        <div class="container pos-vertical-center">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="h1--large">404</h1>
+                    <p class="lead">
+                        Error 404: The link you requested cannot be found :'(
+                    </p>
+                    <a href="/">Go back to home page</a>
                 </div>
-                <!--end of container-->
-            </section>
+            </div>
         </div>
-        <!--<div class="loader"></div>-->
-        <a class="back-to-top inner-link" href="#start" data-scroll-class="100vh:active">
-            <i class="stack-interface stack-up-open-big"></i>
-        </a>
-    </body>
-</html>
+    </section>
+</div>
+{% endblock %}

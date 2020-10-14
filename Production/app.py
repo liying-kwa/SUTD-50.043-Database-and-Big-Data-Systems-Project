@@ -55,12 +55,12 @@ def delete_all():
     # database.delete_many({})
     return redirect(url_for('index'))
 
-@app.route('/404', methods=['GET', 'POST'])
-def not_found():
+@app.errorhandler(404)
+def not_found(error):
     if request.method == 'POST':
         return redirect(url_for('index'))
     else:
-        return render_template('not_found.html')
+        return render_template('not_found.html'), 404
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='127.0.0.1', debug=True)
