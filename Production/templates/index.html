@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Homepage{% endblock %}
+{% block title %}Coolreads | Homepage{% endblock %}
 {% block main %}
 <section>
     <div class="container">
@@ -39,7 +39,7 @@
             {% for groupofbooks in books | batch(1) %}
             <div class="col-md-3 col-6">
                 {% for book in groupofbooks %}
-                    <a href="{{ url_for('book', asid=book._id )}}" class="feature">
+                    <a href="{{ url_for('book', asin=book.asin )}}" class="feature">
                         <img alt="Pic" src="{{book.imUrl}}" />
                         <h5 class="mb--0">{{ book.asin }}</h5>
                         <div>Book Title &#9702; Price</div>
@@ -62,7 +62,7 @@
         </div>
         <div class="row">
             <div class="col-md-4 col-6">
-                <a href="#" class="block">
+                <a href="/404" class="block">
                     <div class="feature feature-7 boxed text-center imagebg" data-overlay="3">
                         <div class="background-image-holder">
                             <img alt="background" src="https://images-na.ssl-images-amazon.com/images/I/71kBRLo8ZtL.jpg" />
@@ -72,7 +72,7 @@
                 </a>
             </div>
             <div class="col-md-4 col-6">
-                <a href="#" class="block">
+                <a href="/404" class="block">
                     <div class="feature feature-7 boxed text-center imagebg" data-overlay="3">
                         <div class="background-image-holder">
                             <img alt="background" src="https://cdn-images-1.medium.com/max/258/0*f_O5OdFDt-5SjEb8.jpg" />
@@ -82,7 +82,7 @@
                 </a>
             </div>
             <div class="col-md-4 col-6">
-                <a href="#" class="block">
+                <a href="/404" class="block">
                     <div class="feature feature-7 boxed text-center imagebg" data-overlay="3">
                         <div class="background-image-holder">
                             <img alt="background" src="https://images-na.ssl-images-amazon.com/images/I/91f8sb6xJxL.jpg" />
@@ -116,7 +116,7 @@
                 <div class="text-block">
                     <h5>Teaches with confidence</h5>
                     <p>
-                        Coolybooks is built just for him &mdash; with much love.
+                        Coolreads is built just for him &mdash; with much love.
                     </p>
                 </div>
             </div>
