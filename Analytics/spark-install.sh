@@ -4,7 +4,8 @@
 sudo apt-get update
 sudo apt-get -y install python3
 sudo apt-get -y install python3-pip
-sudo apt-get -y install default-jdk scala git
+sudo apt-get -y install scala git
+# sudo apt-get -y default-jdk  might not be needed after hadoop installation.
 wget https://downloads.apache.org/spark/spark-3.0.1/spark-3.0.1-bin-hadoop3.2.tgz
 tar -xvf spark-3.0.1-bin-hadoop3.2.tgz
 rm spark-3.0.1-bin-hadoop3.2.tgz
