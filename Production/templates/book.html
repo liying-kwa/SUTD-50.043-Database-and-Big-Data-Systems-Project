@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% block title %}Book{% endblock %}
+{% block main %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>{{book.asin}}</h1>
+                    <ol class="breadcrumbs">
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        <li>
+                            <a href="#">Books</a>
+                        </li>
+                        <li>{{book.asin}}</li>
+                    </ol>
+                    <hr>
+                </div>
+            </div>
+            <!--end of row-->
+        </div>
+        <!--end of container-->
+    </section>
+    <section class="space--lg">
+        <div class="container">
+            <div class="row justify-content-around">
+                <div class="col-md-5 col-lg-4">
+                    <img alt="Image" src={{book.imUrl}} />
+                </div>
+                <div class="col-md-7 col-lg-6">
+                    <h2>{{book.asin}}</h2>
+                    <div class="text-block">
+                        <span class="h4 type--strikethrough inline-block">$549.99</span>
+                        <span class="h4 inline-block">{{ ('${:.2f}'.format(book.price)) if book.price else 'Out of Stock' }}</span>
+                        
+                    </div>
+                    <p>
+                        {{book.description}}
+                    </p>
+                    <ul class="accordion accordion-2 accordion--oneopen">
+                        <li class="active">
+                            <div class="accordion__title">
+                                <span class="h5">Category</span>
+                            </div>
+                            <div class="accordion__content">
+                                <ul class="bullets">
+                                    {% for cat in book.categories %}
+                                    <li>
+                                        <span>{{cat}}</span>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="accordion__title">
+                                <span class="h5">Also Bought</span>
+                            </div>
+                            <div class="accordion__content">
+                                <ul>
+                                    {% if book.related %}
+                                        {% for asin in book.related.also_bought %}
+                                        <li>
+                                            <span>{{asin}}</span>
+                                        </li>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div>No related books</div>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="accordion__title">
+                                <span class="h5">Shipping Info</span>
+                            </div>
+                            <div class="accordion__content">
+                                <p>
+                                    Generally ships between 2 - 4 working days from order confirmation. Orders only confirmed once payment has successfully processed. NOTE: When using services such as SUTDPay, payments can take longer to process (approx. 4 days).
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                    <!--end accordion-->
+                    <form>
+                        <div class="col-md-12">
+                            <div class="input-select">
+                                <select name="finish">
+                                    <option selected="" value="Default">Select A Type</option>
+                                    <option value="Small">Amazon Ebook</option>
+                                    <option value="Medium">Kindle Ebook</option>
+                                    <option value="Larger">Hardcover</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <input type="text" name="quantity" placeholder="QTY" />
+                        </div>
+                        <div class="col-md-6 col-lg-8">
+                            <button type="submit" class="btn btn--primary">Add To Cart</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--end of row-->
+        </div>
+        <!--end of container-->
+    </section>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-block">
+                        <h3>Related Products</h3>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="product">
+                        <a href="#">
+                            <img alt="Image" src="https://images-na.ssl-images-amazon.com/images/I/71kBRLo8ZtL.jpg" />
+                        </a>
+                        <a class="block" href="#">
+                            <div>
+                                <h5>Apple Keyboard</h5>
+                                <span> Wireless Bluetooth</span>
+                            </div>
+                            <div>
+                                <span class="h4 inline-block">$99</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!--end item-->
+                <div class="col-md-4">
+                    <div class="product">
+                        <a href="#">
+                            <img alt="Image" src="https://cdn-images-1.medium.com/max/258/0*f_O5OdFDt-5SjEb8.jpg" />
+                        </a>
+                        <a class="block" href="#">
+                            <div>
+                                <h5>Magic Mouse</h5>
+                                <span> Wireless Bluetooth</span>
+                            </div>
+                            <div>
+                                <span class="h4 inline-block">$69</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!--end item-->
+                <div class="col-md-4">
+                    <div class="product">
+                        <a href="#">
+                            <img alt="Image" src="https://images-na.ssl-images-amazon.com/images/I/91f8sb6xJxL.jpg" />
+                        </a>
+                        <a class="block" href="#">
+                            <div>
+                                <h5>DALI Xensor 2</h5>
+                                <span> Desktop Speaker</span>
+                            </div>
+                            <div>
+                                <span class="h4 inline-block">$269</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!--end item-->
+            </div>
+            <!--end of row-->
+        </div>
+        <!--end of container-->
+    </section>
+    <section class="space--sm">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <hr>
+                </div>
+            </div>
+            <!--end of row-->
+        </div>
+        <!--end of container-->
+    </section>
+    {% include 'comments.html' %}
+{% endblock %}

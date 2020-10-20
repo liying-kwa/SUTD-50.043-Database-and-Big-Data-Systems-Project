@@ -20,10 +20,11 @@ def index():
     books_list = database.find().limit(10)
     return render_template('index.html', books=books_list, query=None)
 
-@app.route('/book/<asid>')
-def book(asid):
-    # TODO: To define how we are going limit the entries
-    return render_template('index.html')    
+@app.route('/book/<asin>')
+def book(asin):
+    print(asin)
+    book = database.find_one({'asin': asin})
+    return render_template('book.html', book=book)    
 
 @app.route('/add', methods=['POST'])
 def add_book():
@@ -45,22 +46,12 @@ def results(query):
     print(query)
     return render_template("index.html", books=search_results, query=query)
 
-@app.route('/delete_completed')
-def delete_completed():
-    # database.delete_many({'complete' : True})
-    return redirect(url_for('index'))
-
-@app.route('/delete_all')
-def delete_all():
-    # database.delete_many({})
-    return redirect(url_for('index'))
-
-@app.route('/404', methods=['GET', 'POST'])
-def not_found():
+@app.errorhandler(404)
+def not_found(error):
     if request.method == 'POST':
         return redirect(url_for('index'))
     else:
-        return render_template('not_found.html')
+        return render_template('not_found.html'), 404
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='127.0.0.1', debug=True)
