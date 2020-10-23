@@ -1,12 +1,36 @@
 import pymongo
+import pyrebase
 
 
 mongo_username = "user"
 mongo_password = "password"
 
+config = {
+  "apiKey": "AIzaSyDl_6GZJ-JsdcwVSKDW02qbfIueg04sY0Y",
+  "authDomain": "dbproject-f258b.firebaseapp.com",
+  "databaseURL": "https://dbproject-f258b.firebaseio.com/",
+  "storageBucket": "dbproject-f258b"
+}
+
+firebase = pyrebase.initialize_app(config)
+
+db = firebase.database()
+
+data = db.child("metadata").get().val()
+#print(data['created'])
+
+print('Waiting for database to be created')
+while ((db.child("metadata").get().val())['created'] != 'yes'):
+    #busy wait
+    pass
+print('Database created')
+
 #endpoint of ec2
 #it can only be obtained when the ec2 is created
-ssh_address = "ec2-54-169-51-220.ap-southeast-1.compute.amazonaws.com"
+ssh_address = (db.child("metadata").get().val())['endpoint']
+
+print(ssh_address)
+
 
 
 try:
@@ -26,6 +50,5 @@ try:
 except Exception as e:
     print("MongoDB connection failure: Please check the connection details")
     print(e)
-
 
 

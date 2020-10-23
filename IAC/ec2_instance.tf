@@ -58,6 +58,7 @@ cd home
 cd ubuntu
 sudo apt-get update
 sudo apt update
+sudo apt install python3-pip -y
 sudo apt-get install mysql-server -y
 sudo apt install unzip
 
@@ -95,6 +96,20 @@ SQLEOFc
 sudo sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf
 sudo systemctl restart mysql
 
+echo "import pyrebase" >> database_status.py
+echo "config = {
+  \"apiKey\": \"AIzaSyDl_6GZJ-JsdcwVSKDW02qbfIueg04sY0Y\",
+  \"authDomain\": \"dbproject-f258b.firebaseapp.com\",
+  \"databaseURL\": \"https://dbproject-f258b.firebaseio.com/\",
+  \"storageBucket\": \"dbproject-f258b\"
+}" >> database_status.py
+echo "firebase = pyrebase.initialize_app(config)" >> database_status.py
+echo "db = firebase.database()" >> database_status.py
+echo "data = {'created':'yes'}" >> database_status.py
+echo "db.child(\"my_sql\").update(data)" >> database_status.py
+pip3 install pyrebase
+python3 database_status.py
+
 end=`date +%s`
 echo Execution time was `expr $end - $start` seconds. >> timetaken.txt
 
@@ -127,10 +142,24 @@ curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add 
 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 
 sudo apt update
+sudo apt install python3-pip -y
 sudo apt install mongodb-org -y
 sudo systemctl start mongod.service
 sudo systemctl enable mongod
 
+echo "import pyrebase" >> database_status.py
+echo "config = {
+  \"apiKey\": \"AIzaSyDl_6GZJ-JsdcwVSKDW02qbfIueg04sY0Y\",
+  \"authDomain\": \"dbproject-f258b.firebaseapp.com\",
+  \"databaseURL\": \"https://dbproject-f258b.firebaseio.com/\",
+  \"storageBucket\": \"dbproject-f258b\"
+}" >> database_status.py
+echo "firebase = pyrebase.initialize_app(config)" >> database_status.py
+echo "db = firebase.database()" >> database_status.py
+echo "data = {'created':'yes'}" >> database_status.py
+echo "db.child(\"logs\").update(data)" >> database_status.py
+pip3 install pyrebase
+python3 database_status.py
 
 
 end=`date +%s`
@@ -165,6 +194,7 @@ curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add 
 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 
 sudo apt update
+sudo apt install python3-pip -y
 sudo apt install mongodb-org -y
 sudo systemctl start mongod.service
 sudo systemctl enable mongod
@@ -184,6 +214,21 @@ sudo service mongod restart
 sleep 30
 mongo --eval 'db.createUser({user: "user",pwd: "password",roles: [{ role: "userAdminAnyDatabase", db:"admin"}]});' admin
 sudo service mongod restart
+
+
+echo "import pyrebase" >> database_status.py
+echo "config = {
+  \"apiKey\": \"AIzaSyDl_6GZJ-JsdcwVSKDW02qbfIueg04sY0Y\",
+  \"authDomain\": \"dbproject-f258b.firebaseapp.com\",
+  \"databaseURL\": \"https://dbproject-f258b.firebaseio.com/\",
+  \"storageBucket\": \"dbproject-f258b\"
+}" >> database_status.py
+echo "firebase = pyrebase.initialize_app(config)" >> database_status.py
+echo "db = firebase.database()" >> database_status.py
+echo "data = {'created':'yes'}" >> database_status.py
+echo "db.child(\"metadata\").update(data)" >> database_status.py
+pip3 install pyrebase
+python3 database_status.py
 
 
 end=`date +%s`
