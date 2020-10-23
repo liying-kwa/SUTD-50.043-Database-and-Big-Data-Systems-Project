@@ -1,4 +1,6 @@
 # Infrastructure as a Code
 Makes use of Terraform for automation
 
-heloo
+In bash, 
+run create.sh to build the infrastructure
+run destroy.sh to tear it down
