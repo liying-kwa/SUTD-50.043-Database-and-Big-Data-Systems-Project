@@ -4,6 +4,8 @@ import json
 import pandas as pd
 import csv
 from goodreads import client
+import ast
+from demjson import decode
 
 
 
@@ -144,6 +146,9 @@ def make_json(csvFilePath, jsonFilePath):
 
 #-----end of functions, start of main code---------------------------------------------
 
+
+
+
 #meta_Kindle_Store.csv is where i use robo3T to convert the json file to csv
 df = pd.read_csv('meta_Kindle_Store.csv')
 df = df[['asin','imUrl', 'price', 'description']]
@@ -153,9 +158,40 @@ df['isbn'] = None
 df['bookID'] = None
 df['genre'] = 'No Genre'
 
-df = df[:30]
+print(df.shape)
 
-for index in range(df.shape[0]):
+#purpose here is to divide up the workload
+#xm,ly,yz,py
+
+#if you are xm, uncomment the block of code below
+#start = 0
+#end = 87000
+#to_writefile = "new_kindle_metadata0.json"
+
+#if you are ly, uncomment the block of code below
+#start = 87000
+#end = 2 * 87000
+#to_writefile = "new_kindle_metadata1.json"
+
+#if you are yz, uncomment the block of code below
+#start = 2 * 87000
+#end = 3 * 87000
+#to_writefile = "new_kindle_metadata2.json"
+
+#if you are py, uncomment the block of code below
+#start = 3 * 87000
+#end = 4 * 87000
+#to_writefile = "new_kindle_metadata3.json"
+
+#if you are jh, uncomment the block of code below
+#start = 4 * 87000
+#end = (df.shape)[0]
+#to_writefile = "new_kindle_metadata4.json"
+
+
+df = df[start:end]
+
+for index in range(start, end):
 
     print(index)
     
@@ -198,11 +234,13 @@ make_json(csvFilePath, jsonFilePath)
 
 #------to make the json file suitable for importing into mongodb-------
 readfile = open("temp.json","r")
-writefile = open("new_kindle_metadata.json","w")
+writefile = open(to_writefile,"w")
 lines = readfile.readlines()
 
 for line in lines:
-    writefile.write(line.replace('"','\''))
+    writefile.write(str(decode(line)))
+    writefile.write("\n")
+    #writefile.write(line.replace('"','\''))
 readfile.close()
 writefile.close()
 #------end of to make the json file suitable for importing into mongodb-------
