@@ -8,6 +8,10 @@ Install and update using `pip`_:
 .. code-block:: text
 
     pip install -U Flask
+	pip install Flask-PyMongo
+	pip install pymongo[srv]
+	pip install pyrebase4
+	pip install flask_login
 
 
 A Simple Example
