@@ -9,6 +9,8 @@ import pyrebase
 class mysql_review:
     def __init__(self):
 
+        self.tablename = "KRTable"
+
         config = {
         "apiKey": "AIzaSyDl_6GZJ-JsdcwVSKDW02qbfIueg04sY0Y",
         "authDomain": "dbproject-f258b.firebaseapp.com",
@@ -46,24 +48,30 @@ class mysql_review:
         return rows
             
 
-    def get_by_asid(self, asin):
+    def get_by_asin(self, asin):
         # asin should be in the form like: B000FA64PK
 
         # maybe can just select all?
         # like: query_statement = "SELECT * FROM * WHERE `asin`={}".format(asin)
-        query_statement = "SELECT `helpful`, `overall`, `reviewText`, `reviewerID`, `reviewerName`, `unixReviewTime` FROM * WHERE `asin`={}".format(asin)
+        query_statement = "SELECT `reviewText` FROM {} WHERE `asin`={}".format(self.tablename, asin)
         return_query = self._execute(query_statement)
         return return_query
 
     def get_by_overall(self, rating):
         # rating should be an integer from 1-5
-        query_statement = "SELECT `asin`, `helpful`, `reviewText`, `reviewerID`, `reviewerName`, `unixReviewTime` FROM * WHERE `overall`={}".format(rating)
+        query_statement = "SELECT `asin`, `helpful`, `reviewText`, `reviewerID`, `reviewerName`, `unixReviewTime` FROM {} WHERE `overall`={}".format(self.tablename, rating)
         return_query = self._execute(query_statement)
         return return_query
 
+    def insert_new_review(self, asin, overall, reviewText, reviewerID, reviewerName):
+        query_statement = "INSERT INTO {} (`asin`, `overall`, `reviewText`, `reviewerID`, `reviewerName`) VALUES".format(self.tablename)
+        self._execute(query_statement)
+        return 0
+
+
     def get_everything(self):
         # this probably shouldn't be done
-        query_statement = "SELECT * FROM *"
+        query_statement = "SELECT * FROM KRTable"
         return_query = self._execute(query_statement)
         return return_query
 
