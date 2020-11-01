@@ -3,6 +3,7 @@
 {% block title %}Coolreads | Sign up{% endblock %}
 
 {% block main %}
+<<<<<<< Updated upstream
 <section>
     <div class="container">
         <h3 class="title">Sign Up</h3>
@@ -26,4 +27,63 @@
         </div>
     </div>
 </section>
+=======
+
+<div class="card-wrapper">
+
+    <div class="card">
+
+      <h1 class="center">Create an Account</h1>
+
+      <form name="signup_form" id="signup">
+
+        <label for="name">Name</label>
+        <input type="text" name="name" class="field" required>
+
+        <label for="email">Email</label>
+        <input type="email" name="email" class="field" required>
+
+        <label for="password">Password</label>
+        <input type="password" name="password" class="field" required>
+
+        <p class="error error--hidden"></p>
+
+        <input type="submit" value="Sign Up" class="btn">
+      
+      </form>
+      
+    </div>
+    <script>
+
+    var form = document.querySelector('#signup'),
+        button = form.querySelector('input.btn');
+
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        console.log("Inside js script?")
+        var $form = $(this);
+        var $error = $form.find(".error");
+        var data = $form.serialize();
+    
+        $.ajax({
+            url: "/account/signup",
+            type: "POST",
+            data: data,
+            dataType: "json",
+            success: function(resp){
+                console.log("Passed js");
+                console.log(resp);
+            },
+            error: function(resp){
+                console.log("Failed js");
+                console.log(resp);
+                $error.text(resp.responseJSON.error).removeClass("error--hidden");
+            }
+        })
+    
+    });</script>
+</div>
+
+
+>>>>>>> Stashed changes
 {% endblock %}
