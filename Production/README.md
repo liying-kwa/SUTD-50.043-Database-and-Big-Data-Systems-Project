@@ -12,6 +12,7 @@ Install and update using `pip`_:
 	pip install pymongo[srv]
 	pip install pyrebase4
 	pip install flask_login
+	pip install flask-paginate
 
 
 A Simple Example
