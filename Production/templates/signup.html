@@ -3,27 +3,32 @@
 {% block title %}Coolreads | Sign up{% endblock %}
 
 {% block main %}
-<section>
-    <div class="container">
-        <h3 class="title">Sign Up</h3>
-        <div class="box">
-            <form method="POST" action="/signup">
-                <div class="col-12">
-                    <div class="control">
-                        <input class="input is-large" type="text" name="username" placeholder="Username" autofocus="">
-                    </div>
-                </div>
 
-                <div class="col-12">
-                    <div class="control">
-                        <input class="input is-large" type="password" name="password" placeholder="Password">
-                    </div>
-                </div>
+<div class="card-wrapper">
 
-                <button type="submit" class="btn btn--primary">Sign Up</button>
-                
-            </form>
-        </div>
+    <div class="card">
+
+      <h1 class="center">Create an Account</h1>
+
+      <form name="signup_form">
+
+        <label for="name">Name</label>
+        <input type="text" name="name" class="field" required>
+
+        <label for="email">Email</label>
+        <input type="email" name="email" class="field" required>
+
+        <label for="password">Password</label>
+        <input type="password" name="password" class="field" required>
+
+        <p class="error error--hidden"></p>
+
+        <input type="submit" value="Sign Up" class="btn">
+      
+      </form>
+      
     </div>
-</section>
+</div>
+
+
 {% endblock %}

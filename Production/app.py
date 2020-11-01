@@ -4,18 +4,20 @@ from bson.objectid import ObjectId
 
 app = Flask(__name__)
 
-global login_credentials
-login_credentials = {}
-
 # TODO: Shift this into an external constant file 
 app.config['MONGO_URI'] = 'mongodb+srv://temp-user:Cjzo1XnTvJin5tX1@dbbd.0m9ic.mongodb.net/project?retryWrites=true&w=majority'
+app.secret_key = "secretkey"
 
 try:
     mongo = PyMongo(app)
     database = mongo.db["metadata"]
-
+    user_db = mongo.db["user"]
+    
 except Exception as e:
     print(e)
+
+# Routes
+import routes
 
 @app.route('/')
 def index():
@@ -53,18 +55,6 @@ def results(query):
     search_results = database.find({'asin': {"$regex": query , "$options": "i"}}).limit(10)
     print(query)
     return render_template("index.html", books=search_results, query=query)
-
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
-    print('in signup')
-    if request.method == 'POST':
-        print('in post')
-        # For now we store the usernames and passwords in a list in plaintext (need to change to database)
-        username = request.form.get('username')
-        password = request.form.get('password')
-        login_credentials[username] = password
-        print(login_credentials)
-    return render_template("signup.html")
 
 @app.errorhandler(404)
 def not_found(error):

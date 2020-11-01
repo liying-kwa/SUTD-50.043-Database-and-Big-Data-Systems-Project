@@ -2956,3 +2956,29 @@ mr = (function (mr, $, window, document){
 	  return mr;
 
 }(mr, jQuery, window, document));
+
+
+$("form[name=signup_form").submit(function(e){
+    console.log("Inside js script?")
+    var $form = $(this);
+    var $error = $form.find(".error");
+    var data = $form.serialize();
+
+    $.ajax({
+        url: "/account/signup",
+        type: "POST",
+        data: data,
+        dataType: "json",
+        success: function(resp){
+            console.log("Passed js");
+            console.log(resp);
+        },
+        error: function(resp){
+            console.log("Failed js");
+            console.log(resp);
+            $error.text(resp.responseJSON.error).removeClass("error--hidden");
+        }
+    })
+
+    e.preventDefault();
+});
