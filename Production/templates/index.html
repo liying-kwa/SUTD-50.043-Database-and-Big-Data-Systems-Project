@@ -17,7 +17,7 @@
             <form class="form-horizontal" action="{{ url_for('search') }}" method="POST" role="form">
                 <div class="col-md-9">
                     <label>Search</label>
-                    <input type="text" placeholder="Data Structures and Algorithms in Java (2nd Edition)" name="search-book" type="text" class="form-control" value="{{ query if query else NONE }}" />
+                    <input type="text" placeholder="Data Structures and Algorithms in Java (2nd Edition)" name="search-book" type="text" class="form-control" value="{{ query if query else NONE }}" required/>
                 </div>
                 <div class="col-md-2">
                     <button type="submit" class="btn btn--primary">Search</button>

@@ -20,7 +20,7 @@ except Exception as e:
 @app.route('/')
 def index():
     # TODO: To define how we are going limit the entries
-    books_list = database.find().limit(10)
+    books_list = database.find().limit(12)
     return render_template('index.html', books=books_list, query=None)
 
 @app.route('/books')
@@ -46,6 +46,7 @@ def search():
     # search_item = database.find_one({'_id': ObjectId(oid)})
     # database.save(todo_item)
     search_input = request.form['search-book']
+    print("input", search_input)
     return redirect(url_for('results', query = search_input))
 
 @app.route('/search/<query>')
