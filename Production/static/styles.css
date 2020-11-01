@@ -2,6 +2,46 @@
 	background: rgba(44, 62, 80, .8);
 	font-family: 'Oswald', 'Futura', sans-serif;
 } */
+.pagination-page-info {
+    padding: .6em;
+    padding-left: 0;
+    width: 40em;
+    margin: .5em;
+    margin-left: 0;
+    font-size: 12px;
+}
+.pagination-page-info b {
+    color: black;
+    background: #6aa6ed;
+    padding-left: 2px;
+    padding: .1em .25em;
+    font-size: 150%;
+}
+
+.pagination {
+	display: inline-block;
+	margin: auto;
+	width: 50%;
+}
+
+
+.pagination a {
+	color: black;
+	float: left;
+	padding: 8px 16px;
+	text-decoration: none;
+	transition: background-color .3s;
+	border-radius: 5px;
+}
+
+.pagination a.active {
+	background-color: #4CAF50;
+	border-radius: 5px;
+	color: white;
+  }
+  
+  .pagination a:hover:not(.active) {background-color: #ddd;}
+
 #wrapper {
 	margin-top: 10% !important;
 }

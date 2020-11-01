@@ -17,7 +17,7 @@
             <form class="form-horizontal" action="{{ url_for('search') }}" method="POST" role="form">
                 <div class="col-md-9">
                     <label>Search</label>
-                    <input type="text" placeholder="Data Structures and Algorithms in Java (2nd Edition)" name="search-book" type="text" class="form-control" value="{{ query if query else NONE }}" />
+                    <input type="text" placeholder="Data Structures and Algorithms in Java (2nd Edition)" name="search-book" type="text" class="form-control" value="{{ query if query else NONE }}" required/>
                 </div>
                 <div class="col-md-2">
                     <button type="submit" class="btn btn--primary">Search</button>
@@ -40,7 +40,7 @@
             <div class="col-md-3 col-6">
                 {% for book in groupofbooks %}
                     <a href="{{ url_for('book', asin=book.asin )}}" class="feature">
-                        <img alt="Pic" src="{{book.imUrl}}" />
+                        <img alt="Pic" src="{{book.imUrl}}" onerror="this.src='../static/amazon-no-image.jpg'" />
                         <h5 class="mb--0">{{ book.asin }}</h5>
                         <div>Book Title &#9702; Price</div>
                     </a>
@@ -48,6 +48,7 @@
             </div>
             {% endfor %}
         </div>
+        <div class="row">{{ pagination.links }}</div>
     </div>
 </section>
 <section>

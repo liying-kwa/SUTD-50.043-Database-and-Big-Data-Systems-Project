@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect
 from flask_pymongo import PyMongo
+from flask_paginate import Pagination, get_page_parameter
 from bson.objectid import ObjectId
 
 app = Flask(__name__)
@@ -22,13 +23,8 @@ import routes
 @app.route('/')
 def index():
     # TODO: To define how we are going limit the entries
-    books_list = database.find().limit(10)
-    return render_template('index.html', books=books_list, query=None)
-
-@app.route('/books')
-def books():
-    books_list = database.find().limit(50)
-    return render_template('index.html', books=books_list, query=None)
+    books_list = database.find().limit(4)
+    return render_template('index.html', books=books_list, query=None, pagination=None)
 
 @app.route('/book/<asin>')
 def book(asin):
@@ -52,9 +48,11 @@ def search():
 
 @app.route('/search/<query>')
 def results(query):
-    search_results = database.find({'asin': {"$regex": query , "$options": "i"}}).limit(10)
-    print(query)
-    return render_template("index.html", books=search_results, query=query)
+    per_page = 12
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    search_results = database.find({'asin': {"$regex": query , "$options": "i"}}).skip((page - 1) * per_page).limit(per_page)
+    pagination = Pagination(page=page, per_page=per_page ,total=search_results.count(), search=False, record_name='search_results')
+    return render_template("index.html", books=search_results, query=query, pagination=pagination)
 
 @app.errorhandler(404)
 def not_found(error):
