@@ -46,7 +46,6 @@ def search():
     # search_item = database.find_one({'_id': ObjectId(oid)})
     # database.save(todo_item)
     search_input = request.form['search-book']
-    print("input", search_input)
     return redirect(url_for('results', query = search_input))
 
 @app.route('/search/<query>')
