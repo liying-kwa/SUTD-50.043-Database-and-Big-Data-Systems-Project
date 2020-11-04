@@ -201,13 +201,18 @@ sudo systemctl enable mongod
 
 sudo apt install unzip
 # Get meta data
-wget -c https://istd50043.s3-ap-southeast-1.amazonaws.com/meta_kindle_store.zip -O meta_kindle_store.zip
-unzip meta_kindle_store.zip
+wget -c https://jinghanbucket1997.s3-ap-southeast-1.amazonaws.com/zipfolder.zip -O zipfolder.zip
+unzip zipfolder.zip
+rm -rf *.zip
+cd zipfolder
+#wget -c https://istd50043.s3-ap-southeast-1.amazonaws.com/meta_kindle_store.zip -O meta_kindle_store.zip
+#unzip meta_kindle_store.zip
 
 # Clean up
-rm -rf *.zip
+#rm -rf *.zip
 
-sudo mongoimport -d myMongodb --drop --legacy meta_Kindle_Store.json
+sudo mongoimport -d myMongodb --drop --legacy new_kindle_metadata.json
+#sudo mongoimport -d myMongodb --drop --legacy meta_Kindle_Store.json
 sudo sed -i "s,\\(^[[:blank:]]*bindIp:\\) .*,\\1 0.0.0.0," /etc/mongod.conf
 sudo service mongod restart
 

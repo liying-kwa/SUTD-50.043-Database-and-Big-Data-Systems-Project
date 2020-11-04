@@ -41,7 +41,7 @@ try:
 
     if(auth):
         print("MongoDB connection successful")
-        col = db["meta_Kindle_Store"].find_one()
+        col = db["new_kindle_metadata"].find_one()
         print(col)
     else:
         print("MongoDB authentication failure: Please check the username or password")
