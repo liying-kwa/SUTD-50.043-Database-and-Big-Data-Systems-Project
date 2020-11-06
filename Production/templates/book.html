@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Book{% endblock %}
+{% block title %}Coolreads | {{book.asin}}{% endblock %}
 {% block main %}
     <section>
         <div class="container">
@@ -26,10 +26,10 @@
         <div class="container">
             <div class="row justify-content-around">
                 <div class="col-md-5 col-lg-4">
-                    <img alt="Image" src={{book.imUrl}} />
+                    <img alt="Image" src={{book.imUrl}} onerror="this.src='../../../static/amazon-no-image.jpg '">
                 </div>
                 <div class="col-md-7 col-lg-6">
-                    <h2>{{book.asin}}</h2>
+                    <h2>{{book.asin if book.price else 'Book not found'}}</h2>
                     <div class="text-block">
                         <span class="h4 type--strikethrough inline-block">$549.99</span>
                         <span class="h4 inline-block">{{ ('${:.2f}'.format(book.price)) if book.price else 'Out of Stock' }}</span>
@@ -62,7 +62,7 @@
                                     {% if book.related %}
                                         {% for asin in book.related.also_bought %}
                                         <li>
-                                            <span>{{asin}}</span>
+                                            <span><a href="/book/{{asin}}">{{asin}}</a></span>
                                         </li>
                                         {% endfor %}
                                     {% else %}

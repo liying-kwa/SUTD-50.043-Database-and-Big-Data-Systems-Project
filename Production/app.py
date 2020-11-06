@@ -28,7 +28,6 @@ def index():
 
 @app.route('/book/<asin>')
 def book(asin):
-    print(asin)
     book = database.find_one({'asin': asin})
     return render_template('book.html', book=book)      
 
