@@ -32,7 +32,7 @@
                     <h2>{{book.asin if book.price else 'Book not found'}}</h2>
                     <div class="text-block">
                         <span class="h4 type--strikethrough inline-block">$549.99</span>
-                        <span class="h4 inline-block">{{ ('${:.2f}'.format(book.price)) if book.price else 'Out of Stock' }}</span>
+                        <span class="h4 inline-block">{{ ('${:.2f}'.format(book.price|float)) if book.price else 'Out of Stock' }}</span>
                         
                     </div>
                     <p>
@@ -45,9 +45,9 @@
                             </div>
                             <div class="accordion__content">
                                 <ul class="bullets">
-                                    {% for cat in book.categories %}
+                                    {% for cat in book.genre.strip('][').split(',') %}
                                     <li>
-                                        <span>{{cat}}</span>
+                                        <span>{{cat.replace("'", "")}}</span>
                                     </li>
                                     {% endfor %}
                                 </ul>
