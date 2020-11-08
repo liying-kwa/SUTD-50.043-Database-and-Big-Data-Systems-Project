@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Coolreads | Sign up{% endblock %}
+{% block title %}Coolreads | Login{% endblock %}
 
 {% block main %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -8,12 +8,9 @@
 
     <div class="login-card">
 
-      <h1 class="center">Create an Account</h1>
+      <h1 class="center">Login</h1>
 
-      <form name="signup_form">
-
-        <label for="name">Name</label>
-        <input type="text" name="name" class="field" required>
+      <form name="login_form">
 
         <label for="email">Email</label>
         <input type="email" name="email" class="field" required>
@@ -23,27 +20,27 @@
 
         <p class="error error--hidden"></p>
 
-        <input type="submit" value="Sign Up" class="btn">
+        <input type="submit" value="Login" class="btn">
       
       </form>
       
     </div>
     <script>
-        $("form[name=signup_form").submit(function(e) {
+        $("form[name=login_form").submit(function(e) {
 
         var $form = $(this);
         var $error = $form.find(".error");
         var data = $form.serialize();
 
         $.ajax({
-        url: "/account/signup",
+        url: "/user/login",
         type: "POST",
         data: data,
         dataType: "json",
         success: function(resp) {
             console.log("Passed js");
             console.log(resp);
-            window.location.href = "/login";
+            window.location.href = "/";
         },
         error: function(resp) {
             $error.text(resp.responseJSON.error).removeClass("error--hidden");

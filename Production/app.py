@@ -1,7 +1,11 @@
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, session
 from flask_pymongo import PyMongo
 from flask_paginate import Pagination, get_page_parameter
 from bson.objectid import ObjectId
+from functools import wraps
+import time
+
+#import mysqlpython
 
 app = Flask(__name__)
 
@@ -13,7 +17,10 @@ try:
     mongo = PyMongo(app)
     database = mongo.db["metadata"]
     user_db = mongo.db["user"]
-    
+
+    # UNCOMMENT WHEN MySQL IS UP
+    # mysql_db = mysqlpython.mysql_review()
+
 except Exception as e:
     print(e)
 
@@ -29,7 +36,43 @@ def index():
 @app.route('/book/<asin>')
 def book(asin):
     book = database.find_one({'asin': asin})
-    return render_template('book.html', book=book)      
+    # UNCOMMENT WHEN MySQL IS UP
+    #review_text = mysql_db.get_review_by_asin(asin)
+    return render_template('book.html', book=book) # add review_text into render_template
+
+@app.route('/book/add_review/<asin>')
+#@login_required
+def add_review(asin):
+    book = database.find_one({'asin': asin})
+    #TODO: add this review into the database
+
+    # retrieve new user review from the html input
+    
+    # UNCOMMENT ALL THESE WHEN MYSQL DB IS UP AND RUNNING
+    #reviewText = request.form.get("reviewText")
+    #summary = request.form.get("summary")
+    #overall = request.form.get("overall") # should be an int from 1-5
+    #helpful = [0,0] # first int is number of people who rated this review helpful, second int is total number of ratings
+    
+    # TODO: get reviewerName from user who is logged in
+    # TODO: get reviewerID from user who is logged in
+    '''
+    new_book_review = {
+        'asin': asin, 
+        'helpful': helpful, 
+        'overall': overall, 
+        'reviewText': reviewText,
+        'reviewTime': reviewTime,
+        'reviewerID': reviewerID,
+        'reviewerName': reviewerName,
+        'summary': summary,
+        'unixReviewTime': unixReviewTime
+    }
+    '''
+    #mysql_db.insert_new_review(asin, helpful, overall, reviewText, reviewerID, reviewerName, summary)
+
+    return_url = 'book' + '/' + asin
+    return redirect(url_for(return_url))
 
 @app.route('/add', methods=['POST'])
 def add_book():
@@ -68,6 +111,14 @@ def not_found(error):
         return redirect(url_for('index'))
     else:
         return render_template('not_found.html'), 404
+
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            return redirect('/login')
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', debug=True)

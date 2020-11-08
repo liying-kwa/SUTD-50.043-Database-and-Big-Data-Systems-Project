@@ -1,5 +1,6 @@
 import pymysql
 import pyrebase
+import time
 
 # THIS FILE WILL NOT CHECK IF THE QUERIES ARE CORRECT
 # BEFORE CALLING THE FUNCTIONS, PLEASE MAKE SURE THAT THE VALUES
@@ -63,17 +64,26 @@ class mysql_review:
         return_query = self._execute(query_statement)
         return return_query
 
-    def insert_new_review(self, asin, overall, reviewText, reviewerID, reviewerName):
-        query_statement = "INSERT INTO {} (`asin`, `overall`, `reviewText`, `reviewerID`, `reviewerName`) VALUES".format(self.tablename)
+    def insert_new_review(self, asin, helpful, overall, reviewText, reviewerID, reviewerName, summary):
+        # we probably have a better way to do this I'm sorry
+        reviewTime = time.strftime("%d %m, %Y", time.gmtime())
+        unixReviewTime = int(time.time())
+        query_statement = "INSERT INTO {} (`asin`, `helpful`, `overall`, `reviewText`, `reviewTime`, `reviewerID`, `reviewerName`, `summary`, `unixReviewTime`) VALUES ({}, {}, {}, {}, {}, {}, {}, {}, {})".format(self.tablename, asin, helpful, overall, reviewText, reviewTime, reviewerID, reviewerName, summary, unixReviewTime)
         self._execute(query_statement)
         return 0
 
-
-    def get_everything(self):
-        # this probably shouldn't be done
-        query_statement = "SELECT * FROM KRTable"
+    def get_review_by_asin(self, asin):
+        # asin should be in the form like: B000FA64PK
+        query_statement = "SELECT `reviewText` FROM {} WHERE `asin`={}".format(self.tablename, asin)
         return_query = self._execute(query_statement)
+        # I am assuming that the `reviewText` returned is a string
         return return_query
+
+    #def get_everything(self):
+        # this probably shouldn't be done
+        #query_statement = "SELECT * FROM KRTable"
+        #return_query = self._execute(query_statement)
+        #return return_query
 
     def close(self):
         self.connection.close()
