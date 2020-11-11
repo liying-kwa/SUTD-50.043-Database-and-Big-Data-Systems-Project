@@ -101,6 +101,28 @@
                             <button type="submit" class="btn btn--primary">Add To Cart</button>
                         </div>
                     </form>
+                    <div class="reviews-form">
+                        <h5>Leave a review</h5>
+                        <form class="row">
+                            <div class="col-md-6">
+                                <!--TODO: CHANGE THIS INTO STAR RATINGS-->
+                                <select name="Rating" method="GET" action="/">
+                                    <option selected="" value="Default">Rating</option>
+                                    <option value="1">1</option>"
+                                    <option value="2">2</option>"
+                                    <option value="3">3</option>"
+                                    <option value="4">4</option>"
+                                    <option value="5">5</option>"
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <textarea rows="4" input type="text" placeholder="Type review here"></textarea>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn--primary" type="submit">Add review</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
             <!--end of row-->
