@@ -115,10 +115,16 @@ def not_found(error):
 def login_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
-        if 'logged_in' in session:
+        if 'logged-in' in session:
             return f(*args, **kwargs)
         else:
-            return redirect('/login')
+            return redirect('/signin')
 
+@app.route('/checksignedin')
+def checksignedin():
+    if 'logged-in' in session:
+        return redirect(url_for('index'))
+    else:
+        return redirect('/signin')
 if __name__ == '__main__':
     app.run(host='127.0.0.1', debug=True)
