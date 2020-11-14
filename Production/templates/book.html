@@ -1,35 +1,14 @@
 {% extends 'base.html' %}
 {% block title %}Coolreads | {{book.asin}}{% endblock %}
 {% block main %}
-    <section>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h1>{{book.asin}}</h1>
-                    <ol class="breadcrumbs">
-                        <li>
-                            <a href="/">Home</a>
-                        </li>
-                        <li>
-                            <a href="/books">Books</a>
-                        </li>
-                        <li>{{book.asin}}</li>
-                    </ol>
-                    <hr>
-                </div>
-            </div>
-            <!--end of row-->
-        </div>
-        <!--end of container-->
-    </section>
-    <section class="space--lg">
+    <section class="space--sm">
         <div class="container">
             <div class="row justify-content-around">
                 <div class="col-md-5 col-lg-4">
                     <img alt="Image" src={{book.imUrl}} onerror="this.src='../../../static/amazon-no-image.jpg '">
                 </div>
                 <div class="col-md-7 col-lg-6">
-                    <h2>{{book.asin if book.price else 'Book not found'}}</h2>
+                    <h2>{{book.title if book.title else 'Book not found'}}</h2>
                     <div class="text-block">
                         <span class="h4 type--strikethrough inline-block">$549.99</span>
                         <span class="h4 inline-block">{{ ('${:.2f}'.format(book.price|float)) if book.price else 'Out of Stock' }}</span>
@@ -118,7 +97,7 @@
                 <div class="col-md-4">
                     <div class="product">
                         <a href="#">
-                            <img alt="Image" src="https://images-na.ssl-images-amazon.com/images/I/71kBRLo8ZtL.jpg" />
+                            <img alt="Image" src="https://images-na.ssl-images-amazon.com/images/I/71kBRLo8ZtL.jpg" height="300" />
                         </a>
                         <a class="block" href="#">
                             <div>
@@ -135,7 +114,7 @@
                 <div class="col-md-4">
                     <div class="product">
                         <a href="#">
-                            <img alt="Image" src="https://cdn-images-1.medium.com/max/258/0*f_O5OdFDt-5SjEb8.jpg" />
+                            <img alt="Image" src="https://cdn-images-1.medium.com/max/258/0*f_O5OdFDt-5SjEb8.jpg" height="300" />
                         </a>
                         <a class="block" href="#">
                             <div>
@@ -152,7 +131,7 @@
                 <div class="col-md-4">
                     <div class="product">
                         <a href="#">
-                            <img alt="Image" src="https://images-na.ssl-images-amazon.com/images/I/91f8sb6xJxL.jpg" />
+                            <img alt="Image" src="https://images-na.ssl-images-amazon.com/images/I/91f8sb6xJxL.jpg" height="300" />
                         </a>
                         <a class="block" href="#">
                             <div>
@@ -182,5 +161,5 @@
         </div>
         <!--end of container-->
     </section>
-    {% include 'comments.html' %}
+    {% include 'reviews.html' %}
 {% endblock %}

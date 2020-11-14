@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-md-10 col-lg-8">
                 <div class="comments">
-                    <h3>4 Comments</h3>
+                    <h3>4 Reviews</h3>
                     <ul class="comments__list">
                         <li>
                             <div class="comment">
@@ -83,6 +83,39 @@
                 <!--end comments-->
                 <div class="comments-form">
                     <h4>Leave a comment</h4>
+                    <div class="row">
+                        
+                        {% set overall_rate = 5 %}
+                        {% set overall_rows = 4 %}
+                        {% set overall_dec_rate = 3.4 %}
+
+                        <div id="ajax_vote">
+                            <div class="r">
+                                <div class="rating">
+                                {% if overall_rate > 0 %}
+                                {% for i in range(1, overall_rate + 1) %}
+                                {% if i > overall_dec_rate|round %}
+                                <div class="star transparent" id="{{i}}"></div>
+                                {% else %}
+                                <div class="star" id="{{i}}"></div>
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                                </div>
+                                <div class="transparent">
+                                <div class="star" id="1"></div>
+                                <div class="star" id="2"></div>
+                                <div class="star" id="3"></div>
+                                <div class="star" id="4"></div>
+                                <div class="star" id="5"></div>
+                                <div class="votes">{{overall_dec_rate}}/5, {{overall_rows if overall_rows > 0 else 0}}
+                                    {{'votes' if overall_rows > 1 else 'vote' }} {% if ip_rate %}<strong>You rated this: <span
+                                        style="color:#39C;">{{ip_rate}}</span></strong>{% endif %}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                     <form class="row">
                         <div class="col-md-6">
                             <label>Your Name:</label>
@@ -167,3 +200,48 @@
         </section>
     </div>
 </div>
+
+
+
+<script>
+    $(document).on('mouseover', '.star', function (e) {
+      $(".rating").hide(); // HIDES THE CURRENT RATING WHEN MOUSE IS OVER A STAR
+      var d = $(this).attr("id"); // GETS THE NUMBER OF THE STAR
+  
+      //HIGHLIGHTS EVERY STAR BEHIND IT
+      for (i = (d - 1); i >= 0; i--) {
+        $(".transparent .star:eq(" + i + ")").css({ "opacity": "1.0" });
+      }
+    });
+    $(document).on('click', '.star', function (e) {
+      var rate = parseInt($(this).attr("id")); //GETS THE NUMBER OF THE STAR
+      console.log(rate);
+  
+      var stars = '';
+      for (var i = 1; i <= rate; i++) {
+        stars += '<div class="star" id="' + i + '"></div>';
+      }
+  
+      var str = '<div class="r"><div class="rating">' + stars + '</div><div class="transparent"><div class="star" id="1"></div><div class="star" id="2"></div><div class="star" id="3"></div><div class="star" id="4"></div><div class="star" id="5"></div><div class="votes"> (' + ((3.4 * 4 + rate)/5).toFixed(2) + '/5, ' + (4 + 1) + ' ' + ((4 + 1) > 1 ? ' votes' : ' vote') + ') ' + (rate > 0 ? '<strong>You rated this: <span style="color:#39C;">' + rate + '</span> star</strong>' : '') + '</div></div></div>'
+  
+      $("#ajax_vote").html(str); //DISPLAYS THE NEW RATING IN HTML
+    });
+    $(document).on('mouseout', '.star', function (e) {
+      $(".rating").show(); //SHOWS THE CURRENT RATING
+      $(".transparent .star").css({ "opacity": "0.25" }); //TRANSPARENTS THE BASE
+    });
+  
+  // TODO: Set POST API to Review SQL 
+  // $.ajax({
+  //       method: "POST",
+  // contentType: 'application/json;charset=UTF-8',
+  // data: JSON.stringify({'asid': book.asin, 'rate': rate, 'user': user}),
+  //       url: "/rate", //CALLBACK
+  //       success: function (e) {
+  //                 console.log(e);
+  //          },
+  //             error: function (e) {
+  //                 console.log(e);
+  //             }
+  // 	
+  </script>

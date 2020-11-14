@@ -25,36 +25,36 @@
     <p class="error error--hidden"></p>
 
     <input type="submit" value="Log In" class="btn">
-  
+
   </form>
 
   <span class="type--fine-print block">Dont have an account yet?
-      <a href="/checksignedin">Create account</a>
+    <a href="/checksignedin">Create account</a>
   </span>
   <span class="type--fine-print block">Forgot your username or password?
-      <a href="#">Recover account</a>
+    <a href="#">Recover account</a>
   </span>
 </div>
 <script>
-  $("form[name=login_form").submit(function(e) {
+  $("form[name=login_form").submit(function (e) {
 
     var $form = $(this);
     var $error = $form.find(".error");
     var data = $form.serialize();
 
     $.ajax({
-    url: "/user/login",
-    type: "POST",
-    data: data,
-    dataType: "json",
-    success: function(resp) {
+      url: "/user/login",
+      type: "POST",
+      data: data,
+      dataType: "json",
+      success: function (resp) {
         window.location.href = "/";
-    },
-    error: function(resp) {
+      },
+      error: function (resp) {
         $error.text(resp.responseJSON.error).removeClass("error--hidden");
-    }
-  });
+      }
+    });
 
-  e.preventDefault();
+    e.preventDefault();
   });
 </script>
