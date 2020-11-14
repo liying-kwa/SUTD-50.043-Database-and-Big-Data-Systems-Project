@@ -108,51 +108,16 @@
                                         Login
                                     </span>
                                 </a>
-                                <div class="modal-container">
+                                <div class="modal-container {{'modal-active' if show_login}}">
                                     <div class="modal-content section-modal">
                                         <section class="unpad ">
                                             <div class="container">
-                                                <div class="row justify-content-center">
-                                                    <div class="col-md-6">
-                                                        <div class="boxed boxed--lg bg--white text-center feature">
-                                                            <div class="modal-close modal-close-cross"></div>
-                                                            <h3>Login to Your Account</h3>
-                                                            <a class="btn block btn--icon bg--facebook type--uppercase" href="#">
-                                                                <span class="btn__text">
-                                                                    <i class="socicon-facebook"></i>
-                                                                    Login with Facebook
-                                                                </span>
-                                                            </a>
-                                                            <a class="btn block btn--icon bg--twitter type--uppercase" href="#">
-                                                                <span class="btn__text">
-                                                                    <i class="socicon-twitter"></i>
-                                                                    Login with Twitter
-                                                                </span>
-                                                            </a>
-                                                            <hr data-title="OR">
-                                                            <div class="feature__body">
-                                                                <form>
-                                                                    <div class="row">
-                                                                        <div class="col-md-12">
-                                                                            <input type="text" placeholder="Username" />
-                                                                        </div>
-                                                                        <div class="col-md-12">
-                                                                            <input type="password" placeholder="Password" />
-                                                                        </div>
-                                                                        <div class="col-md-12">
-                                                                            <button class="btn btn--primary type--uppercase" type="submit">Login</button>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!--end of row-->
-                                                                </form>
-                                                                <span class="type--fine-print block">Dont have an account yet?
-                                                                    <a href="/account">Create account</a>
-                                                                </span>
-                                                                <span class="type--fine-print block">Forgot your username or password?
-                                                                    <a href="#">Recover account</a>
-                                                                </span>
+                                                    <div class="col-md">
+                                                        <div class="modal-close modal-close-cross"></div>
+                                                        <div class="row justify-content-center">
+                                                            <div class="boxed boxed--lg bg--white text-center feature" style="max-width: 50%">
+                                                                {% include 'login.html' %}
                                                             </div>
-                                                        </div>
                                                     </div>
                                                 </div>
                                                 <!--end of row-->
@@ -168,7 +133,7 @@
                                         Register
                                     </span>
                                 </a>
-                                <div class="modal-container">
+                                <div class="modal-container {{'modal-active' if show_register}}">
                                     <div class="modal-content">
                                         <section class="imageblock feature-large bg--white border--round ">
                                             <div class="imageblock__content col-lg-5 col-md-3 pos-left">
@@ -181,40 +146,7 @@
                                                     <div class="col-lg-7">
                                                         <div class="row justify-content-center">
                                                             <div class="col-lg-10 col-md-11">
-                                                                <h2>Create an account</h2>
-                                                                <p class="lead">Get started with a 14 day free trial, No credit card required &mdash; cancel at any time.</p>
-                                                                <a class="btn block btn--icon bg--facebook type--uppercase" href="#">
-                                                                    <span class="btn__text">
-                                                                        <i class="socicon-facebook"></i>
-                                                                        Sign up with Facebook
-                                                                    </span>
-                                                                </a>
-                                                                <a class="btn block btn--icon bg--twitter type--uppercase" href="#">
-                                                                    <span class="btn__text">
-                                                                        <i class="socicon-twitter"></i>
-                                                                        Sign up with Twitter
-                                                                    </span>
-                                                                </a>
-                                                                <hr data-title="OR">
-                                                                <form>
-                                                                    <div class="row">
-                                                                        <div class="col-12">
-                                                                            <input type="email" name="Email Address" placeholder="Email Address" />
-                                                                        </div>
-                                                                        <div class="col-12">
-                                                                            <input type="password" name="Password" placeholder="Password" />
-                                                                        </div>
-                                                                        <div class="col-12">
-                                                                            <button type="submit" class="btn btn--primary type--uppercase">Create Account</button>
-                                                                        </div>
-                                                                        <div class="col-12">
-                                                                            <span class="type--fine-print">By signing up, you agree to the
-                                                                                <a href="#">Terms of Service</a>
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!--end row-->
-                                                                </form>
+                                                                {% include 'signup.html' %}
                                                             </div>
                                                         </div>
                                                         <!--end of row-->

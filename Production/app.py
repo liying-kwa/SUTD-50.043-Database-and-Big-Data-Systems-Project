@@ -118,13 +118,13 @@ def login_required(f):
         if 'logged-in' in session:
             return f(*args, **kwargs)
         else:
-            return redirect('/signin')
+            return render_template('index.html', show_login=True)
 
 @app.route('/checksignedin')
 def checksignedin():
     if 'logged-in' in session:
         return redirect(url_for('index'))
     else:
-        return redirect('/signin')
+        return render_template('index.html', pagination=None, show_register=True)
 if __name__ == '__main__':
     app.run(host='127.0.0.1', debug=True)
