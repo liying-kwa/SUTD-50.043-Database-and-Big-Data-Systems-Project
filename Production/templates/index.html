@@ -41,8 +41,8 @@
                 {% for book in groupofbooks %}
                     <a href="{{ url_for('book', asin=book.asin )}}" class="feature">
                         <img alt="Pic" src="{{book.imUrl}}" onerror="this.src='../static/amazon-no-image.jpg'" />
-                        <h5 class="mb--0">{{ book.asin }}</h5>
-                        <div>Book Title &#9702; Price</div>
+                        <h5 class="mb--0">{{ book.title }}</h5>
+                        <div>{{book.author}} &#9702; {{book.price}}</div>
                     </a>
                 {% endfor %}
             </div>

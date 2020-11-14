@@ -92,7 +92,7 @@ def search():
 def results(query):
     per_page = 12
     page = request.args.get(get_page_parameter(), type=int, default=1)
-    search_results = database.find({'asin': {"$regex": query , "$options": "i"}}).skip((page - 1) * per_page).limit(per_page)
+    search_results = database.find({'$or': [{'title': {"$regex": query , "$options": "i"}}, {'author': {"$regex": query , "$options": "i"}}]}).skip((page - 1) * per_page).limit(per_page)
     pagination = Pagination(page=page, per_page=per_page ,total=search_results.count(), search=False, record_name='search_results')
     return render_template("index.html", books=search_results, query=query, pagination=pagination)
 
