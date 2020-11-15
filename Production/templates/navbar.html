@@ -98,7 +98,16 @@
                     </div>
                     <!--end module-->
                     {% if session['user'] %}
-                        <h5>Welcome, {{ session['user']['name'] }}!</h5>
+                        <div class="modal-instance">
+                            <h5>Welcome, {{ session['user']['name'] }}!</h5>
+                        </div>
+                        <div class="modal-instance">
+                            <a class="btn btn--secondary" href="/user/signout">
+                                <span class="btn__text">
+                                    Logout
+                                </span>
+                            </a>
+                        </div>
 
                     {% else %}
                         <div class="bar__module">
