@@ -1,5 +1,6 @@
 variable "region" {
 	default = "ap-southeast-1"
+	#default = "us-east-1"
 }
 
 variable "base_cidr_block" {
@@ -10,6 +11,7 @@ variable "base_cidr_block" {
 variable "ec2_instance_ami" {
     description = "Ubuntu"
     default = "ami-093da183b859d5a4b"
+	#default = "ami-0f82752aa17ff8f5d"
 }
 
 variable "ec2_instance_type" {

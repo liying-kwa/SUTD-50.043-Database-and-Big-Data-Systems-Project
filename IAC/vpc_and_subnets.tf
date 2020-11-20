@@ -60,6 +60,7 @@ resource "aws_main_route_table_association" "a" {
 resource "aws_subnet" "WebAppPublicSubnet" {
     vpc_id = "${aws_vpc_ipv4_cidr_block_association.public_cidr.vpc_id}"
 	availability_zone = "ap-southeast-1a"
+	#availability_zone = "us-east-1a"
     cidr_block = "172.2.0.0/24"
 	
 	tags = {
@@ -70,6 +71,7 @@ resource "aws_subnet" "WebAppPublicSubnet" {
 resource "aws_subnet" "MySqlPrivateSubnet" {
     vpc_id = "${aws_vpc.main.id}"
 	availability_zone = "ap-southeast-1b"
+	#availability_zone = "us-east-1b"
     cidr_block = "10.1.0.0/24"
 	
 	tags = {
@@ -80,6 +82,7 @@ resource "aws_subnet" "MySqlPrivateSubnet" {
 resource "aws_subnet" "MongoDBLogsPrivateSubnet" {
     vpc_id = "${aws_vpc.main.id}"
 	availability_zone = "ap-southeast-1c"
+	#availability_zone = "us-east-1c"
     cidr_block = "10.1.1.0/24"
 	
 	tags = {
@@ -90,6 +93,7 @@ resource "aws_subnet" "MongoDBLogsPrivateSubnet" {
 resource "aws_subnet" "MongoDBMetadataPrivateSubnet" {
     vpc_id = "${aws_vpc.main.id}"
 	availability_zone = "ap-southeast-1a"
+	#availability_zone = "us-east-1d"
     cidr_block = "10.1.2.0/24"
 	
 	tags = {

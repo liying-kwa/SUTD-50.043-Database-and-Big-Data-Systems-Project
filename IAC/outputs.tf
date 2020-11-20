@@ -2,8 +2,8 @@ output "vpc_id" {
     value = aws_vpc.main.id
 }
 
-output "WebApp_public_dns" {
-    value = "${aws_instance.WebApp.public_dns}"
+output "WebApp_elastic_ip" {
+    value = "${aws_eip.elastic_ip.public_dns}"
 }
 
 output "mysql_public_dns" {

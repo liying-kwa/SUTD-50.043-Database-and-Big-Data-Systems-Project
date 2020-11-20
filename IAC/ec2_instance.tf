@@ -24,13 +24,37 @@ resource "aws_instance" "WebApp" {
   
   user_data = <<EOF
 #!/bin/sh
+start=`date +%s`
+
 cd home
 cd ubuntu
-touch fff.csv
-mkdir adir
-cd adir
-touch hihi.txt
-mkdir hehe
+sudo apt update
+sudo apt install python3-pip -y
+sudo apt install python3-flask -y
+sudo apt install unzip
+
+sudo pip3 install -U Flask
+sudo pip3 install Flask-PyMongo
+sudo pip3 install pymongo[srv]
+sudo pip3 install pyrebase4
+sudo pip3 install flask_login
+sudo pip3 install flask-paginate
+sudo pip3 install passlib
+sudo pip3 install flask_pymongo
+sudo pip3 install flask_paginate
+
+wget -c https://jinghanbucket1997.s3-ap-southeast-1.amazonaws.com/production.zip -O production.zip
+unzip production.zip
+cd SUTD-50.043-production
+cd Production
+
+end=`date +%s`
+echo Execution time was `expr $end - $start` seconds. >> timetaken.txt
+
+sudo flask run --host=0.0.0.0 --port=80
+
+
+
 EOF
 }
 
