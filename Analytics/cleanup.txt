@@ -1,4 +1,7 @@
 
+# Clean AWS CLI
+sudo rm -rf /usr/local/aws-cli
+
 # Clean hadoop installation
 ~/hadoop/sbin/stop-dfs.sh
 ~/hadoop/sbin/stop-yarn.sh
