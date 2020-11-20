@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, session
+from flask import Flask, render_template, request, url_for, redirect, session, jsonify
 from flask_pymongo import PyMongo
 from flask_paginate import Pagination, get_page_parameter
 from bson.objectid import ObjectId
@@ -28,6 +28,14 @@ except Exception as e:
 # Routes
 import routes
 
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged-in' in session:
+            return f(*args, **kwargs)
+        else:
+            return render_template('index.html', show_login=True)
+
 @app.route('/')
 def index():
     # TODO: To define how we are going limit the entries
@@ -44,22 +52,32 @@ def book(asin):
         print("Logged")
     return render_template('book.html', book=book) # add review_text into render_template
 
-@app.route('/book/add_review/<asin>')
+@app.route('/book/add_review/<asin>', methods=['POST'])
 #@login_required
 def add_review(asin):
-    book = metadata_db.find_one({'asin': asin})
-    #TODO: add this review into the metadata_db
-
     # retrieve new user review from the html input
-    
-    # UNCOMMENT ALL THESE WHEN MYSQL DB IS UP AND RUNNING
-    #reviewText = request.form.get("reviewText")
-    #summary = request.form.get("summary")
+    reviewText = request.form.get("Comment")
+    summary = request.form.get("Title")
+    print("Inside add review")
+
+    if(reviewText == ""):
+        return jsonify({"error": "Comment cannot be empty"}), 401
+    if(summary == ""):
+        return jsonify({"error": "Title cannot be empty"}), 401
     #overall = request.form.get("overall") # should be an int from 1-5
-    #helpful = [0,0] # first int is number of people who rated this review helpful, second int is total number of ratings
+    helpful = [0,0] # first int is number of people who rated this review helpful, second int is total number of ratings
     
+    print(reviewText, summary)
+
     # TODO: get reviewerName from user who is logged in
     # TODO: get reviewerID from user who is logged in
+    if 'logged-in' in session:
+        reviewerID = session['user']['_id']
+        reviewerName = session['user']['name']
+        #logs_db.insert_one({"user": session['user']['email'], "action":"add_review", "content": book['title'], "datetime": datetime.datetime.now()})
+        print("ReviewerID:", reviewerID)
+        print("ReviewerName:", reviewerName)
+
     '''
     new_book_review = {
         'asin': asin, 
@@ -72,11 +90,11 @@ def add_review(asin):
         'summary': summary,
         'unixReviewTime': unixReviewTime
     }
+
     '''
     #mysql_db.insert_new_review(asin, helpful, overall, reviewText, reviewerID, reviewerName, summary)
 
-    return_url = 'book' + '/' + asin
-    return redirect(url_for(return_url))
+    return jsonify({"success": "Added new review"}), 200
 
 @app.route('/add', methods=['POST'])
 def add_book():
@@ -118,14 +136,6 @@ def not_found(error):
         return redirect(url_for('index'))
     else:
         return render_template('not_found.html'), 404
-
-def login_required(f):
-    @wraps(f)
-    def wrap(*args, **kwargs):
-        if 'logged-in' in session:
-            return f(*args, **kwargs)
-        else:
-            return render_template('index.html', show_login=True)
 
 @app.route('/checksignedin')
 def checksignedin():

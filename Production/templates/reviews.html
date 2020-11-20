@@ -1,3 +1,4 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <section>
     <div class="container">
         <div class="row justify-content-center">
@@ -116,22 +117,19 @@
                         </div>
 
                     </div>
-                    <form class="row">
-                        <div class="col-md-6">
-                            <label>Your Name:</label>
-                            <input type="text" name="Name" placeholder="Type name here" />
-                        </div>
-                        <div class="col-md-6">
-                            <label>Email Address:</label>
-                            <input type="email" name="email" placeholder="you@mailprovider.com" />
+                    <form class="row" name="review_form">
+                        <div class="col-md-12">
+                            <label>Title:</label>
+                            <input type="text" name="Title" placeholder="Summary of your review" />
                         </div>
                         <div class="col-md-12">
                             <label>Comment:</label>
-                            <textarea rows="4" name="Message" placeholder="Message"></textarea>
+                            <textarea rows="4" name="Comment" placeholder="Review text here"></textarea>
                         </div>
                         <div class="col-md-3">
-                            <button class="btn btn--primary" type="submit">Submit Comment</button>
+                            <button class="btn" type="submit">Submit Comment</button>
                         </div>
+                        <p class="error error--hidden"></p>
                     </form>
                 </div>
             </div>
@@ -245,3 +243,38 @@
   //             }
   // 	
   </script>
+   
+
+<script>
+    $("form[name=review_form").submit(function(e) {
+
+    var $form = $(this);
+    var $error = $form.find(".error");
+    var data = $form.serialize();
+
+    console.log("inside javascript");
+
+    var url_value = window.location.href;
+    var url_array = url_value.split("/");
+    var $book_asin = url_array[url_array.length-1];
+    var $url_link = "/book/add_review/" + $book_asin;
+    console.log($url_link);
+
+    $.ajax({
+    url: $url_link,
+    type: "POST",
+    data: data,
+    dataType: "json",
+    success: function(resp) {
+        console.log("Passed js");
+        console.log(resp);
+        window.location.href = "/book/" + $book_asin;
+    },
+    error: function(resp) {
+        $error.text(resp.responseJSON.error).removeClass("error--hidden");
+    }
+    });
+
+    e.preventDefault();
+    });
+</script>
