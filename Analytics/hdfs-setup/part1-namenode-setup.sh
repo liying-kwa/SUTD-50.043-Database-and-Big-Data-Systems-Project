@@ -11,4 +11,3 @@ sudo sh -c 'echo "hadoop ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/90-hadoop'
 
 # Change the swappiness
 sudo sysctl vm.swappiness=10
-sudo sysctl vm.swappiness

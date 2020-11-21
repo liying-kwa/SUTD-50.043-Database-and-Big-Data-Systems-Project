@@ -15,7 +15,7 @@ aws --version
 echo -e "${AWS_ACCESS_KEY_ID}\n${AWS_SECRET_ACCESS_KEY}\nus-east-1\njson\n" | sudo aws configure
 
 # Execute scripts
-echo "MAIN.SH: SETTING UP NODES..."
+echo "[main.sh] SETTING UP NODES..."
 bash ./nodes-setup.sh
-echo "MAIN.SH: SETTING UP HDFS"
+echo "[main.sh] SETTING UP HDFS"
 bash ./hdfs-setup.sh
