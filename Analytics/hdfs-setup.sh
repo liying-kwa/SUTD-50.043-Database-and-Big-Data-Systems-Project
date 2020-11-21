@@ -61,3 +61,18 @@ do
     ssh -i ../kp.pem ubuntu@${DATANODE_IP} "bash ./part3-setup.sh"
 done
 
+
+# PART 4: Setup Hadoop
+echo "[hdfs-setup.sh] HDFS SETUP PART 3"
+
+# Part 4 -- Write datanodes' hostnames for editing hadoop-3.3.0/etc/hadoop/workers
+touch datanode_hostnames.txt
+for i in "${!DATANODE_IP_ARR[@]}"
+do
+    echo -e "com.analytics.datanode$((i + 1))" >> ./datanode_hostnames.txt
+done
+
+# Part 4 -- Name Node
+scp -i ../kp.pem ./part4-namenode-setup.sh ./datanode_hostnames.txt ubuntu@${NAMENODE_IP}:~/
+ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part4-namenode-setup.sh'"
+
