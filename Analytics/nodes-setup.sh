@@ -18,5 +18,5 @@ cd ../
 chmod 0600 ./kp.pem
 
 # Wait another few seconds for the ssh services to be ready
-echo "Sleeping for a few seconds..."
+echo "Sleeping for 10 seconds..."
 sleep 10

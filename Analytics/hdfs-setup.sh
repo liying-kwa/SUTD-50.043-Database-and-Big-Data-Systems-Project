@@ -42,6 +42,6 @@ echo -e "sudo -u hadoop sh -c 'bash ./part2-namenode-setup.sh'" | ssh -i ../kp.p
 # Part 2 -- Copy the public key from the name node to worker nodes
 for DATANODE_IP in "${DATANODE_IP_ARR[@]}"
 do
-	ssh ubuntu@${NAMENODE_IP} -i ../kp.pem "sudo cat /home/hadoop/.ssh/id_rsa.pub" \
+    ssh ubuntu@${NAMENODE_IP} -i ../kp.pem "sudo cat /home/hadoop/.ssh/id_rsa.pub" \
     | ssh ubuntu@${DATANODE_IP} -i ../kp.pem "sudo cat - | sudo tee -a /home/hadoop/.ssh/authorized_keys"
 done
