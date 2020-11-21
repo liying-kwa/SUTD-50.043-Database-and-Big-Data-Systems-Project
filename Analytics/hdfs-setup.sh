@@ -63,7 +63,7 @@ done
 
 
 # PART 4: Setup Hadoop
-echo "[hdfs-setup.sh] HDFS SETUP PART 3"
+echo "[hdfs-setup.sh] HDFS SETUP PART 4"
 
 # Part 4 -- Write datanodes' hostnames for editing hadoop-3.3.0/etc/hadoop/workers
 touch datanode_hostnames.txt

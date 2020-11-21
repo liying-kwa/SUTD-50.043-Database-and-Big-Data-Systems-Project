@@ -1,16 +1,21 @@
 #!/bin/bash
 
 
-# 
+# Copy stuff needed to /home/hadoop and execute everything there
+cp ./datanode_hostnames.txt ~/
 cd ~/
 mkdir ~/download
 cd ~/download
+
+# Install hadoop
 wget https://apachemirror.sg.wuchna.com/hadoop/common/hadoop-3.3.0/hadoop-3.3.0.tar.gz
 tar zxvf hadoop-3.3.0.tar.gz && rm hadoop-3.3.0.tar.gz
-# update the JAVA_HOME
+
+# Update the JAVA_HOME
 export JH="\/usr\/lib\/jvm\/java-8-openjdk-amd64"
 sed -i "s/# export JAVA_HOME=.*/export\ JAVA_HOME=${JH}/g" hadoop-3.3.0/etc/hadoop/hadoop-env.sh
 
+# Assign hostnames to vars for convenience
 MASTER=com.analytics.namenode
 WORKERS=(`cat datanode_hostnames.txt | tr "\n" " "`)
 
