@@ -5,7 +5,7 @@
 cp ./datanode_hostnames.txt ~/
 cd ~/
 mkdir ~/download
-cd ~/download
+cd ~/download/
 
 # Install hadoop
 wget https://apachemirror.sg.wuchna.com/hadoop/common/hadoop-3.3.0/hadoop-3.3.0.tar.gz

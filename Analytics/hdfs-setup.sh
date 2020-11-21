@@ -72,7 +72,14 @@ do
     echo -e "com.analytics.datanode$((i + 1))" >> ./datanode_hostnames.txt
 done
 
-# Part 4 -- Name Node
+# Part 4 -- In name node, download hadoop library and configure files
 scp -i ../kp.pem ./part4-namenode-setup.sh ./datanode_hostnames.txt ubuntu@${NAMENODE_IP}:~/
 ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part4-namenode-setup.sh'"
+
+
+# PART 5: Distributing the configured library
+
+# Part 5 -- From name node, copy hadoop library into data nodes
+scp -i ../kp.pem ./part5-namenode-setup.sh ubuntu@${NAMENODE_IP}:~/
+ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part5-namenode-setup.sh'"
 
