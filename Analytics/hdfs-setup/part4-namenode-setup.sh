@@ -17,7 +17,6 @@ sed -i "s/# export JAVA_HOME=.*/export\ JAVA_HOME=${JH}/g" hadoop-3.3.0/etc/hado
 
 # Assign hostnames to vars for convenience
 MASTER=com.analytics.namenode
-WORKERS=(`cat ~/datanode_hostnames.txt | tr "\n" " "`)
 
 # Configure core-site.xml
 echo -e "<?xml version=\"1.0\"?>
@@ -107,6 +106,7 @@ echo -e "<?xml version=\"1.0\"?>
 
 # Edit workers file
 rm hadoop-3.3.0/etc/hadoop/workers
-for ip in ${WORKERS}; do echo -e "${ip}" >> hadoop-3.3.0/etc/hadoop/workers ; done
+cp ~/datanode_hostnames.txt hadoop-3.3.0/etc/hadoop/workers
+
 
 
