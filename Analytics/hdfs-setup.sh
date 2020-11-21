@@ -14,6 +14,6 @@ for i in "${!DATANODE_IP_ARR[@]}"
 do
 	echo -e "${DATANODE_IP_ARR[$i]}\tcom.analytics.datanode$((i + 1))" >> ./hosts.txt
 done
-scp -i ../kp.pem ./namenode-setup.sh ./hosts.txt ubuntu@${NAMENODE_IP}:~/
-echo -e "bash ./namenode-setup.sh" | ssh -o "StrictHostKeyChecking no" ubuntu@${NAMENODE_IP} -i ./kp.pem
+scp -i ../kp.pem -o StrictHostKeyChecking=no ./namenode-setup.sh ./hosts.txt ubuntu@${NAMENODE_IP}:~/
+echo -e "bash ./namenode-setup.sh" | ssh -i ../kp.pem -o "StrictHostKeyChecking no" ubuntu@${NAMENODE_IP}
 
