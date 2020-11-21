@@ -8,8 +8,11 @@ bash ./create.sh
 terraform output NameNode_ip > namenode_ip.txt
 echo `terraform output DataNode_ip` | tr "," "\n" > datanode_ip.txt
 
-# Copy keys and IP addresses to current directory
+# Copy ssh key and IP addresses to current directory
 cp ./kp.pem ../
 cp ./namenode_ip.txt ../
 cp ./datanode_ip.txt ../
 cd ../
+
+# Edit permissions of ssh key to allow ssh access
+chmod 0600 ./kp.pem

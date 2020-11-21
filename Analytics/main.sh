@@ -16,3 +16,4 @@ echo -e "${AWS_ACCESS_KEY_ID}\n${AWS_SECRET_ACCESS_KEY}\nus-east-1\njson\n" | su
 
 # Execute scripts
 bash ./nodes-setup.sh
+bash ./hdfs-setup.sh
