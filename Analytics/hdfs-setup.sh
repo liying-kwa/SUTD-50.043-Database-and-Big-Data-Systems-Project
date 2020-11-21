@@ -27,6 +27,3 @@ do
     echo -e "bash ./datanode-setup.sh" | ssh -i ../kp.pem -o "StrictHostKeyChecking no" ubuntu@${DATANODE_IP}
 done
 
-
-
-
