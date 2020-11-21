@@ -17,10 +17,10 @@ sed -i "s/# export JAVA_HOME=.*/export\ JAVA_HOME=${JH}/g" hadoop-3.3.0/etc/hado
 
 # Assign hostnames to vars for convenience
 MASTER=com.analytics.namenode
-WORKERS=(`cat datanode_hostnames.txt | tr "\n" " "`)
+WORKERS=(`cat ~/datanode_hostnames.txt | tr "\n" " "`)
 
 # Configure core-site.xml
-$ echo -e "<?xml version=\"1.0\"?>
+echo -e "<?xml version=\"1.0\"?>
 <?xml-stylesheet type=\"text/xsl\" href=\"configuration.xsl\"?>
 <\x21-- Put site-specific property overrides in this file. -->
 <configuration>
@@ -32,7 +32,7 @@ $ echo -e "<?xml version=\"1.0\"?>
 " > hadoop-3.3.0/etc/hadoop/core-site.xml
 
 # Configure hdfs-site.xml
-$ echo -e "<?xml version=\"1.0\"?>
+echo -e "<?xml version=\"1.0\"?>
 <?xml-stylesheet type=\"text/xsl\" href=\"configuration.xsl\"?>
 <\x21-- Put site-specific property overrides in this file. -->
 <configuration>
@@ -52,7 +52,7 @@ $ echo -e "<?xml version=\"1.0\"?>
 " > hadoop-3.3.0/etc/hadoop/hdfs-site.xml
 
 # Configure yarn-site.xml
-$ echo -e "<?xml version=\"1.0\"?>
+echo -e "<?xml version=\"1.0\"?>
 <?xml-stylesheet type=\"text/xsl\" href=\"configuration.xsl\"?>
 <\x21-- Put site-specific property overrides in this file. -->
 <configuration>
@@ -79,7 +79,7 @@ $ echo -e "<?xml version=\"1.0\"?>
 " > hadoop-3.3.0/etc/hadoop/yarn-site.xml
 
 # Configure mapred-site.xml
-$ echo -e "<?xml version=\"1.0\"?>
+echo -e "<?xml version=\"1.0\"?>
 <?xml-stylesheet type=\"text/xsl\" href=\"configuration.xsl\"?>
 <\x21-- Put site-specific property overrides in this file. -->
 <configuration>
