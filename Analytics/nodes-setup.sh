@@ -16,3 +16,7 @@ cd ../
 
 # Edit permissions of ssh key to allow ssh access
 chmod 0600 ./kp.pem
+
+# Wait another few seconds for the ssh services to be ready
+echo "Sleeping for a few seconds..."
+sleep 10
