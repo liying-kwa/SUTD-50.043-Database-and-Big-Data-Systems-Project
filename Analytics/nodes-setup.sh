@@ -5,6 +5,8 @@
 cd ./terra/
 bash ./install.sh
 bash ./create.sh
+
+# Store IPs of name node and data nodes in text files
 terraform output NameNode_ip > namenode_ip.txt
 echo `terraform output DataNode_ip` | tr "," "\n" > datanode_ip.txt
 
