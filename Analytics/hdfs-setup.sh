@@ -37,7 +37,7 @@ echo "[hdfs-setup.sh] HDFS SETUP PART 2"
 
 # Part 2 -- Generate key pair in name node
 scp -i ../kp.pem -o StrictHostKeyChecking=no ./part2-namenode-setup.sh ubuntu@${NAMENODE_IP}:~/
-echo -e "bash ./part2-namenode-setup.sh" | ssh -i ../kp.pem -o "StrictHostKeyChecking no" ubuntu@${NAMENODE_IP}
+echo -e "sudo -u hadoop sh -c 'bash ./part2-namenode-setup.sh'" | ssh -i ../kp.pem -o "StrictHostKeyChecking no" ubuntu@${NAMENODE_IP}
 
 # Part 2 -- Copy the public key from the name node to worker nodes
 for DATANODE_IP in "${DATANODE_IP_ARR[@]}"
