@@ -97,3 +97,13 @@ done
 
 # Part 6 -- Name Nodes
 ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part6-namenode-setup.sh'"
+
+
+# PART 7: Start Hadoop
+echo "[hdfs-setup.sh] HDFS SETUP PART 7"
+
+# Part 7 -- Start hadoop on name node
+ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c '/opt/hadoop-3.3.0/sbin/start-dfs.sh && /opt/hadoop-3.3.0/sbin/start-yarn.sh'"
+
+
+echo "END OF HDFS SETUP"
