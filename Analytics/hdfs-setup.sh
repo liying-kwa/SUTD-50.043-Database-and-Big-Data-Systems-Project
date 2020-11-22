@@ -78,8 +78,22 @@ ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part4-namen
 
 
 # PART 5: Distributing the configured library
+echo "[hdfs-setup.sh] HDFS SETUP PART 5"
 
 # Part 5 -- From name node, copy hadoop library into data nodes
 scp -i ../kp.pem ./part5-namenode-setup.sh ubuntu@${NAMENODE_IP}:~/
 ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part5-namenode-setup.sh'"
 
+
+# PART 6: Installation
+echo "[hdfs-setup.sh] HDFS SETUP PART 6"
+
+# Part 6 -- Data Nodes
+for DATANODE_IP in "${DATANODE_IP_ARR[@]}"
+do
+    scp -i ../kp.pem ./part6-datanode-setup.sh ubuntu@${DATANODE_IP}:~/
+    ssh -i ../kp.pem ubuntu@${DATANODE_IP} "sudo -u hadoop sh -c 'bash ./part6-datanode-setup.sh'"
+done
+
+# Part 6 -- Name Nodes
+ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part6-namenode-setup.sh'"
