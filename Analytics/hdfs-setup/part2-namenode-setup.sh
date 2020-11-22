@@ -2,7 +2,7 @@
 
 
 # Generate SSH keys
-sudo killall apt dkpg
+sudo killall apt dpkg
 sudo dpkg --configure -a
 sudo apt-get install -y ssh
 echo -e "\n\n\n" | ssh-keygen

@@ -96,6 +96,7 @@ do
 done
 
 # Part 6 -- Name Nodes
+scp -i ../kp.pem ./part6-datanode-setup.sh ubuntu@${NAMENODE_IP}:~/
 ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part6-namenode-setup.sh'"
 
 
