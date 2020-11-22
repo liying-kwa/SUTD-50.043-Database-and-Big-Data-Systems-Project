@@ -5,18 +5,19 @@
 export NAMENODE_IP=`cat namenode_ip.txt`
 export DATANODE_IP_ARR=(`cat datanode_ip.txt | tr "\n" " "`)
 export n=${#DATANODE_IP_ARR[@]}
-
+export NAMENODE_IP_PRIV=`cat namenode_ip_priv.txt`
+export DATANODE_IP_ARR_PRIV=(`cat datanode_ip_priv.txt | tr "\n" " "`)
 
 # PART 1: Setup hostnames, Setup sudoers, Change Swappiness
 echo "[hdfs-setup.sh] HDFS SETUP PART 1"
 
-# Part 1 -- Write hosts.txt file for editing /etc/hosts
+# Part 1 -- Write private ip addresses to hosts.txt file for editing /etc/hosts
 cd ./hdfs-setup
 touch hosts.txt
-echo -e "${NAMENODE_IP}\tcom.analytics.namenode" >> ./hosts.txt
-for i in "${!DATANODE_IP_ARR[@]}"
+echo -e "${NAMENODE_IP_PRIV}\tcom.analytics.namenode" >> ./hosts.txt
+for i in "${!DATANODE_IP_ARR_PRIV[@]}"
 do
-	echo -e "${DATANODE_IP_ARR[$i]}\tcom.analytics.datanode$((i + 1))" >> ./hosts.txt
+	echo -e "${DATANODE_IP_ARR_PRIV[$i]}\tcom.analytics.datanode$((i + 1))" >> ./hosts.txt
 done
 
 
