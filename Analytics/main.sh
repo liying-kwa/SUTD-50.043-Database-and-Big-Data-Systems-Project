@@ -19,3 +19,5 @@ echo "[main.sh] SETTING UP NODES..."
 bash ./nodes-setup.sh
 echo "[main.sh] SETTING UP HDFS"
 bash ./hdfs-setup.sh
+echo "[main.sh] SETTING UP SPARK"
+bash ./spark-setup.sh
