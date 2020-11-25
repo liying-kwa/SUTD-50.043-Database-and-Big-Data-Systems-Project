@@ -16,8 +16,13 @@ firebase = pyrebase.initialize_app(config)
 
 db = firebase.database()
 
+#this line for accessing metadata
 data = db.child("metadata").get().val()
+#to access the logs db, jsut change the "metadata" word to "logs"
+
+
 #print(data['created'])
+
 
 print('Waiting for database to be created')
 while ((db.child("metadata").get().val())['created'] != 'yes'):

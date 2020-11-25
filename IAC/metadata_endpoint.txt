@@ -1,1 +1,1 @@
-ec2-18-141-230-177.ap-southeast-1.compute.amazonaws.com
+ec2-54-151-202-126.ap-southeast-1.compute.amazonaws.com

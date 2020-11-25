@@ -1,0 +1,1 @@
+ec2-52-220-160-214.ap-southeast-1.compute.amazonaws.com
