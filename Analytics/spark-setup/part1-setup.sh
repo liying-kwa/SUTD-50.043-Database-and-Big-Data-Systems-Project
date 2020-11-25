@@ -38,10 +38,8 @@ export PYSPARK_PYTHON=python3
 # Making use of hdfs setup PART 4: the datanode_hostnames.txt. Assuming it's line by line
 # Making an empty env var WORKERS first, (Do i need export??)
 # Read from datanode_hostnames.txt and adds line by line to the WORKERS env var
+
 WORKERS=`cat ~/datanode_hostnames.txt | tr "\n" " "`
-
-
-
 
 for ip in ${WORKERS};
 do
@@ -49,6 +47,24 @@ do
     echo -e "${ip}" >> spark-3.0.1-bin-hadoop3.2/conf/slaves;
 done
 
+
+# Zip up configured spark folder
+tar czvf spark-3.0.1-bin-hadoop3.2.tgz spark-3.0.1-bin-hadoop3.2/
+echo "Finished zipping, going to deploy but sleep first"
+sleep 15
+
+
+
+# Deploy zipped spark folder
+for i in ${WORKERS};
+do 
+    scp -o StrictHostKeyChecking=no spark-3.0.1-bin-hadoop3.2.tgz $i:~/.;
+done
+
+mv spark-3.0.1-bin-hadoop3.2.tgz ~/.
+
+echo "Another sleep here to check if scp worked"
+sleep 15
 
 
 echo "END OF PART 1"
