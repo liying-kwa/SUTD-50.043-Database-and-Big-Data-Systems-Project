@@ -3,8 +3,7 @@
 echo "START OF PART 1"
 
 # Log into user hadoop (Check with LY whether necessary/correct)
-sudo -u hadoop 
-cd ~/download
+sudo su -u hadoop 
 
 # Download & Extract Spark
 wget https://apachemirror.sg.wuchna.com/spark/spark-3.0.1/spark-3.0.1-bin-hadoop3.2.tgz
@@ -32,13 +31,9 @@ export PYSPARK_PYTHON=python3
 # Ask LY for halp
 # Making use of hdfs setup PART 4: the datanode_hostnames.txt. Assuming it's line by line
 # Making an empty env var WORKERS first, (Do i need export??)
-export WORKERS=""
-
 # Read from datanode_hostnames.txt and adds line by line to the WORKERS env var
-while IFS= read -r line; do
-    echo "{$WORKERS} WORKERS For testing"
-    WORKERS="{$WORKERS:$line}"
-done < datanode_hostnames.txt
+WORKERS=`cat ~/datanode_hostnames.txt | tr "\n" " "`
+
 
 
 
