@@ -32,7 +32,7 @@ export PYSPARK_PYTHON=python3
 # Ask LY for halp
 # Making use of hdfs setup PART 4: the datanode_hostnames.txt. Assuming it's line by line
 # Making an empty env var WORKERS first, (Do i need export??)
-WORKERS=""
+export WORKERS=""
 
 # Read from datanode_hostnames.txt and adds line by line to the WORKERS env var
 while IFS= read -r line; do

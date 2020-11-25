@@ -3,19 +3,25 @@
 # To be run on namenode
 echo "START OF SPARK SETUP"
 
+echo "SETUP IP ADDRESSES"
+export NAMENODE_IP=`cat namenode_ip.txt`
+export DATANODE_IP_ARR=(`cat datanode_ip.txt | tr "\n" " "`)
+export n=${#DATANODE_IP_ARR[@]}
+export NAMENODE_IP_PRIV=`cat namenode_ip_priv.txt`
+export DATANODE_IP_ARR_PRIV=(`cat datanode_ip_priv.txt | tr "\n" " "`)
 cd ./spark-setup
 
-
+echo "[spark-setup.sh] SPARK SETUP PART 1"
 # Part 1 -- Login, download, extract and configure spark-env.sh
 scp -i ../kp.pem -o StrictHostKeyChecking=no ./part1-setup.sh ./hosts.txt ubuntu@${NAMENODE_IP}:~/
 ssh -i ../kp.pem -o "StrictHostKeyChecking no" ubuntu@${NAMENODE_IP} "bash ./part1-setup.sh"
 
-
+echo "[spark-setup.sh] SPARK SETUP PART 2"
 # Part 2 -- Deployment
 scp -i ../kp.pem -o StrictHostKeyChecking=no ./part2-setup.sh ./hosts.txt ubuntu@${NAMENODE_IP}:~/
 ssh -i ../kp.pem -o "StrictHostKeyChecking no" ubuntu@${NAMENODE_IP} "bash ./part2-setup.sh"
 
-
+echo "[spark-setup.sh] SPARK SETUP PART 3"
 # Part 3 -- Installation
 # For all the nodes (including namenode and datanodes)
 
