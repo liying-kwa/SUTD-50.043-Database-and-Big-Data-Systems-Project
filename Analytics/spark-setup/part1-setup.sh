@@ -5,7 +5,13 @@ echo "START OF PART 1"
 # Log into user hadoop (Check with LY whether necessary/correct)
 # sudo su hadoop 
 
+
+cp ./datanode_hostnames.txt ~/
+cd ~/
+
 # Download & Extract Spark
+mkdir ~/download
+cd ~/download/
 wget https://apachemirror.sg.wuchna.com/spark/spark-3.0.1/spark-3.0.1-bin-hadoop3.2.tgz
 tar zxvf spark-3.0.1-bin-hadoop3.2.tgz
 
