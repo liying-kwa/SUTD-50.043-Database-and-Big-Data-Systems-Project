@@ -39,7 +39,7 @@ WORKERS=`cat ~/datanode_hostnames.txt | tr "\n" " "`
 
 for ip in ${WORKERS};
 do
-    echo "{$ip} IP For testing"
+    echo "{$ip} Names For testing (GOOD)"
     echo -e "${ip}" >> spark-3.0.1-bin-hadoop3.2/conf/slaves;
 done
 

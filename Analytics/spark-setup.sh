@@ -47,6 +47,15 @@ done
 # Start the spark cluster
 echo "[spark-setup.sh] SPARK SETUP PART 4 START SPARK CLUSTER"
 ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c '/opt/spark-3.0.1-bin-hadoop3.2/sbin/start-all.sh'"
-jps # This should print out a few processes like SecondaryNameNode, NameNode, ResourceManager, Master, Jps.
+
+echo "NAMENODE JPS"
+ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'jps'"
+
+for DATANODE_IP in "${DATANODE_IP_ARR[@]}"
+do
+    echo "DATANODE JPS"
+    ssh -i ../kp.pem ubuntu@${DATANODE_IP} "sudo -u hadoop sh -c 'jps'"
+done
+# This should print out a few processes like SecondaryNameNode, NameNode, ResourceManager, Master, Jps.
 
 echo "END OF SPARK SETUP"
