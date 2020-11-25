@@ -19,7 +19,7 @@ ssh -i ../kp.pem -o "StrictHostKeyChecking no" ubuntu@${NAMENODE_IP} "bash ./par
 echo "[spark-setup.sh] SPARK SETUP PART 2"
 # Part 2 -- Deployment
 scp -i ../kp.pem -o StrictHostKeyChecking=no ./part2-setup.sh ../hdfs-setup/hosts.txt ubuntu@${NAMENODE_IP}:~/
-ssh -i ../kp.pem -o "StrictHostKeyChecking no" ubuntu@${NAMENODE_IP} "bash ./part2-setup.sh"
+ssh -i ../kp.pem -o "StrictHostKeyChecking no" ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part2-setup.sh'"
 
 echo "[spark-setup.sh] SPARK SETUP PART 3"
 # Part 3 -- Installation
@@ -28,14 +28,14 @@ echo "[spark-setup.sh] SPARK SETUP PART 3"
 # For Name Node
 echo "[spark-setup.sh] SPARK PART 3 FOR NAMENODE"
 scp -i ../kp.pem -o StrictHostKeyChecking=no ./part3-setup.sh ../hdfs-setup/hosts.txt ubuntu@${NAMENODE_IP}:~/
-ssh -i ../kp.pem -o "StrictHostKeyChecking no" ubuntu@${NAMENODE_IP} "bash ./part3-setup.sh"
+ssh -i ../kp.pem -o "StrictHostKeyChecking no" ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part3-setup.sh'"
 
 # For Data Nodes
 echo "[spark-setup.sh] SPARK PART 3 FOR DATANODES"
 for DATANODE_IP in "${DATANODE_IP_ARR[@]}"
 do
     scp -i ../kp.pem -o StrictHostKeyChecking=no ./part3-setup.sh ../hdfs-setup/hosts.txt ubuntu@${DATANODE_IP}:~/
-    ssh -i ../kp.pem -o "StrictHostKeyChecking no" ubuntu@${DATANODE_IP} "bash ./part3-setup.sh"
+    ssh -i ../kp.pem ubuntu@${DATANODE_IP} "sudo -u hadoop sh -c 'bash ./part3-setup.sh'"
 done
 
 
@@ -48,14 +48,14 @@ done
 echo "[spark-setup.sh] SPARK SETUP PART 4 START SPARK CLUSTER"
 ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c '/opt/spark-3.0.1-bin-hadoop3.2/sbin/start-all.sh'"
 
+# This should print out a few processes like SecondaryNameNode, NameNode, ResourceManager, Master, Jps.
 echo "NAMENODE JPS"
 ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'jps'"
-
+echo "DATANODE JPS"
 for DATANODE_IP in "${DATANODE_IP_ARR[@]}"
 do
-    echo "DATANODE JPS"
     ssh -i ../kp.pem ubuntu@${DATANODE_IP} "sudo -u hadoop sh -c 'jps'"
 done
-# This should print out a few processes like SecondaryNameNode, NameNode, ResourceManager, Master, Jps.
+
 
 echo "END OF SPARK SETUP"

@@ -3,7 +3,7 @@
 echo "START OF PART 1"
 
 # Log into user hadoop (Check with LY whether necessary/correct)
-sudo su -u hadoop 
+# sudo su hadoop 
 
 # Download & Extract Spark
 wget https://apachemirror.sg.wuchna.com/spark/spark-3.0.1/spark-3.0.1-bin-hadoop3.2.tgz
