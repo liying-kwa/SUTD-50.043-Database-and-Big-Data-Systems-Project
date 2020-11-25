@@ -3,6 +3,8 @@
 # To be run on namenode
 echo "START OF SPARK SETUP"
 
+cd ./spark-setup
+
 
 # Part 1 -- Login, download, extract and configure spark-env.sh
 scp -i ../kp.pem -o StrictHostKeyChecking=no ./part1-setup.sh ./hosts.txt ubuntu@${NAMENODE_IP}:~/

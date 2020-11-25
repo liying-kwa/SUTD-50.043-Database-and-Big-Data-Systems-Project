@@ -36,7 +36,7 @@ WORKERS=""
 
 # Read from datanode_hostnames.txt and adds line by line to the WORKERS env var
 while IFS= read -r line; do
-    echo "{WORKERS} For testing"
+    echo "{$WORKERS} WORKERS For testing"
     WORKERS="{$WORKERS:$line}"
 done < datanode_hostnames.txt
 
@@ -44,6 +44,7 @@ done < datanode_hostnames.txt
 
 for ip in ${WORKERS};
 do
+    echo "{$ip} IP For testing"
     echo -e "${ip}" >> spark-3.0.1-bin-hadoop3.2/conf/slaves;
 done
 
