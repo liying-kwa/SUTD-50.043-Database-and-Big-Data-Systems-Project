@@ -14,12 +14,12 @@ cd ./spark-setup
 echo "[spark-setup.sh] SPARK SETUP PART 1"
 # Part 1 -- Login, download, extract and configure spark-env.sh
 scp -i ../kp.pem -o StrictHostKeyChecking=no ./part1-setup.sh ../hdfs-setup/hosts.txt ubuntu@${NAMENODE_IP}:~/
-ssh -i ../kp.pem -o "StrictHostKeyChecking no" ubuntu@${NAMENODE_IP} "bash ./part1-setup.sh"
+ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part1-setup.sh'"
 
 echo "[spark-setup.sh] SPARK SETUP PART 2"
 # Part 2 -- Deployment
 scp -i ../kp.pem -o StrictHostKeyChecking=no ./part2-setup.sh ../hdfs-setup/hosts.txt ubuntu@${NAMENODE_IP}:~/
-ssh -i ../kp.pem -o "StrictHostKeyChecking no" ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part2-setup.sh'"
+ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part2-setup.sh'"
 
 echo "[spark-setup.sh] SPARK SETUP PART 3"
 # Part 3 -- Installation
@@ -28,13 +28,13 @@ echo "[spark-setup.sh] SPARK SETUP PART 3"
 # For Name Node
 echo "[spark-setup.sh] SPARK PART 3 FOR NAMENODE"
 scp -i ../kp.pem -o StrictHostKeyChecking=no ./part3-setup.sh ../hdfs-setup/hosts.txt ubuntu@${NAMENODE_IP}:~/
-ssh -i ../kp.pem -o "StrictHostKeyChecking no" ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part3-setup.sh'"
+ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part3-setup.sh'"
 
 # For Data Nodes
 echo "[spark-setup.sh] SPARK PART 3 FOR DATANODES"
 for DATANODE_IP in "${DATANODE_IP_ARR[@]}"
 do
-    scp -i ../kp.pem -o StrictHostKeyChecking=no ./part3-setup.sh ../hdfs-setup/hosts.txt ubuntu@${DATANODE_IP}:~/
+    scp -i ../kp.pem ./part3-setup.sh ../hdfs-setup/hosts.txt ubuntu@${DATANODE_IP}:~/
     ssh -i ../kp.pem ubuntu@${DATANODE_IP} "sudo -u hadoop sh -c 'bash ./part3-setup.sh'"
 done
 
