@@ -50,8 +50,9 @@ done
 
 # Zip up configured spark folder
 tar czvf spark-3.0.1-bin-hadoop3.2.tgz spark-3.0.1-bin-hadoop3.2/
-echo "Finished zipping, going to deploy but sleep first"
-sleep 15
+
+
+sleep 5
 
 
 
@@ -63,9 +64,7 @@ done
 
 mv spark-3.0.1-bin-hadoop3.2.tgz ~/.
 
-echo "Another sleep here to check if scp worked"
-sleep 15
-
+sleep 5
 
 echo "END OF PART 1"
 
