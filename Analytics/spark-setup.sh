@@ -16,7 +16,7 @@ echo "[spark-setup.sh] SPARK SETUP PART 1"
 scp -i ../kp.pem -o StrictHostKeyChecking=no ./part1-setup.sh ../hdfs-setup/hosts.txt ubuntu@${NAMENODE_IP}:~/
 ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part1-setup.sh'"
 
-echo "[spark-setup.sh] SPARK SETUP PART 2"
+#echo "[spark-setup.sh] SPARK SETUP PART 2"
 # Part 2 -- Deployment
 #scp -i ../kp.pem -o StrictHostKeyChecking=no ./part2-setup.sh ../hdfs-setup/hosts.txt ubuntu@${NAMENODE_IP}:~/
 #ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part2-setup.sh'"
@@ -51,9 +51,10 @@ ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c '/opt/spark-3.0.1-b
 # This should print out a few processes like SecondaryNameNode, NameNode, ResourceManager, Master, Jps.
 echo "NAMENODE JPS"
 ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'jps'"
-echo "DATANODE JPS"
+
 for DATANODE_IP in "${DATANODE_IP_ARR[@]}"
 do
+    echo "DATANODE: ${DATANODE_IP} JPS"
     ssh -i ../kp.pem ubuntu@${DATANODE_IP} "sudo -u hadoop sh -c 'jps'"
 done
 
