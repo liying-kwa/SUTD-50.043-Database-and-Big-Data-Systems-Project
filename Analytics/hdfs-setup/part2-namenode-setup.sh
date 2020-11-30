@@ -1,0 +1,9 @@
+#!/bin/bash
+
+
+# Generate SSH keys
+sudo killall apt dpkg
+sudo dpkg --configure -a
+sudo apt-get install -y ssh
+echo -e "\n\n\n" | ssh-keygen
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys

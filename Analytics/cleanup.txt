@@ -1,0 +1,17 @@
+
+# Clean AWS CLI
+sudo rm -rf /usr/local/aws-cli
+
+# Clean hadoop installation
+~/hadoop/sbin/stop-dfs.sh
+~/hadoop/sbin/stop-yarn.sh
+rm -rf ~/hadoop
+rm -rf /tmp/hdfs
+# Manually remove chunk in ~/.bashrc
+# Manually remove extra key in .ssh/authorized-keys
+
+# Clean spark installation
+/opt/spark/sbin/stop-master.sh
+/opt/spark/sbin/stop-slaves.sh
+sudo rm -rf /opt/spark
+# Manually remove chunk in ~/.bashrc
