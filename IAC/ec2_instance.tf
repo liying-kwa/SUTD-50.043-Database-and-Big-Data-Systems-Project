@@ -171,6 +171,14 @@ sudo apt install mongodb-org -y
 sudo systemctl start mongod.service
 sudo systemctl enable mongod
 
+sudo sed -i "s,\\(^[[:blank:]]*bindIp:\\) .*,\\1 0.0.0.0," /etc/mongod.conf
+sudo service mongod restart
+sleep 30
+
+mongo --eval 'db.createUser({user: "user",pwd: "password",roles: [{ role: "userAdminAnyDatabase", db:"admin"}]});' admin
+sudo service mongod restart
+sleep 30
+
 echo "import pyrebase" >> database_status.py
 echo "config = {
   \"apiKey\": \"AIzaSyDl_6GZJ-JsdcwVSKDW02qbfIueg04sY0Y\",
