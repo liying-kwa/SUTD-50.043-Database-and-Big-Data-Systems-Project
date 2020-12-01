@@ -60,23 +60,29 @@
                                 </div>
                                 <!--end dropdown container-->
                             </li>
+                            {% if session['user']%}
                             <li>
                                 <a href="/logs"><span class="dropdown">Logs</span></a>
                                 <!--end dropdown container-->
                             </li>
+                            <li>
+                                <a href="/add"><span class="dropdown">Add Book</span></a>
+                                <!--end dropdown container-->
+                            </li>
+                            {% endif %}
                         </ul>
                     </div>
                     <!--end module-->
                     {% if session['user'] %}
                         <div class="modal-instance">
-                            <h5>Welcome, {{ session['user']['name'] }}!</h5>
-                        </div>
-                        <div class="modal-instance">
+                            <div class="row">
+                            <h5 style="margin-bottom: 0px; padding: 10px 20px">Welcome, {{ session['user']['name'] }}!</h5>
                             <a class="btn btn--secondary" href="/user/signout">
                                 <span class="btn__text">
                                     Logout
                                 </span>
                             </a>
+                        </div>
                         </div>
 
                     {% else %}

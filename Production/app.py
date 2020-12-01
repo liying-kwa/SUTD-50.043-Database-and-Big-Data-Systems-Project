@@ -17,12 +17,12 @@ logs_ssh = get_ssh_address('logs')
 app.secret_key = "secretkey"
 
 try:
-    metadata_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password  + '@'+ metadata_ssh +':27017/myMongodb?authSource=admin').db["new_kindle_metadata"]
-    user_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password  + '@'+ logs_ssh +':27017/myMongodb?authSource=admin').db["user"]
-    logs_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password + '@'+ logs_ssh +':27017/myMongodb?authSource=admin').db["logs_collection"]
     # metadata_db = PyMongo(app, uri='mongodb+srv://temp-user:Cjzo1XnTvJin5tX1@dbbd.0m9ic.mongodb.net/project').db['metadata']
     # user_db = PyMongo(app, uri='mongodb+srv://temp-user:Cjzo1XnTvJin5tX1@dbbd.0m9ic.mongodb.net/project').db['user']
     # logs_db = PyMongo(app, uri='mongodb+srv://temp-user:Cjzo1XnTvJin5tX1@dbbd.0m9ic.mongodb.net/project').db['logs']
+    metadata_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password  + '@'+ metadata_ssh +':27017/myMongodb?authSource=admin').db["new_kindle_metadata"]
+    user_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password  + '@'+ logs_ssh +':27017/myMongodb?authSource=admin').db["user"]
+    logs_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password + '@'+ logs_ssh +':27017/myMongodb?authSource=admin').db["logs_collection"]
     # UNCOMMENT WHEN MySQL IS UP
     # mysql_db = mysqlpython.mysql_review()
 except Exception as e:
@@ -41,7 +41,6 @@ def login_required(f):
 
 @app.route('/')
 def index():
-    # TODO: To define how we are going limit the entries
     books_list = metadata_db.find({'title': {"$regex": 'Hadoop' , "$options": "i"}}).limit(4)
     return render_template('index.html', books=books_list, query=None, pagination=None)
 
@@ -52,7 +51,6 @@ def book(asin):
     #review_text = mysql_db.get_review_by_asin(asin)
     if 'logged-in' in session:
         logs_db.insert_one({"user": session['user']['email'], "action":"view", "content": book['title'], "datetime": datetime.datetime.now()})
-        print("Logged")
     return render_template('book.html', book=book) # add review_text into render_template
 
 @app.route('/book/add_review/<asin>', methods=['POST'])
@@ -99,24 +97,31 @@ def add_review(asin):
 
     return jsonify({"success": "Added new review"}), 200
 
-@app.route('/add', methods=['POST'])
+@app.route('/add', methods=['GET', 'POST'])
 def add_book():
-    # new_todo = request.form.get('new-todo')
+    if 'logged-in' in session and session['user']['email']=='xm@xm.com':
+        if request.method == "POST":
+            asin = request.form["asin"]
+            title = request.form["title"]
+            author = request.form["author"]
+            description = request.form["description"]
+            imUrl = request.form["imUrl"]
+            metadata_db.insert_one({"asin": asin, "title":title, "author": author, "description":description, "imUrl":imUrl, "genre":"[]"})
+            logs_db.insert_one({"user": session['user']['email'], "action":"add", "content": title, "datetime": datetime.datetime.now()})
+            return redirect('/book/{}'.format(asin))
+        return render_template("add.html")
+    else:
+        return redirect(url_for('unauthorised'))
     # metadata_db.insert_one({'text' : new_todo, 'complete' : False})
-    return redirect(url_for('index'))
 
 @app.route('/search', methods=['POST'])
 def search():
-    # 'asin': 'B000FA5S98'
-    # search_item = metadata_db.find_one({'_id': ObjectId(oid)})
-    # metadata_db.save(todo_item)
     search_input = request.form['search-book']
     if 'logged-in' in session:
         logs_db.insert_one({"user": session['user']['email'], "action":"search", "content": search_input, "datetime": datetime.datetime.now()})
-        print("Logged")
     return redirect(url_for('results', query = search_input))
 
-@app.route('/search/<query>')
+@app.route('/search/<query>', methods=["GET"])
 def results(query):
     per_page = 12
     page = request.args.get(get_page_parameter(), type=int, default=1)
@@ -124,7 +129,7 @@ def results(query):
     pagination = Pagination(page=page, per_page=per_page ,total=search_results.count(), search=False, record_name='search_results')
     return render_template("index.html", books=search_results, query=query, pagination=pagination)
 
-@app.route('/genre/<query>')
+@app.route('/genre/<query>', methods=["GET"])
 def category(query):
     per_page = 12
     page = request.args.get(get_page_parameter(), type=int, default=1)
@@ -134,15 +139,11 @@ def category(query):
 
 @app.route('/logs', methods=['GET'])
 def logs():
-    logs = logs_db.find().sort('datetime', -1)
-    return render_template('logs.html', logs=logs)
-
-@app.errorhandler(404)
-def not_found(error):
-    if request.method == 'POST':
-        return redirect(url_for('index'))
+    if 'logged-in' in session and session['user']['email']=='xm@xm.com':
+        logs = logs_db.find().sort('datetime', -1)
+        return render_template('logs.html', logs=logs)
     else:
-        return render_template('not_found.html'), 404
+        return redirect(url_for('unauthorised'))
 
 @app.route('/checksignedin')
 def checksignedin():
@@ -150,6 +151,17 @@ def checksignedin():
         return redirect(url_for('index'))
     else:
         return render_template('index.html', pagination=None, show_register=True)
+
+@app.route('/401')
+def unauthorised():
+    return render_template('unauthorised.html')
+
+@app.errorhandler(404)
+def not_found(error):
+    if request.method == 'POST':
+        return redirect(url_for('index'))
+    else:
+        return render_template('not_found.html'), 404
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port='80', debug=True)
