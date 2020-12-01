@@ -252,8 +252,6 @@
     var $error = $form.find(".error");
     var data = $form.serialize();
 
-    console.log("inside javascript");
-
     var url_value = window.location.href;
     var url_array = url_value.split("/");
     var $book_asin = url_array[url_array.length-1];
@@ -266,7 +264,6 @@
     data: data,
     dataType: "json",
     success: function(resp) {
-        console.log("Passed js");
         console.log(resp);
         window.location.href = "/book/" + $book_asin;
     },

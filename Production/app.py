@@ -6,7 +6,7 @@ from functools import wraps
 from mongofirebase import get_ssh_address
 import datetime
 
-#import mysqlpython
+import mysqlpython
 
 app = Flask(__name__)
 
@@ -24,12 +24,23 @@ try:
     user_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password  + '@'+ logs_ssh +':27017/myMongodb?authSource=admin').db["user"]
     logs_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password + '@'+ logs_ssh +':27017/myMongodb?authSource=admin').db["logs_collection"]
     # UNCOMMENT WHEN MySQL IS UP
-    # mysql_db = mysqlpython.mysql_review()
 except Exception as e:
+    print(e)
+
+try:
+    mysql_db = mysqlpython.mysql_review()
+except Exception as e:
+    print('Unable to connect to MySQL database')
     print(e)
 
 # Routes
 import routes
+
+def check_admin():
+    if session['user']['email']=='xm@xm.com' or session['user']['email']=='yangzhi@gmail.com':
+        return True
+    else:
+        return False
 
 def login_required(f):
     @wraps(f)
@@ -59,16 +70,16 @@ def add_review(asin):
     # retrieve new user review from the html input
     reviewText = request.form.get("Comment")
     summary = request.form.get("Title")
-    print("Inside add review")
 
     if(reviewText == ""):
         return jsonify({"error": "Comment cannot be empty"}), 401
     if(summary == ""):
         return jsonify({"error": "Title cannot be empty"}), 401
-    #overall = request.form.get("overall") # should be an int from 1-5
+    overall = request.form.get("overall") # should be an int from 1-5
     helpful = [0,0] # first int is number of people who rated this review helpful, second int is total number of ratings
     
     print(reviewText, summary)
+    print("Vote:", request.form.get("ip_rate"))
 
     # TODO: get reviewerName from user who is logged in
     # TODO: get reviewerID from user who is logged in
@@ -99,7 +110,7 @@ def add_review(asin):
 
 @app.route('/add', methods=['GET', 'POST'])
 def add_book():
-    if 'logged-in' in session and session['user']['email']=='xm@xm.com':
+    if 'logged-in' in session and check_admin():
         if request.method == "POST":
             asin = request.form["asin"]
             title = request.form["title"]
@@ -139,7 +150,7 @@ def category(query):
 
 @app.route('/logs', methods=['GET'])
 def logs():
-    if 'logged-in' in session and session['user']['email']=='xm@xm.com':
+    if 'logged-in' in session and check_admin():
         logs = logs_db.find().sort('datetime', -1)
         return render_template('logs.html', logs=logs)
     else:

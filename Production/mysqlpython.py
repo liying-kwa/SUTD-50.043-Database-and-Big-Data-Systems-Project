@@ -54,13 +54,13 @@ class mysql_review:
 
         # maybe can just select all?
         # like: query_statement = "SELECT * FROM * WHERE `asin`={}".format(asin)
-        query_statement = "SELECT `reviewText` FROM {} WHERE `asin`={}".format(self.tablename, asin)
+        query_statement = "SELECT `reviewText`, `asin` FROM {} WHERE `asin`='{}'".format(self.tablename, asin)
         return_query = self._execute(query_statement)
         return return_query
 
     def get_by_overall(self, rating):
         # rating should be an integer from 1-5
-        query_statement = "SELECT `asin`, `helpful`, `reviewText`, `reviewerID`, `reviewerName`, `unixReviewTime` FROM {} WHERE `overall`={}".format(self.tablename, rating)
+        query_statement = "SELECT `asin`, `helpful`, `reviewText`, `reviewerID`, `reviewerName`, `unixReviewTime`, `overall` FROM {} WHERE `overall`='{}'".format(self.tablename, rating)
         return_query = self._execute(query_statement)
         return return_query
 
@@ -74,7 +74,7 @@ class mysql_review:
 
     def get_review_by_asin(self, asin):
         # asin should be in the form like: B000FA64PK
-        query_statement = "SELECT `reviewText` FROM {} WHERE `asin`={}".format(self.tablename, asin)
+        query_statement = "SELECT `reviewText`, `asin` FROM {} WHERE `asin`='{}'".format(self.tablename, asin)
         return_query = self._execute(query_statement)
         # I am assuming that the `reviewText` returned is a string
         return return_query
