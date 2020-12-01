@@ -3,25 +3,28 @@ from flask_pymongo import PyMongo
 from flask_paginate import Pagination, get_page_parameter
 from bson.objectid import ObjectId
 from functools import wraps
+from mongofirebase import get_ssh_address
 import datetime
 
 #import mysqlpython
 
 app = Flask(__name__)
 
-# TODO: Shift this into an external constant file 
-app.config['MONGO_URI'] = 'mongodb+srv://temp-user:Cjzo1XnTvJin5tX1@dbbd.0m9ic.mongodb.net/project?retryWrites=true&w=majority'
+mongo_username = "user"
+mongo_password = "password"
+metadata_ssh = get_ssh_address('metadata')
+logs_ssh = get_ssh_address('logs')
 app.secret_key = "secretkey"
 
 try:
-    mongo = PyMongo(app)
-    metadata_db = mongo.db["metadata"]
-    user_db = mongo.db["user"]
-    logs_db = mongo.db["logs"]
-
+    metadata_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password  + '@'+ metadata_ssh +':27017/myMongodb?authSource=admin').db["new_kindle_metadata"]
+    user_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password  + '@'+ logs_ssh +':27017/myMongodb?authSource=admin').db["user"]
+    logs_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password + '@'+ logs_ssh +':27017/myMongodb?authSource=admin').db["logs_collection"]
+    # metadata_db = PyMongo(app, uri='mongodb+srv://temp-user:Cjzo1XnTvJin5tX1@dbbd.0m9ic.mongodb.net/project').db['metadata']
+    # user_db = PyMongo(app, uri='mongodb+srv://temp-user:Cjzo1XnTvJin5tX1@dbbd.0m9ic.mongodb.net/project').db['user']
+    # logs_db = PyMongo(app, uri='mongodb+srv://temp-user:Cjzo1XnTvJin5tX1@dbbd.0m9ic.mongodb.net/project').db['logs']
     # UNCOMMENT WHEN MySQL IS UP
     # mysql_db = mysqlpython.mysql_review()
-
 except Exception as e:
     print(e)
 
@@ -39,7 +42,7 @@ def login_required(f):
 @app.route('/')
 def index():
     # TODO: To define how we are going limit the entries
-    books_list = metadata_db.find().limit(4)
+    books_list = metadata_db.find({'title': {"$regex": 'Hadoop' , "$options": "i"}}).limit(4)
     return render_template('index.html', books=books_list, query=None, pagination=None)
 
 @app.route('/book/<asin>')
@@ -74,7 +77,7 @@ def add_review(asin):
     if 'logged-in' in session:
         reviewerID = session['user']['_id']
         reviewerName = session['user']['name']
-        #logs_db.insert_one({"user": session['user']['email'], "action":"add_review", "content": book['title'], "datetime": datetime.datetime.now()})
+        logs_db.insert_one({"user": session['user']['email'], "action":"add_review", "content": reviewText, "datetime": datetime.datetime.now()})
         print("ReviewerID:", reviewerID)
         print("ReviewerName:", reviewerName)
 
@@ -121,14 +124,18 @@ def results(query):
     pagination = Pagination(page=page, per_page=per_page ,total=search_results.count(), search=False, record_name='search_results')
     return render_template("index.html", books=search_results, query=query, pagination=pagination)
 
-@app.route('/cat/<query>')
+@app.route('/genre/<query>')
 def category(query):
     per_page = 12
     page = request.args.get(get_page_parameter(), type=int, default=1)
     search_results = metadata_db.find({'genre': {"$regex": query , "$options": "i"}}).skip((page - 1) * per_page).limit(per_page)
-    print(search_results)
     pagination = Pagination(page=page, per_page=per_page ,total=search_results.count(), search=False, record_name='search_results')
-    return render_template("index.html", books=search_results, query=query, pagination=pagination)
+    return render_template("index.html", books=search_results, query=None, pagination=pagination)
+
+@app.route('/logs', methods=['GET'])
+def logs():
+    logs = logs_db.find().sort('datetime', -1)
+    return render_template('logs.html', logs=logs)
 
 @app.errorhandler(404)
 def not_found(error):
@@ -143,5 +150,6 @@ def checksignedin():
         return redirect(url_for('index'))
     else:
         return render_template('index.html', pagination=None, show_register=True)
+
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', debug=True)
+    app.run(host='127.0.0.1', port='80', debug=True)

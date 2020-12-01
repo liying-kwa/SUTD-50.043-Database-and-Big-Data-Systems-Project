@@ -33,58 +33,24 @@
                     <div class="bar__module">
                         <ul class="menu-horizontal text-left">
                             <li>
-                                <a href="/"><span class="dropdown__trigger">Home</span></a>
+                                <a href="/"><span class="dropdown">Home</span></a>
                                 <!--end dropdown container-->
                             </li>
                             <li class="dropdown">
-                                <span class="dropdown__trigger">Pages</span>
+                                <span class="dropdown__trigger">Genre</span>
                                 <div class="dropdown__container">
                                     <div class="container">
                                         <div class="row">
                                             <div class="dropdown__content col-lg-2 col-md-4">
                                                 <ul class="menu-vertical">
-                                                    <li class="dropdown">
-                                                        <span class="dropdown__trigger">About</span>
-                                                        <div class="dropdown__container">
-                                                            <div class="container">
-                                                                <div class="row">
-                                                                    <div class="dropdown__content col-lg-2">
-                                                                        <ul class="menu-vertical">
-                                                                            <li>
-                                                                                <a href="page-about-company.html">
-                                                                                    About Company
-                                                                                </a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <!--end dropdown content-->
-                                                                </div>
-                                                                <!--end row-->
-                                                            </div>
-                                                        </div>
+                                                    {% for genre in ['academic', 'adult', 'adventure', 'biography', 'classic', 'counselling', 'crime', 'fantasy', 'fiction', 'historical', 'horror', 'humor', 'langauge', 'law', 'mystery', 'over-18', 'religion', 'romance', 'sci-fi', 'science', 'self-help', 'social', 'thriller', 'tourism', 'travel', 'war', 'young-adult'] %}
+                                                    <li>
+                                                        <a href="/genre/{{genre}}">
+                                                            {{genre}}
+                                                        </a>
                                                         <!--end dropdown container-->
                                                     </li>
-                                                    <li class="dropdown separate">
-                                                        <span class="dropdown__trigger">Accounts</span>
-                                                        <div class="dropdown__container">
-                                                            <div class="container">
-                                                                <div class="row">
-                                                                    <div class="dropdown__content col-lg-2 col-md-4">
-                                                                        <ul class="menu-vertical">
-                                                                            <li>
-                                                                                <a href="page-accounts-profile.html">
-                                                                                    Public Profile
-                                                                                </a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <!--end dropdown content-->
-                                                                </div>
-                                                                <!--end row-->
-                                                            </div>
-                                                        </div>
-                                                        <!--end dropdown container-->
-                                                    </li>
+                                                    {% endfor %}
                                                 </ul>
                                             </div>
                                             <!--end dropdown content-->
@@ -92,6 +58,10 @@
                                         <!--end row-->
                                     </div>
                                 </div>
+                                <!--end dropdown container-->
+                            </li>
+                            <li>
+                                <a href="/logs"><span class="dropdown">Logs</span></a>
                                 <!--end dropdown container-->
                             </li>
                         </ul>
