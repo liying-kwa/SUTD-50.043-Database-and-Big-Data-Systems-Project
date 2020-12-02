@@ -56,9 +56,10 @@ class mysql_review:
         query_statement = "SELECT `asin`, `reviewText`, `reviewerName`, `reviewTime` FROM {} WHERE asin='{}'".format(self.tablename, asin)
         return_query = self._execute(query_statement)
         list_of_reviews = []
-        for i in range(len(return_query)):
-            dict_return_query = {'asin': return_query[i][0], 'reviewText': return_query[i][1], 'reviewerName': return_query[i][2], 'reviewTime': return_query[i][3]}
-            list_of_reviews.append(dict_return_query)
+        if return_query:
+            for i in range(len(return_query)):
+                dict_return_query = {'asin': return_query[i][0], 'reviewText': return_query[i][1], 'reviewerName': return_query[i][2], 'reviewTime': return_query[i][3]}
+                list_of_reviews.append(dict_return_query)
         return list_of_reviews
 
     def get_by_overall(self, rating):
@@ -71,7 +72,7 @@ class mysql_review:
         # we probably have a better way to do this I'm sorry
         reviewTime = time.strftime("%d %m, %Y", time.gmtime())
         unixReviewTime = int(time.time())
-        query_statement = "INSERT INTO {} (`asin`, `helpful`, `overall`, `reviewText`, `reviewTime`, `reviewerID`, `reviewerName`, `summary`, `unixReviewTime`) VALUES ({}, {}, {}, {}, {}, {}, {}, {}, {})".format(self.tablename, asin, helpful, overall, reviewText, reviewTime, reviewerID, reviewerName, summary, unixReviewTime)
+        query_statement = "INSERT INTO {} (`asin`, `helpful`, `overall`, `reviewText`, `reviewTime`, `reviewerID`, `reviewerName`, `summary`, `unixReviewTime`) VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(self.tablename, asin, helpful, overall, reviewText, reviewTime, reviewerID, reviewerName, summary, unixReviewTime)
         self._execute(query_statement)
         return 0
 

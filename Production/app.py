@@ -4,7 +4,7 @@ from flask_paginate import Pagination, get_page_parameter
 from bson.objectid import ObjectId
 from functools import wraps
 from mongofirebase import get_ssh_address
-import datetime
+import datetime, threading
 
 import mysqlpython
 
@@ -96,7 +96,8 @@ def add_review(asin):
         logs_db.insert_one({"user": session['user']['email'], "action":"add_review", "content": reviewText, "datetime": datetime.datetime.now()})
         #print("ReviewerID:", reviewerID)
         #print("ReviewerName:", reviewerName)
-
+    else:
+        return jsonify({"error": "Please log in to add a review"}), 401
     '''
     new_book_review = {
         'asin': asin, 
@@ -110,9 +111,11 @@ def add_review(asin):
         'unixReviewTime': unixReviewTime
     }
     '''
-    print("Added new review:", asin, overall, reviewText, reviewerID, reviewerName, summary)
-    #mysql_db.insert_new_review(asin, helpful, overall, reviewText, reviewerID, reviewerName, summary)
-
+    # Threading function doesn't work, just let it lag
+    #print("Added new review:", asin, overall, reviewText, reviewerID, reviewerName, summary)
+    #add_new_review = threading.Thread(target=add_review_threading, args=(asin, helpful, overall, reviewText, reviewerID, reviewerName, summary, ))
+    #add_new_review.start()
+    mysql_db.insert_new_review(asin, helpful, overall, reviewText, reviewerID, reviewerName, summary)
     return jsonify({"success": "Added new review"}), 200
 
 @app.route('/add', methods=['GET', 'POST'])
