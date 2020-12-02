@@ -205,6 +205,7 @@
     $(document).on('mouseover', '.star', function (e) {
       $(".rating").hide(); // HIDES THE CURRENT RATING WHEN MOUSE IS OVER A STAR
       var d = $(this).attr("id"); // GETS THE NUMBER OF THE STAR
+      window.globalD = d;
   
       //HIGHLIGHTS EVERY STAR BEHIND IT
       for (i = (d - 1); i >= 0; i--) {
@@ -257,6 +258,9 @@
     var $book_asin = url_array[url_array.length-1];
     var $url_link = "/book/add_review/" + $book_asin;
     console.log($url_link);
+
+    data = data + "&Rating=" + window.globalD
+    console.log(data)
 
     $.ajax({
     url: $url_link,

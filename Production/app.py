@@ -75,11 +75,10 @@ def add_review(asin):
         return jsonify({"error": "Comment cannot be empty"}), 401
     if(summary == ""):
         return jsonify({"error": "Title cannot be empty"}), 401
-    overall = request.form.get("overall") # should be an int from 1-5
     helpful = [0,0] # first int is number of people who rated this review helpful, second int is total number of ratings
     
-    print(reviewText, summary)
-    print("Vote:", request.form.get("ip_rate"))
+    #print(reviewText, summary)
+    overall = request.form.get("Rating")
 
     # TODO: get reviewerName from user who is logged in
     # TODO: get reviewerID from user who is logged in
@@ -87,8 +86,8 @@ def add_review(asin):
         reviewerID = session['user']['_id']
         reviewerName = session['user']['name']
         logs_db.insert_one({"user": session['user']['email'], "action":"add_review", "content": reviewText, "datetime": datetime.datetime.now()})
-        print("ReviewerID:", reviewerID)
-        print("ReviewerName:", reviewerName)
+        #print("ReviewerID:", reviewerID)
+        #print("ReviewerName:", reviewerName)
 
     '''
     new_book_review = {
@@ -102,8 +101,8 @@ def add_review(asin):
         'summary': summary,
         'unixReviewTime': unixReviewTime
     }
-
     '''
+    print("Added new review:", asin, overall, reviewText, reviewerID, reviewerName, summary)
     #mysql_db.insert_new_review(asin, helpful, overall, reviewText, reviewerID, reviewerName, summary)
 
     return jsonify({"success": "Added new review"}), 200
