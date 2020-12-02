@@ -4,81 +4,28 @@
         <div class="row justify-content-center">
             <div class="col-md-10 col-lg-8">
                 <div class="comments">
-                    <h3>4 Reviews</h3>
+                    <h3>{{book_review|count}} Reviews</h3>
                     <ul class="comments__list">
+                        {% for eachreview in book_review %}
                         <li>
                             <div class="comment">
                                 <div class="comment__avatar">
-                                    <img alt="Image" src="https://media-exp1.licdn.com/dms/image/C5103AQFzEleVgzq0uw/profile-displayphoto-shrink_100_100/0?e=1608163200&v=beta&t=Qr_Y1LtWZ1zumCuop1BSxl9j0aAhPnVVabn1E5lXbYk" />
+                                    <!--img alt="Image" src="https://istd.sutd.edu.sg/files/istd-faculty-dinh-tien-tuan-anh.jpg" /-->
+                                    <!--img alt="Image" src="https://www.comp.nus.edu.sg/~dinhtta/anh.jpg" /-->
+                                    <img alt="Image" src="https://i.stack.imgur.com/l60Hf.png" />
                                 </div>
                                 <div class="comment__body">
-                                    <h5 class="type--fine-print">Heng Jing Han</h5>
-                                    <div class="comment__meta">
-                                        <span>10th May 2016</span>
-                                        <a href="#">Reply</a>
+                                    <h5 class="type--fine-print">{{eachreview.reviewerName}}</h5>
+                                    <div class="comment_meta">
+                                        <span>{{eachreview.reviewTime}}</span>
                                     </div>
                                     <p>
-                                        Affordances food-truck SpaceTeam unicorn disrupt integrate viral pair programming big data pitch deck intuitive intuitive prototype long shadow. Responsive hacker intuitive driven
+                                        {{eachreview.reviewText}}
                                     </p>
                                 </div>
                             </div>
-                            <!--end comment-->
-                            <div class="comment">
-                                <div class="comment__avatar">
-                                    <img alt="Image" src="https://itrust.sutd.edu.sg/wp-content/uploads/sites/3/2020/05/yangzhi.jpg" />
-                                </div>
-                                <div class="comment__body">
-                                    <h5 class="type--fine-print">Lim Yang Zhi</h5>
-                                    <div class="comment__meta">
-                                        <span>10th May 2016</span>
-                                        <a href="#">Reply</a>
-                                    </div>
-                                    <p>
-                                        Prototype intuitive intuitive thought leader personas parallax paradigm long shadow engaging unicorn SpaceTeam fund ideate paradigm.
-                                    </p>
-                                </div>
-                            </div>
-                            <!--end comment-->
                         </li>
-                        <li>
-                            <div class="comment">
-                                <div class="comment__avatar">
-                                    <img alt="Image" src="https://itrust.sutd.edu.sg/wp-content/uploads/sites/3/2020/05/Tiang-Pei-Yuan.jpg" />
-                                </div>
-                                <div class="comment__body">
-                                    <h5 class="type--fine-print">Tiang Pei Yuan</h5>
-                                    <div class="comment__meta">
-                                        <span>11th May 2016</span>
-                                        <a href="#">Reply</a>
-                                    </div>
-                                    <p>
-                                        Responsive hacker intuitive driven waterfall is so 2000 and late intuitive cortado bootstrapping venture capital. Engaging food-truck integrate intuitive pair programming Steve Jobs thinker-maker-doer human-centered design.
-                                    </p>
-                                    <p>
-                                        Affordances food-truck SpaceTeam unicorn disrupt integrate viral pair programming big data pitch deck intuitive intuitive prototype long shadow. Responsive hacker intuitive driven
-                                    </p>
-                                </div>
-                            </div>
-                            <!--end comment-->
-                        </li>
-                        <li>
-                            <div class="comment">
-                                <div class="comment__avatar">
-                                    <img alt="Image" src="https://istd.sutd.edu.sg/files/istd-faculty-dinh-tien-tuan-anh.jpg" />
-                                </div>
-                                <div class="comment__body">
-                                    <h5 class="type--fine-print">Anh Dinh</h5>
-                                    <div class="comment__meta">
-                                        <span>11th May 2016</span>
-                                        <a href="#">Reply</a>
-                                    </div>
-                                    <p>
-                                        Unicorn disrupt integrate viral pair programming big data pitch deck intuitive intuitive prototype long shadow. Responsive hacker intuitive driven
-                                    </p>
-                                </div>
-                            </div>
-                            <!--end comment-->
-                        </li>
+                        {% endfor %}
                     </ul>
                 </div>
                 <!--end comments-->

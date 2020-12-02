@@ -52,11 +52,14 @@ class mysql_review:
     def get_by_asin(self, asin):
         # asin should be in the form like: B000FA64PK
 
-        # maybe can just select all?
-        # like: query_statement = "SELECT * FROM * WHERE `asin`={}".format(asin)
-        query_statement = "SELECT `reviewText`, `asin` FROM {} WHERE `asin`='{}'".format(self.tablename, asin)
+        # used to display reviews, so we need username and reviewTime
+        query_statement = "SELECT `asin`, `reviewText`, `reviewerName`, `reviewTime` FROM {} WHERE asin='{}'".format(self.tablename, asin)
         return_query = self._execute(query_statement)
-        return return_query
+        list_of_reviews = []
+        for i in range(len(return_query)):
+            dict_return_query = {'asin': return_query[i][0], 'reviewText': return_query[i][1], 'reviewerName': return_query[i][2], 'reviewTime': return_query[i][3]}
+            list_of_reviews.append(dict_return_query)
+        return list_of_reviews
 
     def get_by_overall(self, rating):
         # rating should be an integer from 1-5

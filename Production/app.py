@@ -62,7 +62,15 @@ def book(asin):
     #review_text = mysql_db.get_review_by_asin(asin)
     if 'logged-in' in session:
         logs_db.insert_one({"user": session['user']['email'], "action":"view", "content": book['title'], "datetime": datetime.datetime.now()})
-    return render_template('book.html', book=book) # add review_text into render_template
+
+    # Retrieve reviews of the book
+    book_review = mysql_db.get_by_asin(asin)
+    #try:
+    #    book_review = book_review[0]
+    #except:
+    #    book_review = {'asin': None, 'reviewText': None, 'reviewerName': None, 'reviewTime': None}
+
+    return render_template('book.html', book=book, book_review=book_review) # add review_text into render_template
 
 @app.route('/book/add_review/<asin>', methods=['POST'])
 #@login_required
