@@ -150,8 +150,8 @@ def category(query):
 
 @app.route('/logs', methods=['GET'])
 def logs():
-    if 'logged-in' in session and check_admin():
-        logs = logs_db.find().sort('datetime', -1)
+    if 'logged-in' in session:
+        logs = logs_db.find({"user": session['user']['email']} ).sort('datetime', -1)
         return render_template('logs.html', logs=logs)
     else:
         return redirect(url_for('unauthorised'))
