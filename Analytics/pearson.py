@@ -29,3 +29,5 @@ table = asin_avgl.join(meta.select('asin', 'price'), ['asin'])
 table = table.agg(fns.corr('avg(reviewLength)', "price").alias('pearson_correlation'))
 
 table.select("pearson_correlation").show()
+
+spark.stop()
