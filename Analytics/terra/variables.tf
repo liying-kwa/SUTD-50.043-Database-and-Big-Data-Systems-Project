@@ -21,5 +21,5 @@ variable "ec2_instance_ami" {
 
 variable "ec2_instance_type" {
 	description = "ec2_instance_type, change to better ones for more speed"
-    default = "t2.medium"
+    default = "t2.xlarge"
 }
