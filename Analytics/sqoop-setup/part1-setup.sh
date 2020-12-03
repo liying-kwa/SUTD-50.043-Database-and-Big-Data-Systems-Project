@@ -29,4 +29,7 @@ export PATH=$PATH:/opt/sqoop-1.4.7/bin
 #sudo ln -snvf /usr/share/java/mysql-connector-java-8.0.22.jar /opt/sqoop-1.4.7/lib/mysql-connector-java.jar
 
 
+pip3 install pymongo
+
+
 echo "END OF SQOOP SETUP"
