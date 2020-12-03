@@ -15,9 +15,10 @@ variable "ec2_instance_ami" {
     #default = "ami-093da183b859d5a4b"
 	
 	#us-east-1
-	#default = "ami-0885b1f6bd170450c"
-        default = "ami-0739f8cdb239fe9ae"
-}
+	#default = "ami-0885b1f6bd170450c" #20.04
+        #default = "ami-0739f8cdb239fe9ae" #16.04
+        default = "ami-00ddb0e5626798373" #18.04
+
 
 variable "ec2_instance_type" {
 	description = "ec2_instance_type, change to better ones for more speed"

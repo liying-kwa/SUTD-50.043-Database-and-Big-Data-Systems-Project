@@ -22,7 +22,6 @@ sudo cp -rf sqoop-1.4.7.bin__hadoop-2.6.0 /opt/sqoop-1.4.7
 #sudo apt install libmariadb-java
 sudo apt install libmysql-java
 sudo ln -snvf /usr/share/java/mysql-connector-java.jar /opt/sqoop-1.4.7/lib/mysql-connector-java.jar
-#sudo ln -snvf /usr/share/java/mysql-connector-java.jar /opt/sqoop-1.4.7/lib/mysql-connector-java.jar
 export PATH=$PATH:/opt/sqoop-1.4.7/bin
 
 #wget http://ftp.ntu.edu.tw/MySQL/Downloads/Connector-J/mysql-connector-java_8.0.22-1ubuntu20.04_all.deb
