@@ -36,5 +36,8 @@ export mysql_ip=18.140.53.151
 # TODO CHECK INGESTION OF DATA and somehow edit mysql_ip
 sqoop import-all-tables --connect jdbc:mysql://$mysql_ip/mydb --username userall --password password
 
+# TEST PYMONGO
+python3 ../pymongotest.py ec2-52-221-250-84.ap-southeast-1.compute.amazonaws.com 1603420304
+
 
 echo "END OF SQOOP SETUP"
