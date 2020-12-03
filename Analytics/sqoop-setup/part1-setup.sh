@@ -31,5 +31,10 @@ export PATH=$PATH:/opt/sqoop-1.4.7/bin
 
 pip3 install pymongo
 
+export mysql_ip=18.140.53.151
+
+# TODO CHECK INGESTION OF DATA and somehow edit mysql_ip
+sqoop import-all-tables --connect jdbc:mysql://$mysql_ip/mydb --username userall --password password
+
 
 echo "END OF SQOOP SETUP"
