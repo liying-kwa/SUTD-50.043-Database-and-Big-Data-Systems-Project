@@ -2,10 +2,10 @@
 
 
 # Copy stuff needed to /home/hadoop and execute everything there
-cp ./datanode_hostnames.txt ~/
-cd ~/
-mkdir ~/download
-cd ~/download/
+cp ./datanode_hostnames.txt /home/hadoop/
+cd /home/hadoop/
+mkdir /home/hadoop/download
+cd /home/hadoop/download/
 
 # Install hadoop
 wget https://apachemirror.sg.wuchna.com/hadoop/common/hadoop-3.3.0/hadoop-3.3.0.tar.gz
@@ -106,7 +106,7 @@ echo -e "<?xml version=\"1.0\"?>
 
 # Edit workers file
 rm hadoop-3.3.0/etc/hadoop/workers
-cp ~/datanode_hostnames.txt hadoop-3.3.0/etc/hadoop/workers
+cp /home/hadoop/datanode_hostnames.txt hadoop-3.3.0/etc/hadoop/workers
 
 
 

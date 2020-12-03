@@ -2,7 +2,7 @@
 
 
 # Move hadoop library
-cd ~/download/
+cd /home/hadoop/download/
 sudo mv hadoop-3.3.0 /opt/
 
 # Create hdfs storage folder
