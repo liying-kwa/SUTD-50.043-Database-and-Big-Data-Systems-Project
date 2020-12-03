@@ -62,12 +62,6 @@ class mysql_review:
                 list_of_reviews.append(dict_return_query)
         return list_of_reviews
 
-    def get_by_overall(self, rating):
-        # rating should be an integer from 1-5
-        query_statement = "SELECT `asin`, `helpful`, `reviewText`, `reviewerID`, `reviewerName`, `unixReviewTime`, `overall` FROM {} WHERE `overall`='{}'".format(self.tablename, rating)
-        return_query = self._execute(query_statement)
-        return return_query
-
     def insert_new_review(self, asin, helpful, overall, reviewText, reviewerID, reviewerName, summary):
         # we probably have a better way to do this I'm sorry
         reviewTime = time.strftime("%d %m, %Y", time.gmtime())
@@ -82,6 +76,19 @@ class mysql_review:
         return_query = self._execute(query_statement)
         # I am assuming that the `reviewText` returned is a string
         return return_query
+
+    def get_by_rating(self, rating):
+        # rating should be an integer from 1-5
+
+        # Returns a list of ASIN values
+        query_statement = "SELECT `asin`, `overall` FROM {} WHERE `overall`='{}'".format(self.tablename, rating)
+        return_query = self._execute(query_statement)
+        list_of_asin = []
+        if return_query:
+            for i in range(len(return_query)):
+                list_of_asin.append(return_query[i][0])
+        return list_of_asin
+
 
     #def get_everything(self):
         # this probably shouldn't be done

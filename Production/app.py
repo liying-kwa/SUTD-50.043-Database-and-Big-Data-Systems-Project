@@ -58,18 +58,11 @@ def index():
 @app.route('/book/<asin>')
 def book(asin):
     book = metadata_db.find_one({'asin': asin})
-    # UNCOMMENT WHEN MySQL IS UP
-    #review_text = mysql_db.get_review_by_asin(asin)
     if 'logged-in' in session:
         logs_db.insert_one({"user": session['user']['email'], "action":"view", "content": book['title'], "datetime": datetime.datetime.now()})
 
     # Retrieve reviews of the book
     book_review = mysql_db.get_by_asin(asin)
-    #try:
-    #    book_review = book_review[0]
-    #except:
-    #    book_review = {'asin': None, 'reviewText': None, 'reviewerName': None, 'reviewTime': None}
-
     return render_template('book.html', book=book, book_review=book_review) # add review_text into render_template
 
 @app.route('/book/add_review/<asin>', methods=['POST'])
@@ -155,6 +148,19 @@ def category(query):
     per_page = 12
     page = request.args.get(get_page_parameter(), type=int, default=1)
     search_results = metadata_db.find({'genre': {"$regex": query , "$options": "i"}}).skip((page - 1) * per_page).limit(per_page)
+    pagination = Pagination(page=page, per_page=per_page ,total=search_results.count(), search=False, record_name='search_results')
+    return render_template("index.html", books=search_results, query=None, pagination=pagination)
+
+@app.route('/rating/<star>', methods=["GET"])
+def sort_by_rating(star):
+    per_page = 12
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    all_asin_satisfying_rating = mysql_db.get_by_rating(star)
+    if all_asin_satisfying_rating:
+        print("Got asin for the ratings")
+    else:
+        print("No asin satisfying rating")
+    search_results = metadata_db.find({"asin": {"$in": all_asin_satisfying_rating}}).skip((page-1) * per_page).limit(per_page)
     pagination = Pagination(page=page, per_page=per_page ,total=search_results.count(), search=False, record_name='search_results')
     return render_template("index.html", books=search_results, query=None, pagination=pagination)
 

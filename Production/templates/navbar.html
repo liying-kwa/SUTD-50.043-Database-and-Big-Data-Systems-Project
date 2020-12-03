@@ -60,6 +60,30 @@
                                 </div>
                                 <!--end dropdown container-->
                             </li>
+                            <li class="dropdown">
+                                <span class="dropdown__trigger">Rating</span>
+                                <div class="dropdown__container">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="dropdown__content col-lg-2 col-md-4">
+                                                <ul class="menu-vertical">
+                                                    {% for rating in ['1', '2', '3', '4', '5'] %}
+                                                    <li>
+                                                        <a href="/rating/{{rating}}">
+                                                            {{rating}}
+                                                        </a>
+                                                        <!--end dropdown container-->
+                                                    </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                            <!--end dropdown content-->
+                                        </div>
+                                        <!--end row-->
+                                    </div>
+                                </div>
+                                <!--end dropdown container-->
+                            </li>
                             {% if session['user']%}
                             <li>
                                 <a href="/logs"><span class="dropdown">Logs</span></a>
