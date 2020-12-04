@@ -42,6 +42,7 @@ sudo pip3 install flask-paginate
 sudo pip3 install passlib
 sudo pip3 install flask_pymongo
 sudo pip3 install flask_paginate
+sudo pip3 install cryptography
 
 wget -c https://jinghanbucket1997.s3-ap-southeast-1.amazonaws.com/production.zip -O production.zip
 unzip production.zip
@@ -105,8 +106,11 @@ sudo mysql << SQLEOFb
 USE mydb;
 CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
 CREATE USER 'userall'@'%' IDENTIFIED BY 'password';
+CREATE USER 'sqoop'@'%' IDENTIFIED BY 'sqoop123';
 GRANT ALL PRIVILEGES ON mydb.* to user@localhost with GRANT OPTION;
 GRANT ALL PRIVILEGES ON mydb.* to userall@'%' with GRANT OPTION;
+ALTER USER 'sqoop'@'%' IDENTIFIED WITH mysql_native_password BY 'sqoop123';
+GRANT ALL PRIVILEGES ON mydb.* to sqoop@'%' with GRANT OPTION;
 FLUSH PRIVILEGES;
 EXIT
 SQLEOFb

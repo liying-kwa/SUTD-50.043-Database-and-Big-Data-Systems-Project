@@ -1,0 +1,60 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<h3>Login to Your Account</h3>
+<!-- <a class="btn block btn--icon bg--facebook type--uppercase" href="#">
+  <span class="btn__text">
+      <i class="socicon-facebook"></i>
+      Login with Facebook
+  </span>
+</a>
+<a class="btn block btn--icon bg--twitter type--uppercase" href="#">
+  <span class="btn__text">
+      <i class="socicon-twitter"></i>
+      Login with Twitter
+  </span>
+</a>
+<hr data-title="OR"> -->
+<div class="feature__body">
+  <form name="login_form">
+
+    <label for="email">Email</label>
+    <input type="email" name="email" class="field" required>
+
+    <label for="password">Password</label>
+    <input type="password" name="password" class="field" required>
+
+    <p class="error error--hidden"></p>
+
+    <input type="submit" value="Log In" class="btn">
+
+  </form>
+
+  <span class="type--fine-print block">Dont have an account yet?
+    <a href="/checksignedin">Create account</a>
+  </span>
+  <span class="type--fine-print block">Forgot your username or password?
+    <a href="#">Recover account</a>
+  </span>
+</div>
+<script>
+  $("form[name=login_form").submit(function (e) {
+
+    var $form = $(this);
+    var $error = $form.find(".error");
+    var data = $form.serialize();
+
+    $.ajax({
+      url: "/user/login",
+      type: "POST",
+      data: data,
+      dataType: "json",
+      success: function (resp) {
+        window.location.href = "/";
+      },
+      error: function (resp) {
+        $error.text(resp.responseJSON.error).removeClass("error--hidden");
+      }
+    });
+
+    e.preventDefault();
+  });
+</script>

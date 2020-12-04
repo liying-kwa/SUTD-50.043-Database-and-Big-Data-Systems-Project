@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% block title %}Coolreads | Homepage{% endblock %}
+{% block main %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Find and read
+                    <span class="inline-block typed-text typed-text--cursor color--primary" data-typed-strings="horror, thriller, young adult, crime, action, children, comic, romance">stories</span>
+                    <br class="hidden-xs">with over 100,000 selections.</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container">
+            <form class="form-horizontal" action="{{ url_for('search') }}" method="POST" role="form">
+                <div class="col-md-9">
+                    <label>Search</label>
+                    <input type="text" placeholder="Data Structures and Algorithms in Java (2nd Edition)" name="search-book" type="text" class="form-control" value="{{ query if query else NONE }}" required/>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn--primary">Search</button>
+                </div>
+            </form>
+    </div>
+</section>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <h4>{{ "Search Results" if query else "Featured Books" }}</h4>
+            </div>
+        </div>
+        <div class="row">
+            {% for groupofbooks in books | batch(1) %}
+            <div class="col-md-3 col-6">
+                {% for book in groupofbooks %}
+                    <a href="{{ url_for('book', asin=book.asin )}}" class="feature">
+                        <img alt="Pic" src="{{book.imUrl}}" onerror="this.src='../static/amazon-no-image.jpg'" />
+                        <h5 class="mb--0">{{ book.title }}</h5>
+                        <div>{{book.author}} &#9702; {{book.price}}</div>
+                    </a>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="row">{{ pagination.links }}</div>
+    </div>
+</section>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <h4>Popular Books</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-6">
+                <a href="/book/B008BHMA0M" class="block">
+                    <div class="feature feature-7 boxed text-center imagebg" data-overlay="5">
+                        <div class="background-image-holder">
+                            <img alt="background" src="https://i.ebayimg.com/images/g/xw0AAOSw~15eofLe/s-l640.jpg" />
+                        </div>
+                        <h4 class="pos-vertical-center">Practical Guide to using SQL in Oracle (Wordware Applications Library)</h4>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4 col-6">
+                <a href="/book/B00CICSULO" class="block">
+                    <div class="feature feature-7 boxed text-center imagebg" data-overlay="5">
+                        <div class="background-image-holder">
+                            <img alt="background" src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1394246938l/21059006.jpg" />
+                        </div>
+                        <h4 class="pos-vertical-center">SQL ... Simply Put</h4>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4 col-6">
+                <a href="/book/B00JWRARDM" class="block">
+                    <div class="feature feature-7 boxed text-center imagebg" data-overlay="5">
+                        <div class="background-image-holder">
+                            <img alt="background" src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1434966526l/25771773._SX318_.jpg" />
+                        </div>
+                        <h4 class="pos-vertical-center">Beginning PHP and MySQL Development: Code Your Own Dynamic Website Today</h4>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <!--end of row-->
+    </div>
+    <!--end of container-->
+</section>
+
+<section class="feature-large switchable bg--secondary">
+    <div class="container">
+        <div class="row justify-content-around">
+            <div class="col-lg-6 col-md-6">
+                <img alt="Image" class="border--round box-shadow-wide" src="https://istd.sutd.edu.sg/files/xistd-faculty-dinh-tien-tuan-anh.jpg.pagespeed.ic.M-AzlPtILz.webp" height="300" />
+            </div>
+            <div class="col-lg-5 col-md-6">
+                <div class="heading-block">
+                    <h2>Our favourite Professor</h2>
+                </div>
+                <div class="text-block">
+                    <h5>He is handsome</h5>
+                    <p>
+                        and cute.
+                    </p>
+                </div>
+                <div class="text-block">
+                    <h5>Teaches with confidence</h5>
+                    <p>
+                        Coolreads is built just for him &mdash; with much love.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!--end of row-->
+    </div>
+    <!--end of container-->
+</section>
+{% endblock %}

@@ -1,0 +1,182 @@
+<div class="nav-container ">
+    <div class="bar bar--sm visible-xs">
+        <div class="container">
+            <div class="row">
+                <div class="col-3 col-md-2">
+                    <a href="#">
+                        <img class="logo logo-dark" alt="logo" src="https://idc.sutd.edu.sg/wp-content/uploads/sites/10/2017/08/SUTD-Logo-no-tagline-e1502101712515.png" />
+                    </a>
+                </div>
+                <div class="col-9 col-md-10 text-right">
+                    <a href="#" class="hamburger-toggle" data-toggle-class="#menu1;hidden-xs">
+                        <i class="icon icon--sm stack-interface stack-menu"></i>
+                    </a>
+                </div>
+            </div>
+            <!--end of row-->
+        </div>
+        <!--end of container-->
+    </div>
+    <!--end bar-->
+    <nav id="menu1" class="bar bar--sm bar-1 hidden-xs ">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-1 col-md-2 hidden-xs">
+                    <div class="bar__module">
+                        <a href="/">
+                            <img class="logo logo-dark" alt="logo" src="https://idc.sutd.edu.sg/wp-content/uploads/sites/10/2017/08/SUTD-Logo-no-tagline-e1502101712515.png" />
+                        </a>
+                    </div>
+                    <!--end module-->
+                </div>
+                <div class="col-lg-11 col-md-12 text-left-xs text-left-sm" style="display:flex; justify-content:space-between;">
+                    <div class="bar__module">
+                        <ul class="menu-horizontal text-left">
+                            <li>
+                                <a href="/"><span class="dropdown">Home</span></a>
+                                <!--end dropdown container-->
+                            </li>
+                            <li class="dropdown">
+                                <span class="dropdown__trigger">Genre</span>
+                                <div class="dropdown__container">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="dropdown__content col-lg-2 col-md-4">
+                                                <ul class="menu-vertical">
+                                                    {% for genre in ['academic', 'adult', 'adventure', 'biography', 'classic', 'counselling', 'crime', 'fantasy', 'fiction', 'historical', 'horror', 'humor', 'langauge', 'law', 'mystery', 'over-18', 'religion', 'romance', 'sci-fi', 'science', 'self-help', 'social', 'thriller', 'tourism', 'travel', 'war', 'young-adult'] %}
+                                                    <li>
+                                                        <a href="/genre/{{genre}}">
+                                                            {{genre}}
+                                                        </a>
+                                                        <!--end dropdown container-->
+                                                    </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                            <!--end dropdown content-->
+                                        </div>
+                                        <!--end row-->
+                                    </div>
+                                </div>
+                                <!--end dropdown container-->
+                            </li>
+                            <li class="dropdown">
+                                <span class="dropdown__trigger">Rating</span>
+                                <div class="dropdown__container">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="dropdown__content col-lg-2 col-md-4">
+                                                <ul class="menu-vertical">
+                                                    {% for rating in ['5', '4', '3', '2', '1'] %}
+                                                    <li>
+                                                        <a href="/rating/{{rating}}">
+                                                            {{rating}}
+                                                        </a>
+                                                        <!--end dropdown container-->
+                                                    </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                            <!--end dropdown content-->
+                                        </div>
+                                        <!--end row-->
+                                    </div>
+                                </div>
+                                <!--end dropdown container-->
+                            </li>
+                            {% if session['user']%}
+                            <li>
+                                <a href="/logs"><span class="dropdown">Logs</span></a>
+                                <!--end dropdown container-->
+                            </li>
+                            <li>
+                                <a href="/add"><span class="dropdown">Add Book</span></a>
+                                <!--end dropdown container-->
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <!--end module-->
+                    {% if session['user'] %}
+                        <div class="modal-instance">
+                            <div class="row">
+                            <h5 style="margin-bottom: 0px; padding: 10px 20px">Welcome, {{ session['user']['name'] }}!</h5>
+                            <a class="btn btn--secondary" href="/user/signout">
+                                <span class="btn__text">
+                                    Logout
+                                </span>
+                            </a>
+                        </div>
+                        </div>
+
+                    {% else %}
+                        <div class="bar__module">
+                            <div class="modal-instance">
+                                <a class="btn btn--sm type--uppercase modal-trigger" href="#">
+                                    <span class="btn__text">
+                                        Login
+                                    </span>
+                                </a>
+                                <div class="modal-container {{'modal-active' if show_login}}">
+                                    <div class="modal-content section-modal">
+                                        <section class="unpad ">
+                                            <div class="container">
+                                                    <div class="col-md">
+                                                        <div class="modal-close modal-close-cross"></div>
+                                                        <div class="row justify-content-center">
+                                                            <div class="boxed boxed--lg bg--white text-center feature" style="max-width: 50%">
+                                                                {% include 'login.html' %}
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                                <!--end of row-->
+                                            </div>
+                                            <!--end of container-->
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-instance">
+                                <a class="btn btn--sm btn--primary type--uppercase modal-trigger" href="#">
+                                    <span class="btn__text">
+                                        Register
+                                    </span>
+                                </a>
+                                <div class="modal-container {{'modal-active' if show_register}}">
+                                    <div class="modal-content">
+                                        <section class="imageblock feature-large bg--white border--round ">
+                                            <div class="imageblock__content col-lg-5 col-md-3 pos-left">
+                                                <div class="background-image-holder">
+                                                    <img alt="image" src="https://www.sutd.edu.sg/SUTD/media/SUTD/campus.jpg" />
+                                                </div>
+                                            </div>
+                                            <div class="container">
+                                                <div class="row justify-content-end">
+                                                    <div class="col-lg-7">
+                                                        <div class="row justify-content-center">
+                                                            <div class="col-lg-10 col-md-11">
+                                                                {% include 'signup.html' %}
+                                                            </div>
+                                                        </div>
+                                                        <!--end of row-->
+                                                    </div>
+                                                    <!--end of col-->
+                                                </div>
+                                                <!--end of row-->
+                                            </div>
+                                            <!--end of container-->
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end module-->
+                    {% endif %}
+                </div>
+            </div>
+            <!--end of row-->
+        </div>
+        <!--end of container-->
+    </nav>
+    <!--end bar-->
+</div>

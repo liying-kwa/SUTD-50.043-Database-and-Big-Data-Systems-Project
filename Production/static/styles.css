@@ -1,0 +1,109 @@
+/* body {
+	background: rgba(44, 62, 80, .8);
+	font-family: 'Oswald', 'Futura', sans-serif;
+} */
+.pagination-page-info {
+    padding: .6em;
+    padding-left: 0;
+    width: 40em;
+    margin: .5em;
+    margin-left: 0;
+    font-size: 12px;
+}
+.pagination-page-info b {
+    color: black;
+    background: #6aa6ed;
+    padding-left: 2px;
+    padding: .1em .25em;
+    font-size: 150%;
+}
+
+.pagination {
+	display: inline-block;
+	margin: auto;
+	width: 50%;
+}
+
+
+.pagination a {
+	float: left;
+	padding: 8px 16px;
+	text-decoration: none;
+	transition: background-color .3s;
+	border-radius: 5px;
+}
+
+.pagination a.active {
+	background-color: #4CAF50;
+	border-radius: 5px;
+	color: white;
+  }
+  
+  .pagination a:hover:not(.active) {background-color: #ddd;}
+
+#wrapper {
+	margin-top: 10% !important;
+}
+#content {
+	background: beige;
+	padding: 25px;
+}
+#content > h2 {
+	font-size: 18px;
+	text-align: center;
+	padding-top: 0;
+}
+.t10 {
+	margin-top: 10px;
+}
+.t20 {
+	margin-top: 20px;
+}
+.todo-completed {
+	text-decoration: line-through;
+	background: rgba(149, 165, 166, .3);
+}
+footer {
+	margin-top: 20px;
+	color: white;
+}
+
+.r {  
+    padding: 0px 15px;
+    height: 20px;
+    margin-bottom: 1em;
+  }
+
+  /*MUST BE ABSOLUTE TO STACKED*/
+  .rating,
+  .transparent {
+    position: absolute;
+  }
+
+  .rating {
+    z-index: 1;
+  }
+
+  .star {
+    background: url("../static/star.png");
+    cursor: pointer;
+    float: left !important;
+    /*KEEPS THE STAR NEXT TO EACH OTHER*/
+    height: 20px;
+    width: 20px;
+  }
+
+  .transparent .star {
+    opacity: .25;
+    /*BASE STARS ARE TRANSPARENT UNTIL MOUSEOVER*/
+  }
+
+  .rating .star {
+    opacity: 1.0;
+    /*CURRENT RATING IS VISIBLE UNTIL MOUSEOVER*/
+  }
+
+  .votes {
+    float: left;
+    /*KEEPS THE NUMBER OF VOTES NEXT TO THE RATING & BASE*/
+  }
