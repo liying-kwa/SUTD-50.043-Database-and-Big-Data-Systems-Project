@@ -5,6 +5,7 @@ echo "START OF PART 1"
 cd /home/hadoop/download/
 wget https://apachemirror.sg.wuchna.com/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
 tar zxvf sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
+rm sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
 
 cp sqoop-1.4.7.bin__hadoop-2.6.0/conf/sqoop-env-template.sh sqoop-1.4.7.bin__hadoop-2.6.0/conf/sqoop-env.sh
 
@@ -33,10 +34,10 @@ sudo pip3 install pymongo
 export mysql_ip=18.140.53.151
 
 # TODO CHECK INGESTION OF DATA and somehow edit mysql_ip
-sqoop import-all-tables --connect jdbc:mysql://$mysql_ip/mydb --username userall --password password
+sqoop import-all-tables --connect jdbc:mysql://$mysql_ip/mydb?useSSL=false --username userall --password password
 
 # TEST PYMONGO
-python3 ../pymongotest.py ec2-52-221-250-84.ap-southeast-1.compute.amazonaws.com 1603420304
+python3 /home/ubuntu/pymongotest.py ec2-52-221-250-84.ap-southeast-1.compute.amazonaws.com 1603420304
 
 
 echo "END OF SQOOP SETUP"
