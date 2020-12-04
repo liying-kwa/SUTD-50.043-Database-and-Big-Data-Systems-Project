@@ -70,48 +70,55 @@ resource "aws_security_group" "main_security_group" {
     name = "main_security_group"
 	vpc_id = "${aws_vpc.main.id}"
 
-    ingress {
-        protocol = "tcp"
-        from_port = 80
-        to_port = 80
-        cidr_blocks = ["0.0.0.0/0"]
-    }
+    #ingress {
+    #    protocol = "tcp"
+    #    from_port = 80
+    #    to_port = 80
+    #    cidr_blocks = ["0.0.0.0/0"]
+    #}
 	
-    ingress {
-        protocol = "tcp"
-        from_port = 22
-        to_port = 22
-        cidr_blocks = ["0.0.0.0/0"]
-    }
+    #ingress {
+    #    protocol = "tcp"
+    #    from_port = 22
+    #    to_port = 22
+    #    cidr_blocks = ["0.0.0.0/0"]
+    #}
 	
-	ingress {
-        protocol = "tcp"
-        from_port = 3306
-        to_port = 3306
-        cidr_blocks = ["0.0.0.0/0"]
-    }
+	#ingress {
+    #    protocol = "tcp"
+    #    from_port = 3306
+    #    to_port = 3306
+    #    cidr_blocks = ["0.0.0.0/0"]
+    #}
 	
 	#hdfs server
-	ingress {
-        protocol = "tcp"
-        from_port = 9000
-        to_port = 9000
-        cidr_blocks = ["0.0.0.0/0"]
-    }
+	#ingress {
+    #   protocol = "tcp"
+    #    from_port = 9000
+    #    to_port = 9000
+    #    cidr_blocks = ["0.0.0.0/0"]
+    #}
 	
 	#hdfs workers
-	ingress {
-        protocol = "tcp"
-        from_port = 9866
-        to_port = 9866
-        cidr_blocks = ["0.0.0.0/0"]
-    }
+	#ingress {
+    #    protocol = "tcp"
+    #    from_port = 9866
+    #    to_port = 9866
+    #    cidr_blocks = ["0.0.0.0/0"]
+    #}
 	
 	#mongodb
+	#ingress {
+    #    protocol = "tcp"
+    #    from_port = 27017
+    #    to_port = 27017
+    #    cidr_blocks = ["0.0.0.0/0"]
+    #}
+	
 	ingress {
-        protocol = "tcp"
-        from_port = 27017
-        to_port = 27017
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
         cidr_blocks = ["0.0.0.0/0"]
     }
 
