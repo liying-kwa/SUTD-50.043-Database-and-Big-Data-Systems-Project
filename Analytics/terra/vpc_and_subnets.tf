@@ -91,11 +91,19 @@ resource "aws_security_group" "main_security_group" {
         cidr_blocks = ["0.0.0.0/0"]
     }
 	
-	#hdfs
+	#hdfs server
 	ingress {
         protocol = "tcp"
         from_port = 9000
         to_port = 9000
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+	
+	#hdfs workers
+	ingress {
+        protocol = "tcp"
+        from_port = 9866
+        to_port = 9866
         cidr_blocks = ["0.0.0.0/0"]
     }
 	
