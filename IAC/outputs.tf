@@ -1,7 +1,3 @@
-output "vpc_id" {
-    value = aws_vpc.main.id
-}
-
 output "WebApp_elastic_ip" {
     value = "${aws_eip.elastic_ip.public_dns}"
 }
