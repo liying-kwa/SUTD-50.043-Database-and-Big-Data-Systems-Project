@@ -32,4 +32,22 @@ for post in db["new_kindle_metadata"].find({"asin" : asin}):
     pprint.pprint(post)
     print(post["price"]) # This gives 7.69, type "str".
 
+sc = pyspark.SparkContext("spark://172.2.0.147:7077", "Correlation")
+spark = SparkSession(sc)
+
+
+#reviews1 = spark.read.csv("hdfs://172.2.0.147:9000/user/hadoop/KRTable/part-m-00000", header=True)
+reviews1 = sc.textFile("hdfs://172.2.0.147:9000/user/hadoop/KRTable/part-m-00000").collect()
+print(reviews1[0])
+print(reviews1[1])
+
+#reviews1.show(n=2, truncate=False)
+#reviews1.printSchema()
+
+
+#asindb = reviews1.select('asin','reviewText')
+#asindb_len = asindb.withColumn('reviewLength', fns.length('reviewText'))
+
+
+#reviews2 = spark.read.csv("hdfs://172.2.0.147:9000/user/hadoop/KRTable/part-m-00001", header=True)
 
