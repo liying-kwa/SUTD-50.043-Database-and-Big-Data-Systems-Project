@@ -23,3 +23,5 @@ echo "[main.sh] SETTING UP SPARK"
 bash ./spark-setup.sh
 echo "[main.sh] SETTING UP SQOOP"
 bash ./sqoop-setup.sh
+echo "[main.sh] INGESTING DATA"
+bash ./ingestion.sh

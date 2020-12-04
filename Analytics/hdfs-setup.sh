@@ -11,9 +11,9 @@ export DATANODE_IP_ARR_PRIV=(`cat datanode_ip_priv.txt | tr "\n" " "`)
 
 # PART 1: Setup hostnames, Setup sudoers, Change Swappiness
 echo "[hdfs-setup.sh] HDFS SETUP PART 1"
+cd ./hdfs-setup
 
 # Part 1 -- Write private ip addresses to hosts.txt file for editing /etc/hosts
-cd ./hdfs-setup
 touch hosts.txt
 echo -e "${NAMENODE_IP_PRIV}\tcom.analytics.namenode" >> ./hosts.txt
 for i in "${!DATANODE_IP_ARR_PRIV[@]}"
