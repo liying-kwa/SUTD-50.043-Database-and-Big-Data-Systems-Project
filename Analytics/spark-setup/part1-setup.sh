@@ -1,19 +1,11 @@
 #!/bin/bash
 
-echo "START OF PART 1"
-
-# Log into user hadoop (Check with LY whether necessary/correct)
-# sudo su hadoop 
-
-
-cp ./datanode_hostnames.txt ~/
-cd ~/
 
 # Download & Extract Spark
-mkdir ~/download
-cd ~/download/
+cd /home/hadoop/download/
 wget https://apachemirror.sg.wuchna.com/spark/spark-3.0.1/spark-3.0.1-bin-hadoop3.2.tgz
 tar zxvf spark-3.0.1-bin-hadoop3.2.tgz
+rm spark-3.0.1-bin-hadoop3.2.tgz
 
 # Configure spark-env.sh
 cp spark-3.0.1-bin-hadoop3.2/conf/spark-env.sh.template \
@@ -33,40 +25,18 @@ export PYSPARK_PYTHON=python3
 " >> spark-3.0.1-bin-hadoop3.2/conf/spark-env.sh
 
 
-# Configure slaves/datanodes
-# Ask LY for halp
-# Making use of hdfs setup PART 4: the datanode_hostnames.txt. Assuming it's line by line
-# Making an empty env var WORKERS first, (Do i need export??)
-# Read from datanode_hostnames.txt and adds line by line to the WORKERS env var
-
-WORKERS=`cat ~/datanode_hostnames.txt | tr "\n" " "`
-
-for ip in ${WORKERS};
-do
-    echo "{$ip} Names For testing (GOOD)"
-    echo -e "${ip}" >> spark-3.0.1-bin-hadoop3.2/conf/slaves;
-done
+# Edit slaves file
+cp /home/hadoop/datanode_hostnames.txt spark-3.0.1-bin-hadoop3.2/conf/slaves
 
 
-# Zip up configured spark folder
+# Assign hostnames to vars for convenience
+WORKERS=`cat /home/hadoop/datanode_hostnames.txt | tr "\n" " "`
+
+# Compress and copy spark folder to data nodes
 tar czvf spark-3.0.1-bin-hadoop3.2.tgz spark-3.0.1-bin-hadoop3.2/
-
-
-sleep 5
-
-
-
-# Deploy zipped spark folder
-for i in ${WORKERS};
-do 
-    scp -o StrictHostKeyChecking=no spark-3.0.1-bin-hadoop3.2.tgz $i:~/.;
-done
-
-mv spark-3.0.1-bin-hadoop3.2.tgz ~/.
-
-sleep 5
-
-echo "END OF PART 1"
+for i in ${WORKERS} ; do scp -o StrictHostKeyChecking=no spark-3.0.1-bin-hadoop3.2.tgz $i:.; done
+rm spark-3.0.1-bin-hadoop3.2.tgz
+cd /home/hadoop
 
 
 
