@@ -34,21 +34,17 @@
                     <div class="row">
                         
                         {% set overall_rate = 5 %}
-                        {% set overall_rows = 4 %}
-                        {% set overall_dec_rate = 3.4 %}
 
                         <div id="ajax_vote">
                             <div class="r">
                                 <div class="rating">
-                                {% if overall_rate > 0 %}
                                 {% for i in range(1, overall_rate + 1) %}
-                                {% if i > overall_dec_rate|round %}
+                                {% if rating_overall and i > rating_overall|round %}
                                 <div class="star transparent" id="{{i}}"></div>
                                 {% else %}
                                 <div class="star" id="{{i}}"></div>
                                 {% endif %}
                                 {% endfor %}
-                                {% endif %}
                                 </div>
                                 <div class="transparent">
                                 <div class="star" id="1"></div>
@@ -56,8 +52,8 @@
                                 <div class="star" id="3"></div>
                                 <div class="star" id="4"></div>
                                 <div class="star" id="5"></div>
-                                <div class="votes">{{overall_dec_rate}}/5, {{overall_rows if overall_rows > 0 else 0}}
-                                    {{'votes' if overall_rows > 1 else 'vote' }} {% if ip_rate %}<strong>You rated this: <span
+                                <div class="votes">{{rating_overall|round(2, 'floor')+'/5' if rating_overall else 'No ratings yet'}}, {{book_review|count if book_review|count > 0 else 0}}
+                                    {{'votes' if book_review|count > 1 else 'vote' }} {% if ip_rate %}<strong>You rated this: <span
                                         style="color:#39C;">{{ip_rate}}</span></strong>{% endif %}</div>
                                 </div>
                             </div>
@@ -149,11 +145,13 @@
 
 
 <script>
+    var rating_overall = parseFloat("{{rating_overall}}") || 0 ;
+    var total_votes = parseInt("{{book_review|count}}");
     $(document).on('mouseover', '.star', function (e) {
       $(".rating").hide(); // HIDES THE CURRENT RATING WHEN MOUSE IS OVER A STAR
       var d = $(this).attr("id"); // GETS THE NUMBER OF THE STAR
       window.globalD = d;
-  
+
       //HIGHLIGHTS EVERY STAR BEHIND IT
       for (i = (d - 1); i >= 0; i--) {
         $(".transparent .star:eq(" + i + ")").css({ "opacity": "1.0" });
@@ -161,14 +159,13 @@
     });
     $(document).on('click', '.star', function (e) {
       var rate = parseInt($(this).attr("id")); //GETS THE NUMBER OF THE STAR
-      console.log(rate);
   
       var stars = '';
       for (var i = 1; i <= rate; i++) {
         stars += '<div class="star" id="' + i + '"></div>';
       }
   
-      var str = '<div class="r"><div class="rating">' + stars + '</div><div class="transparent"><div class="star" id="1"></div><div class="star" id="2"></div><div class="star" id="3"></div><div class="star" id="4"></div><div class="star" id="5"></div><div class="votes"> (' + ((3.4 * 4 + rate)/5).toFixed(2) + '/5, ' + (4 + 1) + ' ' + ((4 + 1) > 1 ? ' votes' : ' vote') + ') ' + (rate > 0 ? '<strong>You rated this: <span style="color:#39C;">' + rate + '</span> star</strong>' : '') + '</div></div></div>'
+      var str = '<div class="r"><div class="rating">' + stars + '</div><div class="transparent"><div class="star" id="1"></div><div class="star" id="2"></div><div class="star" id="3"></div><div class="star" id="4"></div><div class="star" id="5"></div><div class="votes"> (' + ((rating_overall * total_votes + rate)/(total_votes+1)).toFixed(2) + '/5, ' +  (total_votes+1) + ((total_votes+1) > 1 ? ' votes' : ' vote') + ') ' + (rate > 0 ? '<strong>You rated this: <span style="color:#39C;">' + rate + '</span> star</strong>' : '') + '</div></div></div>'
   
       $("#ajax_vote").html(str); //DISPLAYS THE NEW RATING IN HTML
     });
@@ -204,10 +201,10 @@
     var url_array = url_value.split("/");
     var $book_asin = url_array[url_array.length-1];
     var $url_link = "/book/add_review/" + $book_asin;
-    console.log($url_link);
+    // console.log($url_link);
 
     data = data + "&Rating=" + window.globalD
-    console.log(data)
+    // console.log(data)
 
     $.ajax({
     url: $url_link,
@@ -215,7 +212,7 @@
     data: data,
     dataType: "json",
     success: function(resp) {
-        console.log(resp);
+        // console.log(resp);
         window.location.href = "/book/" + $book_asin;
     },
     error: function(resp) {

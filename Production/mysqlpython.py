@@ -53,14 +53,16 @@ class mysql_review:
         # asin should be in the form like: B000FA64PK
 
         # used to display reviews, so we need username and reviewTime
-        query_statement = "SELECT `asin`, `reviewText`, `reviewerName`, `reviewTime` FROM {} WHERE asin='{}'".format(self.tablename, asin)
+        query_statement = "SELECT `asin`, `reviewText`, `reviewerName`, `reviewTime`, `overall` FROM {} WHERE asin='{}'".format(self.tablename, asin)
         return_query = self._execute(query_statement)
         list_of_reviews = []
+        ratings = None
         if return_query:
             for i in range(len(return_query)):
                 dict_return_query = {'asin': return_query[i][0], 'reviewText': return_query[i][1], 'reviewerName': return_query[i][2], 'reviewTime': return_query[i][3]}
                 list_of_reviews.append(dict_return_query)
-        return list_of_reviews
+            ratings = sum([pair[4] for pair in return_query])/len(return_query)
+        return list_of_reviews, ratings
 
     def insert_new_review(self, asin, helpful, overall, reviewText, reviewerID, reviewerName, summary):
         # we probably have a better way to do this I'm sorry

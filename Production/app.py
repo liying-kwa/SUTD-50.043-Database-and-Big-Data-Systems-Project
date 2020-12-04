@@ -62,8 +62,8 @@ def book(asin):
         logs_db.insert_one({"user": session['user']['email'], "action":"view", "content": book['title'], "datetime": datetime.datetime.now()})
 
     # Retrieve reviews of the book
-    book_review = mysql_db.get_by_asin(asin)
-    return render_template('book.html', book=book, book_review=book_review) # add review_text into render_template
+    book_review, rating= mysql_db.get_by_asin(asin)
+    return render_template('book.html', book=book, book_review=book_review, rating_overall=rating) # add review_text into render_template
 
 @app.route('/book/add_review/<asin>', methods=['POST'])
 #@login_required
