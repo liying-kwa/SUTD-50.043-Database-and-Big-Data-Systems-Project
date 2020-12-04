@@ -15,7 +15,7 @@ cd ./sqoop-setup
 
 echo "[sqoop-setup.sh] SQOOP SETUP PART 1"
 # Part 1 -- SETUP SQOOP
-scp -i ../kp.pem -o StrictHostKeyChecking=no ./part1-setup.sh ../hdfs-setup/hosts.txt ./pymongotest.py ubuntu@${NAMENODE_IP}:~/
+scp -i ../kp.pem -o StrictHostKeyChecking=no ./part1-setup.sh ../hdfs-setup/hosts.txt ../pymongotest.py ubuntu@${NAMENODE_IP}:~/
 ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part1-setup.sh'"
 
 echo "END OF SQOOP SETUP"

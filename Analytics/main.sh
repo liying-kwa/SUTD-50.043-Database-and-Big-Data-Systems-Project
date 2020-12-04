@@ -22,4 +22,4 @@ bash ./hdfs-setup.sh
 echo "[main.sh] SETTING UP SPARK"
 bash ./spark-setup.sh
 echo "[main.sh] SETTING UP SQOOP"
-bash ./sqoop.sh
+bash ./sqoop-setup.sh

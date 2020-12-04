@@ -2,7 +2,7 @@
 
 echo "START OF PART 1"
 
-cd ~/download/
+cd /home/hadoop/download/
 wget https://apachemirror.sg.wuchna.com/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
 tar zxvf sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
 
@@ -29,7 +29,7 @@ export PATH=$PATH:/opt/sqoop-1.4.7/bin
 #sudo ln -snvf /usr/share/java/mysql-connector-java-8.0.22.jar /opt/sqoop-1.4.7/lib/mysql-connector-java.jar
 
 
-pip3 install pymongo
+sudo pip3 install pymongo
 
 export mysql_ip=18.140.53.151
 
