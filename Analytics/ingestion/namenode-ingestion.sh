@@ -6,8 +6,8 @@ python3 ./mysqlpython.py
 python3 ./pymongocode.py
 
 # Export IP address for SQL server and MongoDB server
-export SQL_HOSTNAME=`cat sql-hostname.txt`
-export MONGODB_HOSTNAME=`cat mongodb-hostname.txt`
+export SQL_HOSTNAME=`cat /home/hadoop/sql-hostname.txt`
+export MONGODB_HOSTNAME=`cat /home/hadoop/mongodb-hostname.txt`
 
 # Ingest data from MySQL into HDFS
 /opt/sqoop-1.4.7/bin/sqoop import-all-tables --connect jdbc:mysql://${SQL_HOSTNAME}/mydb?useSSL=false --username useralldb20 --password passworddb20 --fields-terminated-by "\t" --as-parquetfile -m1

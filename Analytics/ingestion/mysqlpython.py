@@ -49,5 +49,5 @@ database = 'mydb'
 #    connection.close()
 
 
-with open('sql-hostname.txt', 'w') as sqlfile:
+with open('/home/hadoop/sql-hostname.txt', 'w') as sqlfile:
 	sqlfile.write(host)

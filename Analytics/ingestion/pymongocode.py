@@ -52,5 +52,5 @@ ssh_address = (db.child("metadata").get().val())['endpoint']
 #    print(e)
 
 
-with open('mongodb-hostname.txt', 'w') as mongofile:
+with open('/home/hadoop/mongodb-hostname.txt', 'w') as mongofile:
 	mongofile.write(ssh_address)
