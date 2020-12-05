@@ -26,8 +26,8 @@ print('Database created')
 #host is the endpoint of the ec2
 #it can only be obtained when the database is created
 host = (db.child("my_sql").get().val())['endpoint']
-user = 'userall'
-password = 'password'
+user = 'useralldb20'
+password = 'passworddb20'
 database = 'mydb'
 
 connection = pymysql.connect(host, user, password, database)

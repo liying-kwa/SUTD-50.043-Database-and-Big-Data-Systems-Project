@@ -10,15 +10,11 @@
                         <li>
                             <div class="comment">
                                 <div class="comment__avatar">
-                                    <!--img alt="Image" src="https://istd.sutd.edu.sg/files/istd-faculty-dinh-tien-tuan-anh.jpg" /-->
-                                    <!--img alt="Image" src="https://www.comp.nus.edu.sg/~dinhtta/anh.jpg" /-->
-                                    <img alt="Image" src="https://i.stack.imgur.com/l60Hf.png" />
+                                    <img alt="Image" src="https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png" style="border-radius: 50%;" />
                                 </div>
                                 <div class="comment__body">
-                                    <h5 class="type--fine-print">{{eachreview.reviewerName}}</h5>
-                                    <div class="comment_meta">
-                                        <span>{{eachreview.reviewTime}}</span>
-                                    </div>
+                                    <h4 class="type--fine-print">{{eachreview.reviewerName}}</h4>
+                                    <h5 class="type--fine-print">{{eachreview.summary}} | {{eachreview.reviewTime}}</h5>
                                     <p>
                                         {{eachreview.reviewText}}
                                     </p>
@@ -30,7 +26,7 @@
                 </div>
                 <!--end comments-->
                 <div class="comments-form">
-                    <h4>Leave a comment</h4>
+                    <h4>Leave a review</h4>
                     <div class="row">
                         
                         {% set overall_rate = 5 %}
@@ -52,7 +48,7 @@
                                 <div class="star" id="3"></div>
                                 <div class="star" id="4"></div>
                                 <div class="star" id="5"></div>
-                                <div class="votes">{{rating_overall|round(2, 'floor')+'/5' if rating_overall else 'No ratings yet'}}, {{book_review|count if book_review|count > 0 else 0}}
+                                <div class="votes">{{rating_overall|round(2, 'floor')|string +'/5' if rating_overall else 'No ratings yet'}}, {{book_review|count if book_review|count > 0 else 0}}
                                     {{'votes' if book_review|count > 1 else 'vote' }} {% if ip_rate %}<strong>You rated this: <span
                                         style="color:#39C;">{{ip_rate}}</span></strong>{% endif %}</div>
                                 </div>
@@ -66,11 +62,11 @@
                             <input type="text" name="Title" placeholder="Summary of your review" />
                         </div>
                         <div class="col-md-12">
-                            <label>Comment:</label>
+                            <label>Review:</label>
                             <textarea rows="4" name="Comment" placeholder="Review text here"></textarea>
                         </div>
                         <div class="col-md-3">
-                            <button class="btn" type="submit">Submit Comment</button>
+                            <button class="btn" type="submit">Submit Review</button>
                         </div>
                         <p class="error error--hidden"></p>
                     </form>
@@ -95,13 +91,13 @@
                                 <li>
                                     <div class="testimonial row justify-content-center">
                                         <div class="col-lg-2 col-md-4 col-6 text-center">
-                                            <img class="testimonial__image" alt="Image" src="https://istd.sutd.edu.sg/files/istd-faculty-dinh-tien-tuan-anh.jpg" />
+                                            <img class="testimonial__image" alt="Image" src="https://media-exp1.licdn.com/dms/image/C5103AQFzEleVgzq0uw/profile-displayphoto-shrink_200_200/0/1581867130103?e=1612396800&v=beta&t=fYQqkM2ayloVmyjOYgXNfEMkOe-IjkzCdRkbMOS--uM" />
                                         </div>
                                         <div class="col-lg-7 col-md-8 col-12">
-                                            <span class="h3">&ldquo;I will give the Coolreads team A+ for this project.&rdquo;
+                                            <span class="h3">&ldquo;Coolreads is an amazing website.&rdquo;
                                             </span>
-                                            <h5>Anh Dinh</h5>
-                                            <span>Professor &mdash; ISTD (SUTD)</span>
+                                            <h5>Heng Jing Han</h5>
+                                            <span>Student &mdash; ISTD (SUTD)</span>
                                         </div>
                                     </div>
                                 </li>
@@ -124,9 +120,9 @@
                                             <img class="testimonial__image" alt="Image" src="https://itrust.sutd.edu.sg/wp-content/uploads/sites/3/2020/05/Tiang-Pei-Yuan.jpg" />
                                         </div>
                                         <div class="col-lg-7 col-md-8 col-12">
-                                            <span class="h3">&ldquo;Coolreads has been a massive plus for my relaxation &mdash; I can now get sleep in a matter of hours, I really love it.&rdquo;
+                                            <span class="h3">&ldquo;So much effort has been put in to build Coolreads &mdash; it is simply amazing, I really love it.&rdquo;
                                             </span>
-                                            <h5>Rob Vasquez</h5>
+                                            <h5>Tiang Pei Yuan</h5>
                                             <span>Publisher &mdash; SUTD</span>
                                         </div>
                                     </div>

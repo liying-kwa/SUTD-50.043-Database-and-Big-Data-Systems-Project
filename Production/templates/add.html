@@ -24,6 +24,21 @@
                     <label>Author</label>
                     <input type="text" class="form-control" id="author" name="author" placeholder="" required>
                 </div>
+
+                <div class="col form-group">
+                  <label>Price</label>
+                  <input type="number" min="0" step="any" class="form-control" id="price" name="price" placeholder="" required>
+              </div>
+
+              <div class="col form-group">
+                <label>Genre</label>
+                <select class="form-control" id="genre" name="genre">
+                  {% for genre in ['No Genre', 'academic', 'adult', 'adventure', 'biography', 'classic', 'counselling', 'crime', 'fantasy', 'fiction', 'historical', 'horror', 'humor', 'langauge', 'law', 'mystery', 'over-18', 'religion', 'romance', 'sci-fi', 'science', 'self-help', 'social', 'thriller', 'tourism', 'travel', 'war', 'young-adult'] %}
+                  <option value="{{genre}}">{{genre}}</option>
+                  {% endfor %}
+
+                </select>
+            </div>
             </div>
     
             <div class="form-group">

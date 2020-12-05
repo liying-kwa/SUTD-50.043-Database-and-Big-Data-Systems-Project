@@ -2,8 +2,8 @@ import pymongo
 import pyrebase
 
 
-mongo_username = "user"
-mongo_password = "password"
+mongo_username = "userdb20"
+mongo_password = "passworddb20"
 
 config = {
   "apiKey": "AIzaSyDl_6GZJ-JsdcwVSKDW02qbfIueg04sY0Y",

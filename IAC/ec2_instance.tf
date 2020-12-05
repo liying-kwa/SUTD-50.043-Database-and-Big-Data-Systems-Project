@@ -43,14 +43,29 @@ sudo pip3 install passlib
 sudo pip3 install flask_pymongo
 sudo pip3 install flask_paginate
 sudo pip3 install cryptography
+sudo pip3 install pymysql
 
-wget -c https://jinghanbucket1997.s3-ap-southeast-1.amazonaws.com/production.zip -O production.zip
-unzip production.zip
-cd SUTD-50.043-production
+wget -c https://jinghanbucket1997.s3-ap-southeast-1.amazonaws.com/Production_system.zip -O Production_system.zip
+unzip Production_system.zip
+cd Production_system
 cd Production
 
 end=`date +%s`
 echo Execution time was `expr $end - $start` seconds. >> timetaken.txt
+
+echo "import pyrebase" >> database_status.py
+echo "config = {
+  \"apiKey\": \"AIzaSyDl_6GZJ-JsdcwVSKDW02qbfIueg04sY0Y\",
+  \"authDomain\": \"dbproject-f258b.firebaseapp.com\",
+  \"databaseURL\": \"https://dbproject-f258b.firebaseio.com/\",
+  \"storageBucket\": \"dbproject-f258b\"
+}" >> database_status.py
+echo "firebase = pyrebase.initialize_app(config)" >> database_status.py
+echo "db = firebase.database()" >> database_status.py
+echo "data = {'created':'yes'}" >> database_status.py
+echo "db.child(\"webapp\").update(data)" >> database_status.py
+pip3 install pyrebase
+python3 database_status.py
 
 sudo flask run --host=0.0.0.0 --port=80
 
@@ -104,11 +119,11 @@ sleep 5
 
 sudo mysql << SQLEOFb
 USE mydb;
-CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
-CREATE USER 'userall'@'%' IDENTIFIED BY 'password';
+CREATE USER 'userdb20'@'localhost' IDENTIFIED BY 'passworddb20';
+CREATE USER 'useralldb20'@'%' IDENTIFIED BY 'passworddb20';
 CREATE USER 'sqoop'@'%' IDENTIFIED BY 'sqoop123';
-GRANT ALL PRIVILEGES ON mydb.* to user@localhost with GRANT OPTION;
-GRANT ALL PRIVILEGES ON mydb.* to userall@'%' with GRANT OPTION;
+GRANT ALL PRIVILEGES ON mydb.* to userdb20@localhost with GRANT OPTION;
+GRANT ALL PRIVILEGES ON mydb.* to useralldb20@'%' with GRANT OPTION;
 ALTER USER 'sqoop'@'%' IDENTIFIED WITH mysql_native_password BY 'sqoop123';
 GRANT ALL PRIVILEGES ON mydb.* to sqoop@'%' with GRANT OPTION;
 FLUSH PRIVILEGES;
@@ -179,7 +194,7 @@ sudo sed -i "s,\\(^[[:blank:]]*bindIp:\\) .*,\\1 0.0.0.0," /etc/mongod.conf
 sudo service mongod restart
 sleep 30
 
-mongo --eval 'db.createUser({user: "user",pwd: "password",roles: [{ role: "userAdminAnyDatabase", db:"admin"}]});' admin
+mongo --eval 'db.createUser({user: "userdb20",pwd: "passworddb20",roles: [{ role: "userAdminAnyDatabase", db:"admin"}]});' admin
 sudo service mongod restart
 sleep 30
 
@@ -247,7 +262,7 @@ sudo sed -i "s,\\(^[[:blank:]]*bindIp:\\) .*,\\1 0.0.0.0," /etc/mongod.conf
 sudo service mongod restart
 
 sleep 30
-mongo --eval 'db.createUser({user: "user",pwd: "password",roles: [{ role: "userAdminAnyDatabase", db:"admin"}]});' admin
+mongo --eval 'db.createUser({user: "userdb20",pwd: "passworddb20",roles: [{ role: "userAdminAnyDatabase", db:"admin"}]});' admin
 sudo service mongod restart
 
 
