@@ -10,9 +10,7 @@
                         <li>
                             <div class="comment">
                                 <div class="comment__avatar">
-                                    <!--img alt="Image" src="https://istd.sutd.edu.sg/files/istd-faculty-dinh-tien-tuan-anh.jpg" /-->
-                                    <!--img alt="Image" src="https://www.comp.nus.edu.sg/~dinhtta/anh.jpg" /-->
-                                    <img alt="Image" src="https://i.stack.imgur.com/l60Hf.png" />
+                                    <img alt="Image" src="https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png" style="border-radius: 50%;" />
                                 </div>
                                 <div class="comment__body">
                                     <h5 class="type--fine-print">{{eachreview.reviewerName}}</h5>
@@ -52,7 +50,7 @@
                                 <div class="star" id="3"></div>
                                 <div class="star" id="4"></div>
                                 <div class="star" id="5"></div>
-                                <div class="votes">{{rating_overall|round(2, 'floor')+'/5' if rating_overall else 'No ratings yet'}}, {{book_review|count if book_review|count > 0 else 0}}
+                                <div class="votes">{{rating_overall|round(2, 'floor')|string +'/5' if rating_overall else 'No ratings yet'}}, {{book_review|count if book_review|count > 0 else 0}}
                                     {{'votes' if book_review|count > 1 else 'vote' }} {% if ip_rate %}<strong>You rated this: <span
                                         style="color:#39C;">{{ip_rate}}</span></strong>{% endif %}</div>
                                 </div>
