@@ -25,3 +25,5 @@ echo "[main.sh] SETTING UP SQOOP"
 bash ./sqoop-setup.sh
 echo "[main.sh] INGESTING DATA"
 bash ./ingestion.sh
+echo "[main.sh] CALCULATING PEARSON AND TFIDF"
+bash ./calculation.sh

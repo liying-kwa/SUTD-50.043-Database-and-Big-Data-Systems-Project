@@ -11,7 +11,7 @@ export DATANODE_IP_ARR_PRIV=(`cat datanode_ip_priv.txt | tr "\n" " "`)
 # INGEST DATA FROM SQL DATABASE
 echo "[ingestion.sh] DATA INGESTION"
 cd ./ingestion
-scp -i ../kp.pem ./namenode-ingestion.sh ./pymongotest.py ubuntu@${NAMENODE_IP}:~/
+scp -i ../kp.pem ./namenode-ingestion.sh ./mysqlpython.py ./pymongocode.py ./ingestmongo.py ubuntu@${NAMENODE_IP}:~/
 ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./namenode-ingestion.sh'"
 
 
