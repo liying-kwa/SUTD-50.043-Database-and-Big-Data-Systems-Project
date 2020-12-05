@@ -15,9 +15,9 @@ def get_ssh_address(name):
     data = db.child(name).get().val()
 
     print('Waiting for database to be created')
-    while ((db.child("metadata").get().val())['created'] != 'yes'):
+    while ((db.child(name).get().val())['created'] != 'yes'):
         pass
     print('Database created')
 
-    ssh_address = (db.child("metadata").get().val())['endpoint']
+    ssh_address = (db.child(name).get().val())['endpoint']
     return ssh_address

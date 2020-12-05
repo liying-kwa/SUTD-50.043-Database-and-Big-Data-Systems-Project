@@ -53,13 +53,13 @@ class mysql_review:
         # asin should be in the form like: B000FA64PK
 
         # used to display reviews, so we need username and reviewTime
-        query_statement = "SELECT `asin`, `reviewText`, `reviewerName`, `reviewTime`, `overall` FROM {} WHERE asin='{}'".format(self.tablename, asin)
+        query_statement = "SELECT `asin`, `reviewText`, `reviewerName`, `reviewTime`, `overall`, `summary` FROM {} WHERE asin='{}'".format(self.tablename, asin)
         return_query = self._execute(query_statement)
         list_of_reviews = []
         ratings = None
         if return_query:
             for i in range(len(return_query)):
-                dict_return_query = {'asin': return_query[i][0], 'reviewText': return_query[i][1], 'reviewerName': return_query[i][2], 'reviewTime': return_query[i][3]}
+                dict_return_query = {'asin': return_query[i][0], 'reviewText': return_query[i][1], 'reviewerName': return_query[i][2], 'reviewTime': return_query[i][3], 'summary': return_query[i][5]}
                 list_of_reviews.append(dict_return_query)
             ratings = sum([pair[4] for pair in return_query])/len(return_query)
         return list_of_reviews, ratings
@@ -74,7 +74,7 @@ class mysql_review:
 
     def get_review_by_asin(self, asin):
         # asin should be in the form like: B000FA64PK
-        query_statement = "SELECT `reviewText`, `asin` FROM {} WHERE `asin`='{}'".format(self.tablename, asin)
+        query_statement = "SELECT `reviewText`, `asin`, `summary` FROM {} WHERE `asin`='{}'".format(self.tablename, asin)
         return_query = self._execute(query_statement)
         # I am assuming that the `reviewText` returned is a string
         return return_query
