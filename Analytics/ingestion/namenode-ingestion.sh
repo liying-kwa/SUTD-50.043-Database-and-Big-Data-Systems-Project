@@ -1,9 +1,6 @@
 #!/bin/bash
 
 
-# Install necessary python dependencies
-pip3 install pymysql pyrebase pymongo
-
 # Wait for SQL and MongoDB to be created and store their endpoints in txt files
 python3 ./mysqlpython.py
 python3 ./pymongocode.py

@@ -12,6 +12,7 @@ export DATANODE_IP_ARR_PRIV=(`cat datanode_ip_priv.txt | tr "\n" " "`)
 echo "[ingestion.sh] DATA INGESTION"
 cd ./ingestion
 scp -i ../kp.pem ./namenode-ingestion.sh ./mysqlpython.py ./pymongocode.py ./ingestmongo.py ubuntu@${NAMENODE_IP}:~/
+ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'sudo pip3 install pymysql pyrebase pymongo'"
 ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./namenode-ingestion.sh'"
 
 
