@@ -35,40 +35,7 @@ for post in db["new_kindle_metadata"].find({"asin" : asin}):
 sc = pyspark.SparkContext("spark://172.2.0.147:7077", "Correlation")
 spark = SparkSession(sc)
 
-
-#reviews1 = spark.read.csv("hdfs://172.2.0.147:9000/user/hadoop/KRTable/part-m-00000", header=True)
-#reviews1 = sc.textFile("hdfs://172.2.0.147:9000/user/hadoop/KRTable/part-m-00000").collect()
-
-#reviews1.show(n=2, truncate=False)
-#reviews1.printSchema()
-
-reviews0 = sc.textFile("hdfs://172.2.0.147:9000/user/hadoop/KRTable/part-m-00000").collect()
-reviews1 = sc.textFile("hdfs://172.2.0.147:9000/user/hadoop/KRTable/part-m-00001").collect()
-reviews2 = sc.textFile("hdfs://172.2.0.147:9000/user/hadoop/KRTable/part-m-00002").collect()
-reviews3 = sc.textFile("hdfs://172.2.0.147:9000/user/hadoop/KRTable/part-m-00003").collect()
-
-reviews_list_list = [reviews0, reviews1, reviews2, reviews3]
-
-for table in reviews_list_list:
-    for row in table:
-        row_list = row.split("\t")
-        if "B000F83SZQ" in row_list:
-            print(row)
-
-print(row_list) # Prints out last row_list
-
-
-row = Row("id", "asin", "helpful", "overall", "reviewText", "reviewTime", "reviewerID", "reviewerName", "summary", "unixReviewTime")
-#print(reviews0.map(row).take(5))
-
-
-
-#Sample review
-#review_eg = reviews0[0].split("\t")[4]
-#print(review_eg)
-#print(len(review_eg))
-#print(reviews1[1].split("\t")[4])
-
+review = spark.read.parquet("hdfs://172.2.0.147:9000/user/hadoop/KRTable/9d5d6615-68be-427e-b214-b3be7549880e.parquet")
 
 
 
@@ -77,5 +44,5 @@ row = Row("id", "asin", "helpful", "overall", "reviewText", "reviewTime", "revie
 #asindb_len = asindb.withColumn('reviewLength', fns.length('reviewText'))
 
 
-#reviews2 = spark.read.csv("hdfs://172.2.0.147:9000/user/hadoop/KRTable/part-m-00001", header=True)
+
 
