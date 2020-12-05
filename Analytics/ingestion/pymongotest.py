@@ -76,8 +76,22 @@ reviews = spark.read.parquet("hdfs://172.2.0.147:9000/user/hadoop/KRTable/9d5d66
 price_rdd = spark.sparkContext.parallelize(price_list)
 asin_rdd = spark.sparkContext.parallelize(asin_list)
 
-print(price_rdd.take(5))
-print(asin_rdd.take(5))
+price_row = Row("price")
+asin_row = Row("asin")
+
+
+price_db = price_rdd.map(price_row).toDF()
+asin_db = asin_rdd.map(asin_row).toDF()
+
+
+price_db.show(5)
+asin_db.show(5)
+
+# Join tgt to get meta_table
+print("Meta_table")
+#meta_table = price_db.join(asin_db, how='right_outer')
+meta_table = price_db.join(asin_db, how='full')
+meta_table.show(10)
 
 
 
@@ -88,8 +102,12 @@ asindb_len = asindb.withColumn('reviewLength', fns.length('reviewText'))
 
 # Group tgt average length by asin
 asin_avglen = asindb_len.groupBy('asin').avg('reviewLength')
-asin_avglen.show(5)
+#asin_avglen.show(5)
 
+
+ultra_table = asin_avglen.join(price_db)
+print("ULTRA_TABLE!#!@#")
+ultra_table.show(10)
 
 
 
