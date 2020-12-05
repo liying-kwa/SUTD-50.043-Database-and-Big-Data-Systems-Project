@@ -14,10 +14,10 @@ def get_ssh_address(name):
 
     data = db.child(name).get().val()
 
-    print('Waiting for database to be created')
+    print('Waiting for {} database to be created'.format(name))
     while ((db.child(name).get().val())['created'] != 'yes'):
         pass
-    print('Database created')
+    print('{} Database created'.format(name))
 
     ssh_address = (db.child(name).get().val())['endpoint']
     return ssh_address
