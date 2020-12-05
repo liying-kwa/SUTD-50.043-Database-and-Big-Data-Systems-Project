@@ -21,6 +21,13 @@ resource "aws_instance" "Name_Node_ec2" {
     Name  = "Name Node"
   }
   
+  root_block_device {
+    volume_type           = "gp2"
+    volume_size           = "32"
+    delete_on_termination = "true"
+  }
+
+  
   user_data = <<EOF
 #!/bin/sh
 
@@ -54,6 +61,12 @@ resource "aws_instance" "Data_Nodes_ec2" {
 
   tags = {
     Name  = "Data Node-${count.index + 1}"
+  }
+  
+  root_block_device {
+    volume_type           = "gp2"
+    volume_size           = "32"
+    delete_on_termination = "true"
   }
   
   user_data = <<EOF

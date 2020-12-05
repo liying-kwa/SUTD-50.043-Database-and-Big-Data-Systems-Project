@@ -2,7 +2,7 @@
 
 
 # Move hadoop library
-cd ~/download/
+cd /home/hadoop/download/
 sudo mv hadoop-3.3.0 /opt/
 
 # Create hdfs storage folder
@@ -11,3 +11,7 @@ sudo chown -R hadoop:hadoop /mnt/hadoop/namenode
 
 # Format hdfs
 echo 'Y' | /opt/hadoop-3.3.0/bin/hdfs namenode -format
+
+# Sleep for a while for datanode to start properly later
+echo "Sleeping for 20 seconds..."
+sleep 20

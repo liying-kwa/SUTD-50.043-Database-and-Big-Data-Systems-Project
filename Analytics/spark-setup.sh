@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# To be run on namenode
-echo "START OF SPARK SETUP"
 
-echo "SETUP IP ADDRESSES"
+# Setup IP addresses
 export NAMENODE_IP=`cat namenode_ip.txt`
 export DATANODE_IP_ARR=(`cat datanode_ip.txt | tr "\n" " "`)
 export n=${#DATANODE_IP_ARR[@]}
@@ -13,48 +11,38 @@ cd ./spark-setup
 
 echo "[spark-setup.sh] SPARK SETUP PART 1"
 # Part 1 -- Login, download, extract and configure spark-env.sh
-scp -i ../kp.pem -o StrictHostKeyChecking=no ./part1-setup.sh ../hdfs-setup/hosts.txt ubuntu@${NAMENODE_IP}:~/
+scp -i ../kp.pem -o StrictHostKeyChecking=no ./part1-setup.sh ubuntu@${NAMENODE_IP}:~/
 ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part1-setup.sh'"
 
-#echo "[spark-setup.sh] SPARK SETUP PART 2"
-# Part 2 -- Deployment
-#scp -i ../kp.pem -o StrictHostKeyChecking=no ./part2-setup.sh ../hdfs-setup/hosts.txt ubuntu@${NAMENODE_IP}:~/
-#ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part2-setup.sh'"
-
-echo "[spark-setup.sh] SPARK SETUP PART 3"
-# Part 3 -- Installation
-# For all the nodes (including namenode and datanodes)
+echo "[spark-setup.sh] SPARK SETUP PART 2"
+# Part 2 -- Installation
 
 # For Name Node
-echo "[spark-setup.sh] SPARK PART 3 FOR NAMENODE"
-scp -i ../kp.pem -o StrictHostKeyChecking=no ./part3-setup.sh ../hdfs-setup/hosts.txt ubuntu@${NAMENODE_IP}:~/
-ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part3-setup.sh'"
+scp -i ../kp.pem -o StrictHostKeyChecking=no ./part2-namenode-setup.sh ubuntu@${NAMENODE_IP}:~/
+ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part2-namenode-setup.sh'"
+ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'sudo pip3 install pyspark numpy'"
 
 # For Data Nodes
-echo "[spark-setup.sh] SPARK PART 3 FOR DATANODES"
 for DATANODE_IP in "${DATANODE_IP_ARR[@]}"
 do
-    scp -i ../kp.pem ./part3-setup.sh ../hdfs-setup/hosts.txt ubuntu@${DATANODE_IP}:~/
-    ssh -i ../kp.pem ubuntu@${DATANODE_IP} "sudo -u hadoop sh -c 'bash ./part3-setup.sh'"
+    scp -i ../kp.pem ./part2-datanode-setup.sh ubuntu@${DATANODE_IP}:~/
+    ssh -i ../kp.pem ubuntu@${DATANODE_IP} "sudo -u hadoop sh -c 'bash ./part2-datanode-setup.sh'"
+    ssh -i ../kp.pem ubuntu@${DATANODE_IP} "sudo -u hadoop sh -c 'sudo pip3 install pyspark numpy'"
 done
 
-
-# Part 4 -- Testing
-# Maybe need to stop first then start?? Not sure. Or actually if it's already started previous don't even need this.
-# ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c '/opt/hadoop-3.3.0/sbin/stop-dfs.sh && /opt/hadoop-3.3.0/sbin/stop-yarn.sh'"
-# ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c '/opt/hadoop-3.3.0/sbin/start-dfs.sh && /opt/hadoop-3.3.0/sbin/start-yarn.sh'"
+# Part 3 -- Testing
 
 # Start the spark cluster
-echo "[spark-setup.sh] SPARK SETUP PART 4 START SPARK CLUSTER"
+echo "[spark-setup.sh] SPARK SETUP PART 3"
 ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c '/opt/spark-3.0.1-bin-hadoop3.2/sbin/start-all.sh'"
 
-# This should print out a few processes like SecondaryNameNode, NameNode, ResourceManager, Master, Jps.
-echo "NAMENODE JPS"
+# Check that the appropriate java processes are running on each node
+echo "Namenode Jps:"
 ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'jps'"
 
 for DATANODE_IP in "${DATANODE_IP_ARR[@]}"
 do
-    echo "DATANODE: ${DATANODE_IP} JPS"
+    echo "Datanode: ${DATANODE_IP} Jps"
     ssh -i ../kp.pem ubuntu@${DATANODE_IP} "sudo -u hadoop sh -c 'jps'"
 done
 

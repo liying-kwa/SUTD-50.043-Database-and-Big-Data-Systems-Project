@@ -8,11 +8,12 @@ export n=${#DATANODE_IP_ARR[@]}
 export NAMENODE_IP_PRIV=`cat namenode_ip_priv.txt`
 export DATANODE_IP_ARR_PRIV=(`cat datanode_ip_priv.txt | tr "\n" " "`)
 
+
 # PART 1: Setup hostnames, Setup sudoers, Change Swappiness
 echo "[hdfs-setup.sh] HDFS SETUP PART 1"
+cd ./hdfs-setup
 
 # Part 1 -- Write private ip addresses to hosts.txt file for editing /etc/hosts
-cd ./hdfs-setup
 touch hosts.txt
 echo -e "${NAMENODE_IP_PRIV}\tcom.analytics.namenode" >> ./hosts.txt
 for i in "${!DATANODE_IP_ARR_PRIV[@]}"
@@ -105,7 +106,9 @@ ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part6-namen
 echo "[hdfs-setup.sh] HDFS SETUP PART 7"
 
 # Part 7 -- Start hadoop on name node
-ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c '/opt/hadoop-3.3.0/sbin/start-dfs.sh && /opt/hadoop-3.3.0/sbin/start-yarn.sh'"
-
+ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c '/opt/hadoop-3.3.0/sbin/start-dfs.sh'"
+echo "Sleeping for 10 seconds..."
+sleep 10
+ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c '/opt/hadoop-3.3.0/sbin/start-yarn.sh'"
 
 echo "END OF HDFS SETUP"

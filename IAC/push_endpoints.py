@@ -26,16 +26,16 @@ firebase = pyrebase.initialize_app(config)
 
 db = firebase.database()
 
-data = {'endpoint': my_sql_endpoint.rstrip()}
+data = {'endpoint': (my_sql_endpoint.rstrip()).strip("\"")}
 db.child("my_sql").update(data)
 
-data = {'endpoint': metadata_endpoint.rstrip()}
+data = {'endpoint': (metadata_endpoint.rstrip()).strip("\"")}
 db.child("metadata").update(data)
 
-data = {'endpoint': logs_endpoint.rstrip()}
+data = {'endpoint': (logs_endpoint.rstrip()).strip("\"")}
 db.child("logs").update(data)
 
-data = {'endpoint': webapp_endpoint.rstrip()}
+data = {'endpoint': (webapp_endpoint.rstrip()).strip("\"")}
 db.child("webapp").update(data)
 
 #to_print = db.child("my_sql").get().val()

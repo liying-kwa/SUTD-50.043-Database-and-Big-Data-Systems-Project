@@ -3,7 +3,6 @@
 
 # Create nodes using terraform
 cd ./terra/
-bash ./install.sh
 bash ./create.sh
 
 # Store IPs of name node and data nodes in text files
@@ -24,5 +23,5 @@ cd ../
 chmod 0600 ./kp.pem
 
 # Wait another few seconds for the ssh services to be ready
-echo "Sleeping for 15 seconds..."
-sleep 15
+echo "Sleeping for 60 seconds..."
+sleep 60

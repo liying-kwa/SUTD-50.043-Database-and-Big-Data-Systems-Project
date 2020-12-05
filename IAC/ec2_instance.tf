@@ -44,6 +44,7 @@ sudo pip3 install flask_pymongo
 sudo pip3 install flask_paginate
 sudo pip3 install cryptography
 sudo pip3 install pymysql
+sudo pip3 install --upgrade google-auth-oauthlib
 
 wget -c https://jinghanbucket1997.s3-ap-southeast-1.amazonaws.com/Production_system.zip -O Production_system.zip
 unzip Production_system.zip
@@ -101,6 +102,7 @@ sudo apt update
 sudo apt install python3-pip -y
 sudo apt-get install mysql-server -y
 sudo apt install unzip
+sudo pip3 install --upgrade google-auth-oauthlib
 
 wget -c https://istd50043.s3-ap-southeast-1.amazonaws.com/kindle-reviews.zip -O kindle-reviews.zip
 unzip kindle-reviews.zip
@@ -187,6 +189,7 @@ echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb
 sudo apt update
 sudo apt install python3-pip -y
 sudo apt install mongodb-org -y
+sudo pip3 install --upgrade google-auth-oauthlib
 sudo systemctl start mongod.service
 sudo systemctl enable mongod
 
@@ -247,6 +250,7 @@ echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb
 sudo apt update
 sudo apt install python3-pip -y
 sudo apt install mongodb-org -y
+sudo pip3 install --upgrade google-auth-oauthlib
 sudo systemctl start mongod.service
 sudo systemctl enable mongod
 

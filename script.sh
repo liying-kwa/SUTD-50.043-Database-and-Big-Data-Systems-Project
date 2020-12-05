@@ -6,6 +6,7 @@ sudo apt-get install terraform
 
 sudo apt install python3-pip -y
 sudo pip3 install pyrebase
+sudo pip3 install --upgrade google-auth-oauthlib
 
 sudo apt install unzip
 
