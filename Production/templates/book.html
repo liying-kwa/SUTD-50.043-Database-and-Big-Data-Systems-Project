@@ -34,14 +34,14 @@
                         </li>
                         <li>
                             <div class="accordion__title">
-                                <span class="h5">Also Bought</span>
+                                <span class="h5">Books from the same genre</span>
                             </div>
                             <div class="accordion__content">
                                 <ul>
                                     {% if book.related %}
-                                        {% for asin in book.related.also_bought %}
+                                        {% for rel in book.related %}
                                         <li>
-                                            <span><a href="/book/{{asin}}">{{asin}}</a></span>
+                                            <span><a href="/book/{{rel.asin}}">{{rel.title}}</a></span>
                                         </li>
                                         {% endfor %}
                                     {% else %}

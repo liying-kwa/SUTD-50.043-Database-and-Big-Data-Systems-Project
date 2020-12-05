@@ -60,7 +60,8 @@ def book(asin):
     book = metadata_db.find_one({'asin': asin})
     if 'logged-in' in session:
         logs_db.insert_one({"user": session['user']['email'], "action":"view", "content": book['title'], "datetime": datetime.datetime.now()})
-
+    genre = book['genre'].strip('][').split(', ') 
+    book['related'] = list(metadata_db.aggregate([{'$match': {'genre': {"$regex": genre[0] , "$options": "i"}}}, {'$sample': {'size': 5}}]))
     # Retrieve reviews of the book
     book_review, rating= mysql_db.get_by_asin(asin)
     return render_template('book.html', book=book, book_review=book_review, rating_overall=rating) # add review_text into render_template
@@ -77,12 +78,8 @@ def add_review(asin):
     if(summary == ""):
         return jsonify({"error": "Title cannot be empty"}), 401
     helpful = [0,0] # first int is number of people who rated this review helpful, second int is total number of ratings
-    
-    #print(reviewText, summary)
     overall = request.form.get("Rating")
 
-    # TODO: get reviewerName from user who is logged in
-    # TODO: get reviewerID from user who is logged in
     if 'logged-in' in session:
         reviewerID = session['user']['_id']
         reviewerName = session['user']['name']
@@ -120,8 +117,8 @@ def add_book():
             author = request.form["author"]
             description = request.form["description"]
             imUrl = request.form["imUrl"]
-            metadata_db.insert_one({"asin": asin, "title":title, "author": author, "description":description, "imUrl":imUrl, "genre":"[]"})
-            logs_db.insert_one({"user": session['user']['email'], "action":"add", "content": title, "datetime": datetime.datetime.now()})
+            metadata_db.insert_one({"asin": asin, "title":title, "author": author, "description":description, "imUrl":imUrl, "genre":"['No Genre']"})
+            logs_db.insert_one({"user": session['user']['email'], "action":"add_book", "content": title, "datetime": datetime.datetime.now()})
             return redirect('/book/{}'.format(asin))
         return render_template("add.html")
     else:
@@ -172,8 +169,8 @@ def logs():
     else:
         return redirect(url_for('unauthorised'))
 
-@app.route('/checksignedin')
-def checksignedin():
+@app.route('/register')
+def register():
     if 'logged-in' in session:
         return redirect(url_for('index'))
     else:
