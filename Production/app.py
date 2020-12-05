@@ -23,7 +23,7 @@ try:
     metadata_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password  + '@'+ metadata_ssh +':27017/myMongodb?authSource=admin').db["new_kindle_metadata"]
     user_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password  + '@'+ logs_ssh +':27017/myMongodb?authSource=admin').db["user"]
     logs_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password + '@'+ logs_ssh +':27017/myMongodb?authSource=admin').db["logs_collection"]
-    # UNCOMMENT WHEN MySQL IS UP
+
 except Exception as e:
     print(e)
 
@@ -117,7 +117,9 @@ def add_book():
             author = request.form["author"]
             description = request.form["description"]
             imUrl = request.form["imUrl"]
-            metadata_db.insert_one({"asin": asin, "title":title, "author": author, "description":description, "imUrl":imUrl, "genre":"['No Genre']"})
+            price = request.form["price"]
+            genre = request.form.get("genre")
+            metadata_db.insert_one({"asin": asin, "title":title, "author": author, "description":description, "imUrl":imUrl, "price": price,"genre":"['"+genre+"']"})
             logs_db.insert_one({"user": session['user']['email'], "action":"add_book", "content": title, "datetime": datetime.datetime.now()})
             return redirect('/book/{}'.format(asin))
         return render_template("add.html")
@@ -174,7 +176,8 @@ def register():
     if 'logged-in' in session:
         return redirect(url_for('index'))
     else:
-        return render_template('index.html', pagination=None, show_register=True)
+        books_list = metadata_db.find({'title': {"$regex": 'SQL' , "$options": "i"}}).limit(4)
+        return render_template('index.html', pagination=None, books=books_list, show_register=True)
 
 @app.route('/401')
 def unauthorised():
