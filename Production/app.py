@@ -10,8 +10,8 @@ import mysqlpython
 
 app = Flask(__name__)
 
-mongo_username = "user"
-mongo_password = "password"
+mongo_username = "userdb20"
+mongo_password = "passworddb20"
 metadata_ssh = get_ssh_address('metadata')
 logs_ssh = get_ssh_address('logs')
 app.secret_key = "secretkey"
@@ -37,7 +37,7 @@ except Exception as e:
 import routes
 
 def check_admin():
-    if session['user']['email']=='xm@xm.com' or session['user']['email']=='yangzhi@gmail.com':
+    if session['user']['email']=='xm@xm.com' or session['user']['email']=='yangzhi@gmail.com' or session['user']['email'] == 'admin@admin.com':
         return True
     else:
         return False
