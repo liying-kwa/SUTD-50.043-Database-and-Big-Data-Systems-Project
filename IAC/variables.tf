@@ -11,10 +11,7 @@ variable "ec2_instance_ami" {
     description = "Ubuntu"
 	
 	#for ap-southeast-1
-    #default = "ami-093da183b859d5a4b"
-	
-	#prof's sg image
-	default = "ami-04613ff1fdcd2eab1"
+    default = "ami-093da183b859d5a4b"
 }
 
 variable "ec2_instance_type" {

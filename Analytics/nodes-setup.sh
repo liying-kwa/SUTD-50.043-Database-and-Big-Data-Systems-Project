@@ -11,6 +11,8 @@ echo `terraform output DataNode_ip` | tr "," "\n" > datanode_ip.txt
 terraform output NameNode_ip_priv > namenode_ip_priv.txt
 echo `terraform output DataNode_ip_priv` | tr "," "\n" > datanode_ip_priv.txt
 
+python3 clean_ip.py
+
 # Copy ssh key and IP addresses to current directory
 cp ./kp.pem ../
 cp ./namenode_ip.txt ../
