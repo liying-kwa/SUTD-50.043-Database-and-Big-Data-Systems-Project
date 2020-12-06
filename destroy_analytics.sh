@@ -4,3 +4,4 @@ cd terra
 
 terraform init
 terraform destroy -auto-approve
+

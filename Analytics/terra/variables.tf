@@ -12,7 +12,7 @@ variable "ec2_instance_ami" {
     description = "Ubuntu"
 	
 	#for ap-southeast-1
-    default = "ami-093da183b859d5a4b"
+    default = "ami-06fb5332e8e3e577a"
 	
 	#us-east-1
 	#default = "ami-00ddb0e5626798373" #18.04

@@ -15,10 +15,10 @@ python3 clean_ip.py
 
 # Copy ssh key and IP addresses to current directory
 cp ./kp.pem ../
-cp ./namenode_ip.txt ../
-cp ./datanode_ip.txt ../
-cp ./namenode_ip_priv.txt ../
-cp ./datanode_ip_priv.txt ../
+mv ./namenode_ip.txt ../
+mv ./datanode_ip.txt ../
+mv ./namenode_ip_priv.txt ../
+mv ./datanode_ip_priv.txt ../
 cd ../
 
 # Edit permissions of ssh key to allow ssh access
