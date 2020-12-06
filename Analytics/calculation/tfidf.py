@@ -2,50 +2,54 @@ from pyspark.sql import SparkSession
 import pyspark.sql.functions as fns
 from pyspark.ml.feature import IDF, Tokenizer, CountVectorizer
 
+#peiyuan li ying
+'''
+    usage of pyspark for tfidf
+'''
 
-# Functions to map the index of word to actual word cause CountVectorizer gives index
-def map_to_word1(row, vocab):
+#map index of word to actual word
+def helper(row, vocab):
     d = {}
     array = row.toArray()
-    for i in range(len(row)):
-        # if it is 0 -> ignore, else change the key to corresponding word
-        if (array[i] != 0):
-            tfidf = array[i]
-            word = vocab[i]
+    for index in range(len(row)):   
+        if (array[index] != 0):
+            tfidf = array[index]
+            word = vocab[index]
             d[word] = tfidf
+        else:
+            #do nth if zero
+            pass
     return str(d)
 
 def map_to_word(vocab):
-    return fns.udf(lambda row: map_to_word1(row, vocab))
+    return fns.udf(lambda row: helper(row, vocab))
 
 
-# Main
 
-# Read MySQL reviews from HDFS as DataFrame
+#to read mysql reviews from HDFS and remove null
 spark = SparkSession.builder.master("com.analytics.namenode").config("spark.master", "local").getOrCreate()
-reviews = spark.read.parquet("hdfs://com.analytics.namenode:9000/user/hadoop/KRTable/")
+kindle_reviews = spark.read.parquet("hdfs://com.analytics.namenode:9000/user/hadoop/KRTable/")
+kindle_reviews.na.drop(subset=["reviewText"])
 
-# Drop rows with null values in reviewText
-reviews.na.drop(subset=["reviewText"])
-
-# Tokenize reviewText and output to words
+#tokenize and output to words column
 tokenizer = Tokenizer(inputCol="reviewText", outputCol="words")
-wordsData = tokenizer.transform(reviews)
+wordsData = tokenizer.transform(kindle_reviews)
 
-# use CountVectorizer to get term frequency vectors
+#CountVectorizer to get tf
 cv = CountVectorizer(inputCol="words", outputCol="rawFeatures", vocabSize=20)
 model = cv.fit(wordsData)
 featurizedData = model.transform(wordsData)
-
 vocab = model.vocabulary
 
-# Compute the IDF vector and second to scale the term frequencies by IDF
+#compute idf 
 idf = IDF(inputCol="rawFeatures", outputCol="features")
 idfModel = idf.fit(featurizedData)
 rescaledData = idfModel.transform(featurizedData)
 
-# Apply udf to convert index back to word
-df = rescaledData.withColumn("tfidf", map_to_word(vocab)(rescaledData.features))
+#convert index back to word using function declared above
+data = rescaledData.withColumn("tfidf", map_to_word(vocab)(rescaledData.features))
+result = data.select("id", "tfidf")
 
-output = df.select("id", "tfidf")
-output.show(10, truncate=False)
+#select how many result you want to display
+number_display = 10
+result.show(number_display, truncate=False)

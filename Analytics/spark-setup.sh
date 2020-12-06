@@ -20,6 +20,7 @@ echo "[spark-setup.sh] SPARK SETUP PART 2"
 # For Name Node
 scp -i ../kp.pem -o StrictHostKeyChecking=no ./part2-namenode-setup.sh ubuntu@${NAMENODE_IP}:~/
 ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./part2-namenode-setup.sh'"
+ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'sudo apt install python3-pip -y'"
 ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'sudo pip3 install pyspark numpy'"
 
 # For Data Nodes
@@ -27,7 +28,8 @@ for DATANODE_IP in "${DATANODE_IP_ARR[@]}"
 do
     scp -i ../kp.pem ./part2-datanode-setup.sh ubuntu@${DATANODE_IP}:~/
     ssh -i ../kp.pem ubuntu@${DATANODE_IP} "sudo -u hadoop sh -c 'bash ./part2-datanode-setup.sh'"
-    ssh -i ../kp.pem ubuntu@${DATANODE_IP} "sudo -u hadoop sh -c 'sudo pip3 install pyspark numpy'"
+    ssh -i ../kp.pem ubuntu@${DATANODE_IP} "sudo -u hadoop sh -c 'sudo apt install python3-pip -y'"
+	ssh -i ../kp.pem ubuntu@${DATANODE_IP} "sudo -u hadoop sh -c 'sudo pip3 install pyspark numpy'"
 done
 
 # Part 3 -- Testing

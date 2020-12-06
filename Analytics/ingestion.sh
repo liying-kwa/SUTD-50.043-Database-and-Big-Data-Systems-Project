@@ -13,7 +13,7 @@ echo "[ingestion.sh] DATA INGESTION"
 cd ./ingestion
 scp -i ../kp.pem ./namenode-ingestion.sh ./mysqlpython.py ./pymongocode.py ./ingestmongo.py ubuntu@${NAMENODE_IP}:~/
 ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'sudo apt install python3-pip -y'"
-ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'sudo pip3 install pymysql pyrebase pymongo'"
+ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'sudo pip3 install pymysql pyrebase pymongo numpy pyspark'"
 ssh -i ../kp.pem ubuntu@${NAMENODE_IP} "sudo -u hadoop sh -c 'bash ./namenode-ingestion.sh'"
 
 

@@ -13,6 +13,7 @@
                             <th scope="col">User</th>
                             <th scope="col">Datetime</th>
                             <th scope="col">Action</th>
+                            <th scope="col">Response</th>
                             <th scope="col">Content</th>
                           </tr>
                         </thead>
@@ -22,6 +23,7 @@
                             <td>{{ entries['user'] }}</td>
                             <td>{{ entries['datetime'].strftime("%d/%m/%Y, %H:%M:%S") }}</td>
                             <td>{{ entries['action'] }}</td>
+                            <td>{{ entries['response'] }}</td>
                             <td>{{ entries['content'] }}</td>
                             </tr>
                         {% endfor %}
