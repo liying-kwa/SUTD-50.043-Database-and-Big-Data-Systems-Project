@@ -5,6 +5,8 @@ from bson.objectid import ObjectId
 from functools import wraps
 from mongofirebase import get_ssh_address
 import datetime, threading
+from passlib.hash import pbkdf2_sha256
+import uuid
 
 import mysqlpython
 
@@ -17,12 +19,10 @@ logs_ssh = get_ssh_address('logs')
 app.secret_key = "secretkey"
 
 try:
-    # metadata_db = PyMongo(app, uri='mongodb+srv://temp-user:Cjzo1XnTvJin5tX1@dbbd.0m9ic.mongodb.net/project').db['metadata']
-    # user_db = PyMongo(app, uri='mongodb+srv://temp-user:Cjzo1XnTvJin5tX1@dbbd.0m9ic.mongodb.net/project').db['user']
-    # logs_db = PyMongo(app, uri='mongodb+srv://temp-user:Cjzo1XnTvJin5tX1@dbbd.0m9ic.mongodb.net/project').db['logs']
     metadata_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password  + '@'+ metadata_ssh +':27017/myMongodb?authSource=admin').db["new_kindle_metadata"]
     user_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password  + '@'+ logs_ssh +':27017/myMongodb?authSource=admin').db["user"]
     logs_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password + '@'+ logs_ssh +':27017/myMongodb?authSource=admin').db["logs_collection"]
+    user_db.insert_one({"_id": uuid.uuid4().hex, "name": 'admin', "email": 'admin@admin.com', "password": pbkdf2_sha256.encrypt('admin')})
 
 except Exception as e:
     print(e)
@@ -37,7 +37,7 @@ except Exception as e:
 import routes
 
 def check_admin():
-    if session['user']['email']=='xm@xm.com' or session['user']['email']=='yangzhi@gmail.com' or session['user']['email'] == 'admin@admin.com':
+    if session['user']['email'] == 'admin@admin.com':
         return True
     else:
         return False
