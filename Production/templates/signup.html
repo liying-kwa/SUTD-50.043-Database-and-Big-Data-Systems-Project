@@ -1,0 +1,45 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<h2>Create an account</h2>
+<p class="lead">Get started with a 14 day free trial, No credit card required &mdash; cancel at any time.</p>
+<form name="signup_form">
+
+  <label for="name">Name</label>
+  <input type="text" name="name" class="field" required>
+
+  <label for="email">Email</label>
+  <input type="email" name="email" class="field" required>
+
+  <label for="password">Password</label>
+  <input type="password" name="password" class="field" required>
+
+  <p class="error error--hidden"></p>
+
+  <input type="submit" value="Sign Up" class="btn">
+
+</form>
+
+<script>
+    $("form[name=signup_form").submit(function(e) {
+
+    var $form = $(this);
+    var $error = $form.find(".error");
+    var data = $form.serialize();
+
+    $.ajax({
+    url: "/account/signup",
+    type: "POST",
+    data: data,
+    dataType: "json",
+    success: function(resp) {
+        // console.log("Passed js");
+        // console.log(resp);
+        window.location.href = "/";
+    },
+    error: function(resp) {
+        $error.text(resp.responseJSON.error).removeClass("error--hidden");
+    }
+    });
+
+    e.preventDefault();
+    });
+</script>

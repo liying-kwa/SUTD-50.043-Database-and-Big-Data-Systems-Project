@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Web Logs{% endblock %}
+{% block main %}
+<div class="main-container">
+    <section class="bg--white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Logs</h1>
+                    <table class="table text-center">
+                        <thead>
+                          <tr>
+                            <th scope="col">User</th>
+                            <th scope="col">Datetime</th>
+                            <th scope="col">Action</th>
+                            <th scope="col">Response</th>
+                            <th scope="col">Content</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {% for entries in logs %}
+                            <tr>
+                            <td>{{ entries['user'] }}</td>
+                            <td>{{ entries['datetime'].strftime("%d/%m/%Y, %H:%M:%S") }}</td>
+                            <td>{{ entries['action'] }}</td>
+                            <td>{{ entries['response'] }}</td>
+                            <td>{{ entries['content'] }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+{% endblock %}

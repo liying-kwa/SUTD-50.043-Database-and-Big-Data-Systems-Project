@@ -1,0 +1,221 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<section>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <div class="comments">
+                    <h3>{{book_review|count}} Reviews</h3>
+                    <ul class="comments__list">
+                        {% for eachreview in book_review %}
+                        <li>
+                            <div class="comment">
+                                <div class="comment__avatar">
+                                    <img alt="Image" src="https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png" style="border-radius: 50%;" />
+                                </div>
+                                <div class="comment__body">
+                                    <h4 class="type--fine-print">{{eachreview.reviewerName}}</h4>
+                                    <h5 class="type--fine-print">{{eachreview.summary}} | {{eachreview.reviewTime}}</h5>
+                                    <p>
+                                        {{eachreview.reviewText}}
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <!--end comments-->
+                <div class="comments-form">
+                    <h4>Leave a review</h4>
+                    <div class="row">
+                        
+                        {% set overall_rate = 5 %}
+
+                        <div id="ajax_vote">
+                            <div class="r">
+                                <div class="rating">
+                                {% for i in range(1, overall_rate + 1) %}
+                                {% if rating_overall and i > rating_overall|round %}
+                                <div class="star transparent" id="{{i}}"></div>
+                                {% else %}
+                                <div class="star" id="{{i}}"></div>
+                                {% endif %}
+                                {% endfor %}
+                                </div>
+                                <div class="transparent">
+                                <div class="star" id="1"></div>
+                                <div class="star" id="2"></div>
+                                <div class="star" id="3"></div>
+                                <div class="star" id="4"></div>
+                                <div class="star" id="5"></div>
+                                <div class="votes">{{rating_overall|round(2, 'floor')|string +'/5' if rating_overall else 'No ratings yet'}}, {{book_review|count if book_review|count > 0 else 0}}
+                                    {{'votes' if book_review|count > 1 else 'vote' }} {% if ip_rate %}<strong>You rated this: <span
+                                        style="color:#39C;">{{ip_rate}}</span></strong>{% endif %}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <form class="row" name="review_form">
+                        <div class="col-md-12">
+                            <label>Title:</label>
+                            <input type="text" name="Title" placeholder="Summary of your review" />
+                        </div>
+                        <div class="col-md-12">
+                            <label>Review:</label>
+                            <textarea rows="4" name="Comment" placeholder="Review text here"></textarea>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn" type="submit">Submit Review</button>
+                        </div>
+                        <p class="error error--hidden"></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--end of row-->
+    </div>
+    <!--end of container-->
+</section>
+<div class="tabs-container text-center" data-content-align="left">
+    <div class="tab__content">
+        <section class=" imagebg" data-overlay='4'>
+            <div class="background-image-holder">
+                <img alt="background" src="https://www.straitstimes.com/sites/default/files/styles/article_pictrure_780x520_/public/articles/2019/01/10/yq-sutd-10012019.jpg" />
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="slider slider--inline-arrows" data-arrows="true">
+                            <ul class="slides">
+                                <li>
+                                    <div class="testimonial row justify-content-center">
+                                        <div class="col-lg-2 col-md-4 col-6 text-center">
+                                            <img class="testimonial__image" alt="Image" src="https://media-exp1.licdn.com/dms/image/C5103AQFzEleVgzq0uw/profile-displayphoto-shrink_200_200/0/1581867130103?e=1612396800&v=beta&t=fYQqkM2ayloVmyjOYgXNfEMkOe-IjkzCdRkbMOS--uM" />
+                                        </div>
+                                        <div class="col-lg-7 col-md-8 col-12">
+                                            <span class="h3">&ldquo;Coolreads is an amazing website.&rdquo;
+                                            </span>
+                                            <h5>Heng Jing Han</h5>
+                                            <span>Student &mdash; ISTD (SUTD)</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="testimonial row justify-content-center">
+                                        <div class="col-lg-2 col-md-4 col-6 text-center">
+                                            <img class="testimonial__image" alt="Image" src="https://itrust.sutd.edu.sg/wp-content/uploads/sites/3/2020/05/yangzhi.jpg" />
+                                        </div>
+                                        <div class="col-lg-7 col-md-8 col-12">
+                                            <span class="h3">&ldquo;Coolreads is without a doubt their best work yet. It's fast, performant and absolutely stunning.&rdquo;
+                                            </span>
+                                            <h5>Lim Yang Zhi</h5>
+                                            <span>Author</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="testimonial row justify-content-center">
+                                        <div class="col-lg-2 col-md-4 col-6 text-center">
+                                            <img class="testimonial__image" alt="Image" src="https://itrust.sutd.edu.sg/wp-content/uploads/sites/3/2020/05/Tiang-Pei-Yuan.jpg" />
+                                        </div>
+                                        <div class="col-lg-7 col-md-8 col-12">
+                                            <span class="h3">&ldquo;So much effort has been put in to build Coolreads &mdash; it is simply amazing, I really love it.&rdquo;
+                                            </span>
+                                            <h5>Tiang Pei Yuan</h5>
+                                            <span>Publisher &mdash; SUTD</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--end of row-->
+            </div>
+            <!--end of container-->
+        </section>
+    </div>
+</div>
+
+
+
+<script>
+    var rating_overall = parseFloat("{{rating_overall}}") || 0 ;
+    var total_votes = parseInt("{{book_review|count}}");
+    $(document).on('mouseover', '.star', function (e) {
+      $(".rating").hide(); // HIDES THE CURRENT RATING WHEN MOUSE IS OVER A STAR
+      var d = $(this).attr("id"); // GETS THE NUMBER OF THE STAR
+      window.globalD = d;
+
+      //HIGHLIGHTS EVERY STAR BEHIND IT
+      for (i = (d - 1); i >= 0; i--) {
+        $(".transparent .star:eq(" + i + ")").css({ "opacity": "1.0" });
+      }
+    });
+    $(document).on('click', '.star', function (e) {
+      var rate = parseInt($(this).attr("id")); //GETS THE NUMBER OF THE STAR
+  
+      var stars = '';
+      for (var i = 1; i <= rate; i++) {
+        stars += '<div class="star" id="' + i + '"></div>';
+      }
+  
+      var str = '<div class="r"><div class="rating">' + stars + '</div><div class="transparent"><div class="star" id="1"></div><div class="star" id="2"></div><div class="star" id="3"></div><div class="star" id="4"></div><div class="star" id="5"></div><div class="votes"> (' + ((rating_overall * total_votes + rate)/(total_votes+1)).toFixed(2) + '/5, ' +  (total_votes+1) + ((total_votes+1) > 1 ? ' votes' : ' vote') + ') ' + (rate > 0 ? '<strong>You rated this: <span style="color:#39C;">' + rate + '</span> star</strong>' : '') + '</div></div></div>'
+  
+      $("#ajax_vote").html(str); //DISPLAYS THE NEW RATING IN HTML
+    });
+    $(document).on('mouseout', '.star', function (e) {
+      $(".rating").show(); //SHOWS THE CURRENT RATING
+      $(".transparent .star").css({ "opacity": "0.25" }); //TRANSPARENTS THE BASE
+    });
+  
+  // TODO: Set POST API to Review SQL 
+  // $.ajax({
+  //       method: "POST",
+  // contentType: 'application/json;charset=UTF-8',
+  // data: JSON.stringify({'asid': book.asin, 'rate': rate, 'user': user}),
+  //       url: "/rate", //CALLBACK
+  //       success: function (e) {
+  //                 console.log(e);
+  //          },
+  //             error: function (e) {
+  //                 console.log(e);
+  //             }
+  // 	
+  </script>
+   
+
+<script>
+    $("form[name=review_form").submit(function(e) {
+
+    var $form = $(this);
+    var $error = $form.find(".error");
+    var data = $form.serialize();
+
+    var url_value = window.location.href;
+    var url_array = url_value.split("/");
+    var $book_asin = url_array[url_array.length-1];
+    var $url_link = "/book/add_review/" + $book_asin;
+    // console.log($url_link);
+
+    data = data + "&Rating=" + window.globalD
+    // console.log(data)
+
+    $.ajax({
+    url: $url_link,
+    type: "POST",
+    data: data,
+    dataType: "json",
+    success: function(resp) {
+        // console.log(resp);
+        window.location.href = "/book/" + $book_asin;
+    },
+    error: function(resp) {
+        $error.text(resp.responseJSON.error).removeClass("error--hidden");
+    }
+    });
+
+    e.preventDefault();
+    });
+</script>
