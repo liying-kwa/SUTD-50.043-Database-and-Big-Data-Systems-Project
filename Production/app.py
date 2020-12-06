@@ -10,28 +10,28 @@ import mysqlpython
 
 app = Flask(__name__)
 
-mongo_username = "userdb20"
-mongo_password = "passworddb20"
-metadata_ssh = get_ssh_address('metadata')
-logs_ssh = get_ssh_address('logs')
+# mongo_username = "userdb20"
+# mongo_password = "passworddb20"
+# metadata_ssh = get_ssh_address('metadata')
+# logs_ssh = get_ssh_address('logs')
 app.secret_key = "secretkey"
 
 try:
-    # metadata_db = PyMongo(app, uri='mongodb+srv://temp-user:Cjzo1XnTvJin5tX1@dbbd.0m9ic.mongodb.net/project').db['metadata']
-    # user_db = PyMongo(app, uri='mongodb+srv://temp-user:Cjzo1XnTvJin5tX1@dbbd.0m9ic.mongodb.net/project').db['user']
-    # logs_db = PyMongo(app, uri='mongodb+srv://temp-user:Cjzo1XnTvJin5tX1@dbbd.0m9ic.mongodb.net/project').db['logs']
-    metadata_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password  + '@'+ metadata_ssh +':27017/myMongodb?authSource=admin').db["new_kindle_metadata"]
-    user_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password  + '@'+ logs_ssh +':27017/myMongodb?authSource=admin').db["user"]
-    logs_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password + '@'+ logs_ssh +':27017/myMongodb?authSource=admin').db["logs_collection"]
+    metadata_db = PyMongo(app, uri='mongodb+srv://temp-user:Cjzo1XnTvJin5tX1@dbbd.0m9ic.mongodb.net/project').db['metadata']
+    user_db = PyMongo(app, uri='mongodb+srv://temp-user:Cjzo1XnTvJin5tX1@dbbd.0m9ic.mongodb.net/project').db['user']
+    logs_db = PyMongo(app, uri='mongodb+srv://temp-user:Cjzo1XnTvJin5tX1@dbbd.0m9ic.mongodb.net/project').db['logs']
+    # metadata_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password  + '@'+ metadata_ssh +':27017/myMongodb?authSource=admin').db["new_kindle_metadata"]
+    # user_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password  + '@'+ logs_ssh +':27017/myMongodb?authSource=admin').db["user"]
+    # logs_db = PyMongo(app, uri='mongodb://'+ mongo_username + ':' + mongo_password + '@'+ logs_ssh +':27017/myMongodb?authSource=admin').db["logs_collection"]
 
 except Exception as e:
     print(e)
 
-try:
-    mysql_db = mysqlpython.mysql_review()
-except Exception as e:
-    print('Unable to connect to MySQL database')
-    print(e)
+# try:
+#     mysql_db = mysqlpython.mysql_review()
+# except Exception as e:
+#     print('Unable to connect to MySQL database')
+#     print(e)
 
 # Routes
 import routes
@@ -58,12 +58,16 @@ def index():
 @app.route('/book/<asin>')
 def book(asin):
     book = metadata_db.find_one({'asin': asin})
+    if book == None:
+        return render_template('not_found.html'), 404
     if 'logged-in' in session:
         logs_db.insert_one({"user": session['user']['email'], "action":"view", "content": book['title'], "datetime": datetime.datetime.now()})
     genre = book['genre'].strip('][').split(', ') 
     book['related'] = list(metadata_db.aggregate([{'$match': {'genre': {"$regex": genre[0] , "$options": "i"}}}, {'$sample': {'size': 5}}]))
     # Retrieve reviews of the book
-    book_review, rating= mysql_db.get_by_asin(asin)
+    # book_review, rating= mysql_db.get_by_asin(asin)
+    book_review = []
+    rating = None
     return render_template('book.html', book=book, book_review=book_review, rating_overall=rating) # add review_text into render_template
 
 @app.route('/book/add_review/<asin>', methods=['POST'])
@@ -125,7 +129,17 @@ def add_book():
         return render_template("add.html")
     else:
         return redirect(url_for('unauthorised'))
+
+@app.route('/delete/<asin>', methods=['POST'])
+def del_book(asin):
+    if 'logged-in' in session and check_admin():
+        metadata_db.delete_one({"asin": asin})
+        logs_db.insert_one({"user": session['user']['email'], "action":"remove_book", "content": asin, "datetime": datetime.datetime.now()})
+        return redirect(url_for('index'))
+    else:
+        return redirect(url_for('unauthorised'))
     # metadata_db.insert_one({'text' : new_todo, 'complete' : False})
+
 
 @app.route('/search', methods=['POST'])
 def search():
